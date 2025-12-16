@@ -8,7 +8,8 @@ import {
   playTrack,
   setAlbumTracks,
   setCurrentTrack,
-  setCurrentTrackData
+  setCurrentTrackData,
+  setAlbumMode // Добавляем импорт
 } from '@/src/store/action-creators/player';
 import {message} from 'antd';
 import {IAlbum} from '@/src/types/album';
@@ -24,12 +25,16 @@ export default function AlbumsPage() {
 
   const handlePlayAlbum = (album: IAlbum) => {
     if (album.tracks && album.tracks.length > 0) {
+      // Устанавливаем треки альбома и включаем режим альбома
       dispatch(setAlbumTracks(album.tracks));
+      dispatch(setAlbumMode(true)); // Явно включаем режим альбома
 
       const firstTrack = album.tracks[0];
       dispatch(setCurrentTrack(firstTrack._id));
       dispatch(setCurrentTrackData(firstTrack));
       dispatch(playTrack());
+
+      message.success(`Начинаем воспроизведение альбома "${album.name}"`);
     } else {
       message.warning('В альбоме нет треков');
     }

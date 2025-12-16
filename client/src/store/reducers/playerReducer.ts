@@ -4,11 +4,12 @@ export interface PlayerState {
   currentTrackId: string | null;
   currentTrack: ITrack | null;
   isPlaying: boolean;
-  volume: number; // 0.0 - 1.0, по умолчанию 0.5
+  volume: number;
   currentTime: number;
   duration: number;
   albumTracks: ITrack[];
   currentAlbumIndex: number;
+  isAlbumMode: boolean;
 }
 
 export enum PlayerActionType {
@@ -24,6 +25,7 @@ export enum PlayerActionType {
   PLAY_NEXT_TRACK = 'PLAY_NEXT_TRACK',
   PLAY_PREV_TRACK = 'PLAY_PREV_TRACK',
   SET_CURRENT_ALBUM_INDEX = 'SET_CURRENT_ALBUM_INDEX',
+  SET_ALBUM_MODE = 'SET_ALBUM_MODE',
 }
 
 interface SetCurrentTrackAction {
@@ -105,6 +107,12 @@ interface SetCurrentAlbumIndexAction {
   [key: string]: any;
 }
 
+interface SetAlbumModeAction {
+  type: PlayerActionType.SET_ALBUM_MODE;
+  payload: boolean;
+  [key: string]: any;
+}
+
 export type PlayerAction =
   | SetCurrentTrackAction
   | SetCurrentTrackDataAction
@@ -117,7 +125,8 @@ export type PlayerAction =
   | SetAlbumTracksAction
   | PlayNextTrackAction
   | PlayPrevTrackAction
-  | SetCurrentAlbumIndexAction;
+  | SetCurrentAlbumIndexAction
+  | SetAlbumModeAction;
 
 const initialState: PlayerState = {
   currentTrackId: null,
@@ -128,12 +137,27 @@ const initialState: PlayerState = {
   duration: 0,
   albumTracks: [],
   currentAlbumIndex: -1,
+  isAlbumMode: false,
 };
 
 export const playerReducer = (state = initialState, action: PlayerAction): PlayerState => {
   switch (action.type) {
+    case 'SET_ALBUM_MODE': // Добавляем обработчик для SET_ALBUM_MODE
+      return {
+        ...state,
+        isAlbumMode: action.payload,
+      };
+
     case PlayerActionType.SET_CURRENT_TRACK:
-      // При установке нового трека находим его индекс в альбоме
+      if (action.payload && state.albumTracks.length === 0) {
+        return {
+          ...state,
+          currentTrackId: action.payload,
+          isAlbumMode: false,
+          isPlaying: action.payload !== null,
+          currentTime: 0,
+        };
+      }
       if (action.payload && state.albumTracks.length > 0) {
         const trackIndex = state.albumTracks.findIndex(track => track._id === action.payload);
         return {
@@ -199,11 +223,12 @@ export const playerReducer = (state = initialState, action: PlayerAction): Playe
         currentAlbumIndex: -1,
       };
 
-    case PlayerActionType.SET_ALBUM_TRACKS:
+    case 'SET_ALBUM_TRACKS':
       return {
         ...state,
         albumTracks: action.payload,
         currentAlbumIndex: action.payload.length > 0 ? 0 : -1,
+        isAlbumMode: action.payload.length > 0, // Автоматически включаем режим альбома при установке треков
       };
 
     case PlayerActionType.PLAY_NEXT_TRACK:

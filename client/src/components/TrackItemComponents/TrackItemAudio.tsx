@@ -6,6 +6,7 @@ import {staticUrl} from '@/src/shared/config';
 type TrackItemAudioProps = {
   audioUrl: string;
   isCurrentTrack: boolean;
+  isPlaying: boolean;
   volume: number;
   currentTime: number;
   onTimeUpdate?: (time: number) => void;
@@ -16,6 +17,7 @@ type TrackItemAudioProps = {
 export default function TrackItemAudio({
                                          audioUrl,
                                          isCurrentTrack,
+                                         isPlaying,
                                          volume,
                                          currentTime,
                                          onTimeUpdate,
@@ -23,6 +25,19 @@ export default function TrackItemAudio({
                                          onEnded
                                        }: TrackItemAudioProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
+
+
+  useEffect(() => {
+    if (audioRef.current && isCurrentTrack) {
+      if (isPlaying) {
+        audioRef.current.play().catch(error => {
+          console.error('Ошибка воспроизведения:', error);
+        });
+      } else {
+        audioRef.current.pause();
+      }
+    }
+  }, [isCurrentTrack, isPlaying]);
 
   useEffect(() => {
     if (audioRef.current) {
@@ -54,7 +69,11 @@ export default function TrackItemAudio({
           onLoadedMetadata(e.currentTarget.duration);
         }
       }}
-      onEnded={onEnded}
+      onEnded={() => {
+        if (onEnded && isCurrentTrack) {
+          onEnded();
+        }
+      }}
     >
       <source src={staticUrl(audioUrl)} type="audio/mpeg" />
       Ваш браузер не поддерживает аудиоплеер.

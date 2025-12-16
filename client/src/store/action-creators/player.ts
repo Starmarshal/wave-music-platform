@@ -55,3 +55,8 @@ export const setCurrentAlbumIndex = (index: number) => ({
   type: 'SET_CURRENT_ALBUM_INDEX' as const,
   payload: index,
 });
+
+export const setAlbumMode = (isAlbumMode: boolean) => ({
+  type: 'SET_ALBUM_MODE' as const,
+  payload: isAlbumMode,
+});

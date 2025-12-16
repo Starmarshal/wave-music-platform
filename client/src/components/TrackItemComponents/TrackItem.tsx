@@ -13,7 +13,7 @@ import TrackItemPlayButton
 import TrackItemProgress
   from '@/src/components/TrackItemComponents/TrackItemProgress';
 import TrackItemVolume from '@/src/components/TrackItemComponents/TrackItemVolume';
-import TrackItemAudio from '@/src/components/TrackItemComponents/TrackItemAudio';
+// Убираем импорт TrackItemAudio
 
 interface TrackItemProps {
   track: ITrack;
@@ -31,8 +31,7 @@ const TrackItem: React.FC<TrackItemProps> = ({track, onDelete}) => {
     handlePlayPause,
     handleTimeChange,
     handleVolumeChange,
-    handleAudioLoadedMetadata,
-    handleAudioEnded,
+    // Убираем: handleAudioLoadedMetadata, handleAudioEnded
     formatTime
   } = useTrackItem(track);
 
@@ -94,15 +93,7 @@ const TrackItem: React.FC<TrackItemProps> = ({track, onDelete}) => {
         />
       </div>
 
-      <TrackItemAudio
-        audioUrl={track.audio}
-        isCurrentTrack={isCurrentTrack}
-        volume={globalVolume}
-        currentTime={currentTime}
-        onTimeUpdate={handleTimeChange}
-        onLoadedMetadata={handleAudioLoadedMetadata}
-        onEnded={handleAudioEnded}
-      />
+      {/* УБИРАЕМ TrackItemAudio - теперь аудио управляется в FooterPlayer */}
     </Card>
   );
 };

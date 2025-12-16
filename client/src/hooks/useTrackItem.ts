@@ -11,7 +11,10 @@ import {
   setCurrentTrack,
   setCurrentTrackData,
   setDuration,
-  setVolume
+  setVolume,
+  setAlbumMode,
+  setAlbumTracks,
+  playNextTrack
 } from '@/src/store/action-creators/player';
 
 export default function useTrackItem(track: any) {
@@ -21,7 +24,10 @@ export default function useTrackItem(track: any) {
     isPlaying: globalIsPlaying,
     volume: globalVolume,
     currentTime,
-    duration
+    duration,
+    albumTracks,
+    currentAlbumIndex,
+    isAlbumMode
   } = useSelector((state: RootState) => state.player);
 
   const [hasBeenPlayed, setHasBeenPlayed] = useState(false);
@@ -41,22 +47,32 @@ export default function useTrackItem(track: any) {
         dispatch(playTrack());
       }
     } else {
+      // Если кликаем на трек, сбрасываем режим альбома если он был включен
+      if (isAlbumMode) {
+        dispatch(setAlbumMode(false));
+        dispatch(setAlbumTracks([]));
+      }
+
       dispatch(setCurrentTrack(track._id));
       dispatch(setCurrentTrackData(track));
       dispatch(playTrack());
     }
 
+    // Увеличиваем счетчик прослушиваний только при первом запуске трека
     if (!hasBeenPlayed && !isCurrentTrack) {
       setHasBeenPlayed(true);
-      api.post(`/tracks/listen/${track._id}`)
-        .then(() => {
-          console.log('Количество прослушиваний увеличено');
-        })
-        .catch((error) => {
-          console.error('Ошибка при увеличении количества прослушиваний:', error);
-        });
     }
-  }, [isCurrentTrack, globalIsPlaying, track, dispatch, hasBeenPlayed]);
+  }, [isCurrentTrack, globalIsPlaying, track, dispatch, hasBeenPlayed, isAlbumMode]);
+
+  // Функция для увеличения счетчика прослушиваний
+  const incrementListenCount = useCallback(async () => {
+    try {
+      await api.post(`/tracks/listen/${track._id}`);
+      console.log('Счетчик прослушиваний увеличен для трека:', track._id);
+    } catch (error) {
+      console.error('Ошибка при увеличении количества прослушиваний:', error);
+    }
+  }, [track._id]);
 
   const handleTimeChange = useCallback((value: number) => {
     if (isCurrentTrack) {
@@ -74,13 +90,33 @@ export default function useTrackItem(track: any) {
     }
   }, [isCurrentTrack, dispatch]);
 
-  const handleAudioEnded = useCallback(() => {
+  const handleAudioEnded = useCallback(async () => {
     if (isCurrentTrack) {
-      dispatch(setCurrentTrack(null));
-      dispatch(setCurrentTrackData(null));
-      dispatch(setCurrentTime(0));
+      // ВСЕГДА увеличиваем счетчик прослушиваний при полном прослушивании трека
+      await incrementListenCount();
+
+      // Если в режиме альбома, переключаем на следующий трек
+      if (isAlbumMode && albumTracks.length > 0 && currentAlbumIndex >= 0) {
+        const isLastTrack = currentAlbumIndex === albumTracks.length - 1;
+
+        if (!isLastTrack) {
+          // Автоматически переходим к следующему треку
+          dispatch(playNextTrack());
+        } else {
+          // Если это последний трек в альбоме
+          dispatch(pauseTrack());
+          dispatch(setCurrentTime(0));
+          // Можно добавить уведомление о завершении альбома
+        }
+      } else {
+        // В обычном режиме просто останавливаем воспроизведение
+        dispatch(pauseTrack());
+        dispatch(setCurrentTime(0));
+        dispatch(setCurrentTrack(null));
+        dispatch(setCurrentTrackData(null));
+      }
     }
-  }, [isCurrentTrack, dispatch]);
+  }, [isCurrentTrack, isAlbumMode, albumTracks, currentAlbumIndex, incrementListenCount, dispatch]);
 
   return {
     // State
@@ -90,6 +126,7 @@ export default function useTrackItem(track: any) {
     currentTime,
     duration,
     hasBeenPlayed,
+    isAlbumMode, // Возвращаем флаг режима альбома
 
     // Handlers
     handleDelete,
@@ -98,6 +135,7 @@ export default function useTrackItem(track: any) {
     handleVolumeChange,
     handleAudioLoadedMetadata,
     handleAudioEnded,
+    incrementListenCount, // Экспортируем функцию для использования в других местах
 
     // Format function
     formatTime: (time: number) => {

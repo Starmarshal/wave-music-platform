@@ -8,6 +8,7 @@ import PlayerControls from '@/src/components/Player/PlayerControls';
 import PlayerProgressBar from '@/src/components/Player/PlayerProgressBar';
 import PlayerVolumeControl from '@/src/components/Player/PlayerVolumeControl';
 import PlayerAudio from '@/src/components/Player/PlayerAudio';
+import { message } from 'antd';
 
 const FooterPlayer: React.FC = () => {
   const {
@@ -18,6 +19,7 @@ const FooterPlayer: React.FC = () => {
     duration,
     albumTracks,
     currentAlbumIndex,
+    isAlbumMode,
     hasNextTrack,
     hasPrevTrack,
     handlePlayPause,
@@ -27,21 +29,9 @@ const FooterPlayer: React.FC = () => {
     handleVolumeChange,
     handleLoadedMetadata,
     handleAudioError,
+    handleAudioEnded,
     formatTime,
   } = usePlayer();
-
-  // Обработчик окончания трека
-  const handleAudioEnded = () => {
-    if (albumTracks.length > 0 && currentAlbumIndex >= 0) {
-      const isLastTrack = currentAlbumIndex === albumTracks.length - 1;
-      if (!isLastTrack) {
-        handleNextTrack(); // Переключаем на следующий трек
-      } else {
-        // Если это последний трек в альбоме
-        handlePlayPause(); // Останавливаем воспроизведение
-      }
-    }
-  };
 
   if (!currentTrack) {
     return null;
@@ -55,6 +45,7 @@ const FooterPlayer: React.FC = () => {
           track={currentTrack}
           albumTracks={albumTracks}
           currentAlbumIndex={currentAlbumIndex}
+          isAlbumMode={isAlbumMode}
         />
 
         {/* Центральная часть: управление и прогресс */}
@@ -68,6 +59,7 @@ const FooterPlayer: React.FC = () => {
               onPlayPause={handlePlayPause}
               onNextTrack={handleNextTrack}
               onPrevTrack={handlePrevTrack}
+              showNavigation={isAlbumMode} // Показываем навигацию только в режиме альбома
             />
           </div>
 
@@ -96,7 +88,7 @@ const FooterPlayer: React.FC = () => {
         onLoadedMetadata={handleLoadedMetadata}
         onTimeUpdate={handleTimeChange}
         onError={handleAudioError}
-        onEnded={handleAudioEnded} // Передаем обработчик окончания
+        onEnded={handleAudioEnded}
       />
     </>
   );
