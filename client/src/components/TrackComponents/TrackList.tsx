@@ -4,7 +4,7 @@ import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchTracks} from '@/src/store/action-creators/track';
 import {RootState} from '@/src/store/reducers';
-import TrackItem from './TrackItem';
+import TrackItem from '../TrackItemComponents/TrackItem';
 import {AppDispatch} from '@/src/store/store';
 
 const TrackList: React.FC = () => {

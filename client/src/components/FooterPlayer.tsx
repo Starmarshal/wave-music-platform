@@ -30,6 +30,19 @@ const FooterPlayer: React.FC = () => {
     formatTime,
   } = usePlayer();
 
+  // Обработчик окончания трека
+  const handleAudioEnded = () => {
+    if (albumTracks.length > 0 && currentAlbumIndex >= 0) {
+      const isLastTrack = currentAlbumIndex === albumTracks.length - 1;
+      if (!isLastTrack) {
+        handleNextTrack(); // Переключаем на следующий трек
+      } else {
+        // Если это последний трек в альбоме
+        handlePlayPause(); // Останавливаем воспроизведение
+      }
+    }
+  };
+
   if (!currentTrack) {
     return null;
   }
@@ -83,6 +96,7 @@ const FooterPlayer: React.FC = () => {
         onLoadedMetadata={handleLoadedMetadata}
         onTimeUpdate={handleTimeChange}
         onError={handleAudioError}
+        onEnded={handleAudioEnded} // Передаем обработчик окончания
       />
     </>
   );

@@ -16,6 +16,7 @@ type PlayerAudioProps = {
   onLoadedMetadata: (duration: number) => void;
   onTimeUpdate: (time: number) => void;
   onError: (error: string | Error) => void;
+  onEnded?: () => void; // Добавляем опциональный обработчик окончания
 };
 
 export default function PlayerAudio({
@@ -25,7 +26,8 @@ export default function PlayerAudio({
                                       volume,
                                       onLoadedMetadata,
                                       onTimeUpdate,
-                                      onError
+                                      onError,
+                                      onEnded // Добавляем пропс
                                     }: PlayerAudioProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -102,16 +104,24 @@ export default function PlayerAudio({
       onTimeUpdate(audioElement.currentTime);
     };
 
+    const handleEnded = () => {
+      if (onEnded) {
+        onEnded();
+      }
+    };
+
     audioElement.addEventListener('error', handleError);
     audioElement.addEventListener('loadedmetadata', handleLoadedMetadata);
     audioElement.addEventListener('timeupdate', handleTimeUpdate);
+    audioElement.addEventListener('ended', handleEnded); // Добавляем обработчик окончания
 
     return () => {
       audioElement.removeEventListener('error', handleError);
       audioElement.removeEventListener('loadedmetadata', handleLoadedMetadata);
       audioElement.removeEventListener('timeupdate', handleTimeUpdate);
+      audioElement.removeEventListener('ended', handleEnded); // Убираем обработчик
     };
-  }, [currentTrack, onError, onLoadedMetadata, onTimeUpdate]);
+  }, [currentTrack, onError, onLoadedMetadata, onTimeUpdate, onEnded]); // Добавляем onEnded в зависимости
 
   if (!currentTrack) return null;
 
