@@ -1,0 +1,62 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+.idea
+
+# Testing
+coverage/
+
+# Next.js (client)
+client/.next/
+client/out/
+client/build/
+
+# NestJS (server)
+server/dist/
+server/static/
+
+# Production
+build/
+dist/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+pnpm-debug.log*
+
+# OS files
+.DS_Store
+*.pem
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+
+# Uploads/Files (NestJS file service)
+server/uploads/
+server/files/
+server/static/
+
+# Lock files (keep one, ignore others if using specific package manager)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml

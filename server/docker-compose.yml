@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  backend:
+    build: .
+    container_name: music-backend
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./static:/app/static
+      - ./uploads:/app/uploads
+    command: sh -c "npm run build && node dist/main.js"
+
+volumes:
+  mongodb_data:

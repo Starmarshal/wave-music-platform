@@ -1,0 +1,46 @@
+'use client';
+
+import {Slider, Typography} from 'antd';
+
+type PlayerProgressBarProps = {
+  currentTime: number;
+  duration: number;
+  onTimeChange: (value: number) => void;
+  formatTime?: (time: number) => string;
+};
+
+export default function PlayerProgressBar({
+                                            currentTime,
+                                            duration,
+                                            onTimeChange,
+                                            formatTime = (time) => {
+                                              if (isNaN(time) || !isFinite(time)) return '00:00';
+                                              const minutes = Math.floor(time / 60);
+                                              const seconds = Math.floor(time % 60);
+                                              return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                                            }
+                                          }: PlayerProgressBarProps) {
+  return (
+    <div style={{flex: 1, minWidth: 0}}>
+      <Slider
+        value={currentTime}
+        max={duration || 0}
+        onChange={onTimeChange}
+        tooltip={{formatter: (value) => formatTime(value || 0)}}
+        style={{margin: 0}}
+      />
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          fontSize: '11px',
+          color: '#999',
+          marginTop: '4px'
+        }}
+      >
+        <span>{formatTime(currentTime)}</span>
+        <span>{formatTime(duration)}</span>
+      </div>
+    </div>
+  );
+}

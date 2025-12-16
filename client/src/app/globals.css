@@ -1,0 +1,64 @@
+@import 'tailwindcss';
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Плавные анимации для плеера */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.playing-animation {
+  animation: pulse 1s ease-in-out infinite;
+}
+
+/* Плавные переходы для слайдеров */
+.ant-slider {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.ant-slider-handle {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.ant-slider-handle:hover {
+  transform: scale(1.2) !important;
+}
+
+/* Плавные переходы для кнопок */
+.ant-btn {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Плавные переходы для карточек */
+.ant-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Плавное обновление слайдера времени */
+.ant-slider-track {
+  transition: width 0.1s linear !important;
+}
+
+.ant-slider-handle {
+  transition: left 0.1s linear !important;
+}
+
+/* Hover эффект для альбомов */
+.ant-card:hover .album-overlay {
+  opacity: 1 !important;
+}
+
+.ant-card:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
+}
+
