@@ -1,6 +1,6 @@
 'use client';
 
-import {Card, Typography, Image, Button} from 'antd';
+import {Button, Card, Image, Typography} from 'antd';
 import {PlayCircleOutlined} from '@ant-design/icons';
 import {staticUrl} from '@/src/shared/config';
 import {IAlbum} from '@/src/types/album';
@@ -17,79 +17,29 @@ export default function AlbumCard({album, onPlayAlbum}: AlbumCardProps) {
   return (
     <Card
       hoverable
-      styles={{
-        body: {
-          padding: '16px'
-        }
-      }}
-      style={{
-        borderRadius: '12px',
-        overflow: 'hidden',
-        transition: 'all 0.3s ease',
-        boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-        height: '100%',
-      }}
+      className="rounded-xl overflow-hidden transition-all duration-300 shadow-lg hover:shadow-xl h-full"
       cover={
         <div
-          style={{
-            position: 'relative',
-            width: '100%',
-            paddingTop: '100%',
-            overflow: 'hidden',
-          }}
+          className="relative w-full aspect-square overflow-hidden"
         >
-          <div
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              display: 'flex'
-            }}
-          >
+          <div className="absolute inset-0 flex">
             <Image
               src={staticUrl(album.picture)}
               alt={album.name}
               preview={false}
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover',
-                display: 'flex',
-              }}
+              className="!w-full !h-full object-cover flex"
             />
-            <div
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                background: 'rgba(0,0,0,0.4)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                opacity: 0,
-                transition: 'opacity 0.3s ease',
-              }}
-              className="album-overlay"
-            >
+            <div className="album-overlay absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 transition-opacity duration-300 hover:opacity-100">
               <Button
                 type="primary"
                 shape="circle"
                 size="large"
-                icon={<PlayCircleOutlined style={{fontSize: '32px'}} />}
+                icon={<PlayCircleOutlined className="!text-3xl" />}
                 onClick={(e) => {
                   e.stopPropagation();
                   onPlayAlbum(album);
                 }}
-                style={{
-                  width: '64px',
-                  height: '64px',
-                  border: 'none',
-                  boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
-                }}
+                className="!w-16 !h-16 border-none !shadow-lg"
               />
             </div>
           </div>
@@ -101,7 +51,7 @@ export default function AlbumCard({album, onPlayAlbum}: AlbumCardProps) {
         title={
           <Typography.Text
             strong
-            style={{fontSize: '16px'}}
+            className="text-base"
           >
             {album.name}
           </Typography.Text>

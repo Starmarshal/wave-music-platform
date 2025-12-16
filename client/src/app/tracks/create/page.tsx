@@ -1,6 +1,6 @@
 'use client';
 
-import Header from '@/src/components/Header/Header';
+import Header from '@/src/components/Header';
 import useTrackForm from '@/src/hooks/useTrackForm';
 import {useRouter} from 'next/navigation';
 import TrackFormStepper

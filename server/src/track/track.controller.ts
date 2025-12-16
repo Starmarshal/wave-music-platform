@@ -1,13 +1,13 @@
 import {
-  Get,
-  Post,
-  Controller,
   Body,
-  Param,
+  Controller,
   Delete,
-  UseInterceptors,
-  UploadedFiles,
+  Get,
+  Param,
+  Post,
   Query,
+  UploadedFiles,
+  UseInterceptors,
 } from '@nestjs/common';
 import { TrackService } from './track.service';
 import { CreateTrackDTO } from './dto/create-track.dto';

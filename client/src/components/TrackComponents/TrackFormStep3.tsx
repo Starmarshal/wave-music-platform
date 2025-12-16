@@ -1,7 +1,7 @@
 'use client';
 
 import FileUpload from '@/src/components/FileUpload';
-import {Typography, Button} from 'antd';
+import {Button, Typography} from 'antd';
 import {UploadOutlined} from '@ant-design/icons';
 
 type TrackFormStep3Props = {
@@ -24,15 +24,11 @@ export default function TrackFormStep3({
       accept={accept}
     >
       <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center'
-        }}
+        className="!flex !flex-col !items-center"
       >
         <Typography.Title level={2}>{title}</Typography.Title>
         <Button
-          style={{fontSize: 60, margin: '4rem'}}
+          className="!text-[60px] !my-16"
           type="link"
           icon={<UploadOutlined />}
         />

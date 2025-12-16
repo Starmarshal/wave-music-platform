@@ -1,20 +1,20 @@
 'use client';
 
-import React, {useState, useRef, useEffect, useCallback} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
-  Card,
-  Typography,
   Button,
-  Slider,
+  Card,
   Image,
-  Tooltip,
+  message,
   Popconfirm,
-  message
+  Slider,
+  Tooltip,
+  Typography
 } from 'antd';
 import {
-  PlayCircleOutlined,
+  DeleteOutlined,
   PauseCircleOutlined,
-  DeleteOutlined
+  PlayCircleOutlined
 } from '@ant-design/icons';
 import {ITrack} from '@/src/types/track';
 import {useRouter} from 'next/navigation';
@@ -23,13 +23,13 @@ import {staticUrl} from '@/src/shared/config';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '@/src/store/reducers';
 import {
+  pauseTrack,
+  playTrack,
+  setCurrentTime,
   setCurrentTrack,
   setCurrentTrackData,
-  playTrack,
-  pauseTrack,
-  setVolume,
-  setCurrentTime,
-  setDuration
+  setDuration,
+  setVolume
 } from '@/src/store/action-creators/player';
 
 interface TrackItemProps {
@@ -54,15 +54,6 @@ const TrackItem: React.FC<TrackItemProps> = ({track, onDelete}) => {
   const isCurrentTrack = currentTrackId === track._id;
   const isPlaying = isCurrentTrack && globalIsPlaying;
 
-  // Убираем эту логику - FooterPlayer сам управляет воспроизведением
-
-  // Убираем синхронизацию громкости - это делает FooterPlayer
-
-  // Убираем обновление времени - это делает FooterPlayer
-
-  // Убираем воспроизведение из TrackItem - только FooterPlayer воспроизводит
-  // TrackItem только управляет состоянием через Redux
-
   const handleDelete = async () => {
     try {
       if (audioRef.current) {
@@ -82,14 +73,12 @@ const TrackItem: React.FC<TrackItemProps> = ({track, onDelete}) => {
 
   const handlePlayPause = () => {
     if (isCurrentTrack) {
-      // Если это текущий трек, просто пауза/воспроизведение
       if (globalIsPlaying) {
         dispatch(pauseTrack());
       } else {
         dispatch(playTrack());
       }
     } else {
-      // Если это другой трек, останавливаем текущий и начинаем новый
       dispatch(setCurrentTrack(track._id));
       dispatch(setCurrentTrackData(track));
       dispatch(playTrack());
@@ -130,7 +119,6 @@ const TrackItem: React.FC<TrackItemProps> = ({track, onDelete}) => {
     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
   };
 
-  // Загружаем метаданные только для получения длительности
   useEffect(() => {
     if (audioRef.current && isCurrentTrack) {
       audioRef.current.addEventListener('loadedmetadata', handleAudioLoadedMetadata);
@@ -150,48 +138,30 @@ const TrackItem: React.FC<TrackItemProps> = ({track, onDelete}) => {
 
   return (
     <Card
-      style={{
-        marginTop: '15px',
-        display: 'flex',
-        flexDirection: 'column',
-        padding: '10px',
-        marginBottom: '10px',
-        boxShadow: isCurrentTrack ? '0 4px 20px rgba(50, 196, 208, 0.4)' : '0 4px 12px rgba(0, 0, 0, 0.1)',
-        border: isCurrentTrack ? '2px solid #32c4d0' : '1px solid transparent',
-        transition: 'all 0.3s ease-in-out',
-        transform: isCurrentTrack ? 'scale(1.01)' : 'scale(1)',
-      }}
+      className={`!mt-3.5 !flex !flex-col !p-2.5 !mb-2.5 !transition-all !duration-300 !ease-in-out ${
+        isCurrentTrack
+          ? '!shadow-xl !border-2 !border-[#32c4d0] !scale-[1.01]'
+          : '!shadow-lg !border-transparent !scale-100'
+      }`}
     >
       <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center'
-        }}
+        className="!flex !justify-between !items-center"
       >
         <Image
-          style={{
-            borderRadius: '1rem',
-            border: '1px solid #293A52',
-            transition: 'transform 0.3s ease-in-out',
-            width: '70px',
-            height: '70px',
-            transform: isCurrentTrack ? 'scale(1.05)' : 'scale(1)',
-          }}
+          className={`!rounded-2xl !border !border-[#293A52] !transition-transform !duration-300 !ease-in-out !w-[70px] !h-[70px] ${
+            isCurrentTrack ? '!scale-105' : '!scale-100'
+          }`}
           preview={false}
           width={70}
           src={staticUrl(track.picture)}
         />
 
-        <div style={{flex: 1, marginLeft: '10px'}}>
+        <div className="!flex-1 !ml-2.5">
           <Typography.Title
             level={5}
-            style={{
-              margin: 0,
-              cursor: 'pointer',
-              color: isCurrentTrack ? '#32c4d0' : 'inherit',
-              transition: 'color 0.3s ease-in-out',
-            }}
+            className={`!m-0 !cursor-pointer !transition-colors !duration-300 !ease-in-out ${
+              isCurrentTrack ? '!text-[#32c4d0]' : ''
+            }`}
             onClick={() => router.push('/tracks/' + track._id)}
           >
             {track.name}
@@ -209,11 +179,7 @@ const TrackItem: React.FC<TrackItemProps> = ({track, onDelete}) => {
           <Button
             icon={<DeleteOutlined />}
             type="text"
-            style={{
-              marginLeft: 'auto',
-              fontSize: 24,
-              transition: 'transform 0.2s ease-in-out',
-            }}
+            className="!ml-auto !text-2xl !transition-transform !duration-200 !ease-in-out"
             onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
             onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
           />
@@ -222,7 +188,7 @@ const TrackItem: React.FC<TrackItemProps> = ({track, onDelete}) => {
         <audio
           ref={audioRef}
           controls
-          style={{display: 'none'}}
+          className="!hidden"
         >
           <source
             src={staticUrl(track.audio)}
@@ -232,28 +198,21 @@ const TrackItem: React.FC<TrackItemProps> = ({track, onDelete}) => {
         </audio>
       </div>
 
-      <div style={{display: 'flex', alignItems: 'center', marginTop: '10px'}}>
+      <div className="!flex !items-center !mt-2.5">
         <Button
-          style={{
-            marginRight: '1rem',
-            transition: 'transform 0.2s ease-in-out',
-          }}
+          className="!mr-4 !transition-transform !duration-200 !ease-in-out"
           type="text"
           icon={isPlaying ? (
             <PauseCircleOutlined
-              style={{
-                fontSize: 24,
-                color: isCurrentTrack ? '#32c4d0' : 'inherit',
-                transition: 'color 0.3s ease-in-out',
-              }}
+              className={`!text-2xl !transition-colors !duration-300 !ease-in-out ${
+                isCurrentTrack ? '!text-[#32c4d0]' : ''
+              }`}
             />
           ) : (
             <PlayCircleOutlined
-              style={{
-                fontSize: 24,
-                color: isCurrentTrack ? '#32c4d0' : 'inherit',
-                transition: 'color 0.3s ease-in-out',
-              }}
+              className={`!text-2xl !transition-colors !duration-300 !ease-in-out ${
+                isCurrentTrack ? '!text-[#32c4d0]' : ''
+              }`}
             />
           )}
           onClick={handlePlayPause}
@@ -271,11 +230,9 @@ const TrackItem: React.FC<TrackItemProps> = ({track, onDelete}) => {
             max={isCurrentTrack ? duration : 0}
             onChange={handleSliderChange}
             disabled={!isCurrentTrack}
-            style={{
-              flex: 1,
-              transition: 'opacity 0.3s ease-in-out',
-              opacity: isCurrentTrack ? 1 : 0.6,
-            }}
+            className={`!flex-1 !transition-opacity !duration-300 !ease-in-out ${
+              isCurrentTrack ? '!opacity-100' : '!opacity-60'
+            }`}
           />
         </Tooltip>
 
@@ -290,28 +247,18 @@ const TrackItem: React.FC<TrackItemProps> = ({track, onDelete}) => {
             max={1}
             step={0.01}
             onChange={handleVolumeChange}
-            style={{
-              width: '60px',
-              marginLeft: '10px',
-              transition: 'opacity 0.3s ease-in-out',
-            }}
+            className="!w-[60px] !ml-2.5 !transition-opacity !duration-300 !ease-in-out"
           />
         </Tooltip>
       </div>
 
       <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          marginTop: '5px',
-          marginLeft: '3rem'
-        }}
+        className="!flex !justify-between !mt-1.5 !ml-12"
       >
         <Typography.Text
-          style={{
-            transition: 'opacity 0.3s ease-in-out',
-            opacity: isCurrentTrack ? 1 : 0.6
-          }}
+          className={`!transition-opacity !duration-300 !ease-in-out ${
+            isCurrentTrack ? '!opacity-100' : '!opacity-60'
+          }`}
         >
           {formatTime(isCurrentTrack ? currentTime : 0)} / {formatTime(duration)}
         </Typography.Text>

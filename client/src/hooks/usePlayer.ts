@@ -1,18 +1,18 @@
 'use client';
 
-import {useEffect, useRef, useCallback, useState} from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '@/src/store/reducers';
 import {
-  playTrack,
   pauseTrack,
-  setVolume,
-  setCurrentTime,
-  setDuration,
   playNextTrack,
   playPrevTrack,
+  playTrack,
+  setCurrentTime,
   setCurrentTrack,
-  setCurrentTrackData
+  setCurrentTrackData,
+  setDuration,
+  setVolume
 } from '@/src/store/action-creators/player';
 
 export default function usePlayer() {

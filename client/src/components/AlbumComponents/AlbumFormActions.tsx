@@ -20,18 +20,12 @@ export default function AlbumFormActions({
                                            submitDisabled = false
                                          }: AlbumFormActionsProps) {
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        gap: '16px'
-      }}
-    >
+    <div className="flex justify-between gap-4">
       <Button
         onClick={onCancel}
         size="large"
         disabled={loading}
-        style={{flex: 1, height: '50px', borderRadius: '8px'}}
+        className="flex-1 !h-[50px] rounded-lg"
       >
         {cancelText}
       </Button>
@@ -41,12 +35,7 @@ export default function AlbumFormActions({
         size="large"
         loading={loading}
         disabled={submitDisabled || loading}
-        style={{
-          flex: 1,
-          height: '50px',
-          borderRadius: '8px',
-          fontWeight: 600
-        }}
+        className="flex-1 !h-[50px] rounded-lg !font-semibold"
       >
         {submitText}
       </Button>

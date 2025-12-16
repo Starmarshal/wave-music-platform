@@ -1,14 +1,14 @@
 'use client';
 
-import Header from '@/src/components/Header/Header';
+import Header from '@/src/components/Header';
 import Loader from '@/src/components/Loader';
 import useAlbums from '@/src/hooks/useAlbums';
 import {useDispatch} from 'react-redux';
 import {
-  setCurrentTrack,
-  setCurrentTrackData,
   playTrack,
-  setAlbumTracks
+  setAlbumTracks,
+  setCurrentTrack,
+  setCurrentTrackData
 } from '@/src/store/action-creators/player';
 import {message} from 'antd';
 import {IAlbum} from '@/src/types/album';
@@ -48,15 +48,9 @@ export default function AlbumsPage() {
     <>
       <Header />
       <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          marginTop: '2rem',
-          padding: '0 20px',
-          minHeight: 'calc(100vh - 200px)',
-        }}
+        className="!flex !justify-center !mt-8 !px-5 !min-h-[calc(100vh-200px)]"
       >
-        <div style={{width: '100%', maxWidth: '1400px'}}>
+        <div className="!w-full !max-w-[75%]">
           <AlbumsContainer>
             <AlbumsHeader />
 

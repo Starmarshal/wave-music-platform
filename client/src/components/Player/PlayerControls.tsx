@@ -2,10 +2,10 @@
 
 import {Button, Tooltip} from 'antd';
 import {
-  PlayCircleOutlined,
   PauseCircleOutlined,
-  StepForwardOutlined,
-  StepBackwardOutlined
+  PlayCircleOutlined,
+  StepBackwardOutlined,
+  StepForwardOutlined
 } from '@ant-design/icons';
 
 type PlayerControlsProps = {
@@ -30,13 +30,12 @@ export default function PlayerControls({
       <Tooltip title="Предыдущий трек">
         <Button
           type="text"
-          icon={<StepBackwardOutlined style={{fontSize: 20}} />}
+          icon={<StepBackwardOutlined className="!text-xl" />}
           onClick={onPrevTrack}
           disabled={!hasPrevTrack}
-          style={{
-            transition: 'transform 0.2s ease-in-out',
-            opacity: hasPrevTrack ? 1 : 0.3,
-          }}
+          className={`!transition-transform !duration-200 !ease-in-out ${
+            hasPrevTrack ? '!opacity-100' : '!opacity-30'
+          }`}
           onMouseEnter={(e) => {
             if (hasPrevTrack) e.currentTarget.style.transform = 'scale(1.1)';
           }}
@@ -46,12 +45,10 @@ export default function PlayerControls({
 
       <Button
         type="text"
-        icon={isPlaying ? <PauseCircleOutlined style={{fontSize: 28}} /> :
-          <PlayCircleOutlined style={{fontSize: 28}} />}
+        icon={isPlaying ? <PauseCircleOutlined className="!text-2xl" /> :
+          <PlayCircleOutlined className="!text-2xl" />}
         onClick={onPlayPause}
-        style={{
-          transition: 'transform 0.2s ease-in-out',
-        }}
+        className="!transition-transform !duration-200 !ease-in-out"
         onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
         onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
       />
@@ -59,13 +56,12 @@ export default function PlayerControls({
       <Tooltip title="Следующий трек">
         <Button
           type="text"
-          icon={<StepForwardOutlined style={{fontSize: 20}} />}
+          icon={<StepForwardOutlined className="!text-xl" />}
           onClick={onNextTrack}
           disabled={!hasNextTrack}
-          style={{
-            transition: 'transform 0.2s ease-in-out',
-            opacity: hasNextTrack ? 1 : 0.3,
-          }}
+          className={`!transition-transform !duration-200 !ease-in-out ${
+            hasNextTrack ? '!opacity-100' : '!opacity-30'
+          }`}
           onMouseEnter={(e) => {
             if (hasNextTrack) e.currentTarget.style.transform = 'scale(1.1)';
           }}

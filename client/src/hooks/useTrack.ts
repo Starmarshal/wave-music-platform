@@ -47,7 +47,7 @@ export default function useTrack(id: string | undefined) {
     fetchTrack();
   }, [id]);
 
-  const addComment = async (values: {username: string; text: string}) => {
+  const addComment = async (values: { username: string; text: string }) => {
     try {
       const response = await api.post(`/tracks/comment`, {
         ...values,

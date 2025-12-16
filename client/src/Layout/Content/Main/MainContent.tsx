@@ -1,94 +1,52 @@
 'use client';
 
-import {Layout, Typography, Button, Row, Col, Card} from 'antd';
+import {Card, Col, Layout, Row, Typography} from 'antd';
 import {useRouter} from 'next/navigation';
 import {CustomerServiceOutlined, FolderOutlined} from '@ant-design/icons';
-import styles from './MainContent.module.css';
 
 const MainContent = () => {
   const router = useRouter();
 
   return (
-    <Layout.Content className={styles.Content}>
-      <div
-        style={{
-          textAlign: 'center',
-          maxWidth: '800px',
-          margin: '0 auto',
-          padding: '40px 20px'
-        }}
-      >
+    <Layout.Content className="!bg-gradient-to-b !from-gray-50 !to-white !min-h-[calc(100vh-64px)] !flex !items-center !justify-center !text-center !flex !flex-col !justify-center !min-h-[calc(100vh-60px)] !text-white !p-4">
+      <div className="!text-center !max-w-[800px] !mx-auto !px-5 !py-10 !w-full">
         <Typography.Title
-          style={{
-            color: '#32c2ce',
-            fontSize: '48px',
-            fontWeight: 700,
-            marginBottom: '20px',
-            textShadow: '0 4px 8px rgba(0,0,0,0.3)',
-          }}
+          className="!text-cyan-500 !text-4xl sm:!text-5xl !font-bold !mb-5 !drop-shadow-lg"
         >
           Добро пожаловать!
         </Typography.Title>
         <Typography.Title
           level={3}
-          style={{
-            color: '#32c2ce',
-            fontWeight: 400,
-            marginBottom: '50px',
-            textShadow: '0 2px 4px rgba(0,0,0,0.3)',
-          }}
+          className="!text-cyan-500 !font-normal !mb-12 !drop-shadow-md"
         >
           Здесь собраны лучшие треки и альбомы
         </Typography.Title>
 
         <Row
           gutter={[24, 24]}
-          style={{marginTop: '60px'}}
+          className="!mt-16 !px-4 sm:!px-0"
         >
           <Col
             xs={24}
             sm={12}
+            className="!flex !justify-center"
           >
             <Card
               hoverable
               onClick={() => router.push('/tracks')}
-              style={{
-                borderRadius: '16px',
-                textAlign: 'center',
-                padding: '30px',
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                border: 'none',
-                boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
-                transition: 'all 0.3s ease',
-                minHeight: '290px',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-8px)';
-                e.currentTarget.style.boxShadow = '0 12px 32px rgba(0,0,0,0.3)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.2)';
-              }}
+              className="!rounded-2xl !text-center !p-8 !bg-gradient-to-br !from-purple-500 !to-pink-600 !border-none !shadow-xl hover:!shadow-2xl !transition-all !duration-300 !min-h-[280px] !flex !flex-col !items-center !justify-center !cursor-pointer hover:!-translate-y-2 !max-w-[400px] !w-full"
             >
               <CustomerServiceOutlined
-                style={{
-                  fontSize: '64px',
-                  color: '#fff',
-                  marginBottom: '20px'
-                }}
+                className="!text-6xl !text-white !mb-6"
               />
               <Typography.Title
                 level={3}
-                style={{color: '#fff', marginBottom: '16px'}}
+                className="!text-white !mb-4"
               >
                 Треки
               </Typography.Title>
               <Typography.Text
-                style={{
-                  color: 'rgba(255,255,255,0.9)',
-                  fontSize: '16px'
-                }}
+                className="!text-white/90 !text-base"
               >
                 Прослушайте коллекцию лучших треков
               </Typography.Text>
@@ -97,47 +55,24 @@ const MainContent = () => {
           <Col
             xs={24}
             sm={12}
+            className="!flex !justify-center"
           >
             <Card
               hoverable
               onClick={() => router.push('/albums')}
-              style={{
-                borderRadius: '16px',
-                textAlign: 'center',
-                padding: '30px',
-                background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-                border: 'none',
-                boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
-                transition: 'all 0.3s ease',
-                minHeight: '290px',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-8px)';
-                e.currentTarget.style.boxShadow = '0 12px 32px rgba(0,0,0,0.3)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.2)';
-              }}
+              className="!rounded-2xl !text-center !p-8 !bg-gradient-to-br !from-pink-400 !to-red-500 !border-none !shadow-xl hover:!shadow-2xl !transition-all !duration-300 !min-h-[280px] !flex !flex-col !items-center !justify-center !cursor-pointer hover:!-translate-y-2 !max-w-[400px] !w-full"
             >
               <FolderOutlined
-                style={{
-                  fontSize: '64px',
-                  color: '#fff',
-                  marginBottom: '20px'
-                }}
+                className="!text-6xl !text-white !mb-6"
               />
               <Typography.Title
                 level={3}
-                style={{color: '#fff', marginBottom: '16px'}}
+                className="!text-white !mb-4"
               >
                 Альбомы
               </Typography.Title>
               <Typography.Text
-                style={{
-                  color: 'rgba(255,255,255,0.9)',
-                  fontSize: '16px'
-                }}
+                className="!text-white/90 !text-base"
               >
                 Исследуйте коллекцию альбомов
               </Typography.Text>

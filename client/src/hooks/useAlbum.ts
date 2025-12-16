@@ -56,7 +56,7 @@ export default function useAlbum(id: string | undefined) {
     fetchAlbum();
   }, [id]);
 
-  const addComment = async (values: {username: string; text: string}) => {
+  const addComment = async (values: { username: string; text: string }) => {
     try {
       const response = await api.post(`/albums/comment`, {
         ...values,

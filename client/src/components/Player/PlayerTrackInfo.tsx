@@ -31,25 +31,16 @@ export default function PlayerTrackInfo({
         preview={false}
         width={56}
         height={56}
-        style={{
-          borderRadius: '8px',
-          cursor: 'pointer',
-          transition: 'transform 0.2s ease-in-out',
-        }}
+        className="!rounded-lg !cursor-pointer !transition-transform !duration-200 !ease-in-out"
         onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
         onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
         onClick={() => router.push(`/tracks/${track._id}`)}
       />
 
-      <div style={{flex: 1, minWidth: 0}}>
+      <div className="!flex-1 !min-w-0">
         <Typography.Text
           strong
-          style={{
-            display: 'block',
-            cursor: 'pointer',
-            color: '#32c4d0',
-            transition: 'color 0.2s ease-in-out',
-          }}
+          className="!block !cursor-pointer !text-[#32c4d0] !transition-colors !duration-200 !ease-in-out"
           onClick={() => router.push(`/tracks/${track._id}`)}
           onMouseEnter={(e) => e.currentTarget.style.color = '#28a5b0'}
           onMouseLeave={(e) => e.currentTarget.style.color = '#32c4d0'}
@@ -58,11 +49,11 @@ export default function PlayerTrackInfo({
         </Typography.Text>
         <Typography.Text
           type="secondary"
-          style={{fontSize: '12px'}}
+          className="!text-xs"
         >
           {track.artist}
           {albumTracks.length > 0 && currentAlbumIndex >= 0 && (
-            <span style={{marginLeft: '8px', color: '#999'}}>
+            <span className="!ml-2 !text-gray-400">
               {currentAlbumIndex + 1} / {albumTracks.length}
             </span>
           )}

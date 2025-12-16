@@ -1,5 +1,5 @@
 import MainContent from '@/src/Layout/Content/Main/MainContent';
-import Header from '@/src/components/Header/Header';
+import Header from '@/src/components/Header';
 
 export default function Home() {
   return (
@@ -9,4 +9,3 @@ export default function Home() {
     </>
   );
 }
-

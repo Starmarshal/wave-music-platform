@@ -1,6 +1,6 @@
 'use client';
 
-import {useState, useEffect, useCallback} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {useAppDispatch} from '@/src/hooks/useAppDispatch';
 import {useTypedSelector} from '@/src/hooks/useTypedSelector';
 import {fetchTracks, searchTracks} from '@/src/store/action-creators/track';

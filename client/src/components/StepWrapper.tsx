@@ -25,28 +25,16 @@ const items = [
 
 const StepWrapper: React.FC<StepWrapperProps> = ({activeStep, children}) => {
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        width: '100%',
-        marginTop: '2rem'
-      }}
-    >
+    <div className="!flex !flex-col !items-center !w-full !mt-8">
       <Steps
         current={activeStep}
         titlePlacement="horizontal"
         items={items}
-        style={{maxWidth: '800px'}}
+        className="!max-w-[800px]"
       />
       <div>
         <Card
-          style={{
-            width: 600,
-            marginTop: '40px',
-            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)'
-          }}
+          className="!w-[600px] !mt-10 !shadow-xl !rounded-lg"
         >
           {children}
         </Card>

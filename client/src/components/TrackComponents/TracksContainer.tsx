@@ -17,24 +17,12 @@ export default function TracksContainer({
                                         }: TracksContainerProps) {
   return (
     <Content
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        marginTop: '2rem',
-        padding: '0 20px',
-        minHeight: 'calc(100vh - 200px)',
-        ...style
-      }}
+      className="!flex !justify-center !mt-8 !px-5 !min-h-[calc(100vh-200px)]"
+      style={style}
     >
       <Card
-        style={{
-          width: '100%',
-          maxWidth: maxWidth,
-          padding: '30px',
-          borderRadius: '16px',
-          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)',
-          border: 'none',
-        }}
+        className="!w-full !max-w-[1200px] !p-7 !rounded-2xl !shadow-xl !border-none"
+        style={{maxWidth: maxWidth}}
       >
         {children}
       </Card>

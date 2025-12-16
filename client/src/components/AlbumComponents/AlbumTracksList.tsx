@@ -1,6 +1,6 @@
 'use client';
 
-import {Card, Typography, Button, Flex} from 'antd';
+import {Button, Card, Flex, Typography} from 'antd';
 import {useRouter} from 'next/navigation';
 
 type TrackType = {
@@ -19,52 +19,32 @@ export default function AlbumTracksList({tracks}: AlbumTracksListProps) {
 
   return (
     <Card
-      style={{
-        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-        marginTop: '1rem'
-      }}
+      className="!shadow-lg !mt-4"
       title={`Треки альбома (${tracks.length})`}
       variant={'borderless'}
     >
-      <Flex vertical gap="small">
+      <Flex
+        vertical
+        gap="small"
+      >
         {tracks.map((track, index) => (
           <div
             key={track._id}
-            style={{
-              padding: '12px 16px',
-              borderBottom: '1px solid #f0f0f0',
-              cursor: 'pointer',
-            }}
-            className="hover:bg-[#fafafa] transition-colors duration-200"
+            className="!px-4 !py-3 border-0 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
             onClick={() => router.push(`/tracks/${track._id}`)}
           >
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                width: '100%'
-              }}
-            >
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 16
-                }}
-              >
+            <div className="flex justify-between w-full">
+              <div className="flex items-center gap-4">
                 <Typography.Text
                   strong
-                  style={{
-                    width: 30,
-                    textAlign: 'center'
-                  }}
+                  className="w-7 text-center"
                 >
                   {index + 1}
                 </Typography.Text>
                 <div>
                   <Typography.Text
                     strong
-                    style={{display: 'block', paddingRight: 15}}
+                    className="block pr-3"
                   >
                     {track.name}
                   </Typography.Text>
@@ -74,13 +54,7 @@ export default function AlbumTracksList({tracks}: AlbumTracksListProps) {
                 </div>
               </div>
 
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 24
-                }}
-              >
+              <div className="flex items-center gap-6">
                 <Typography.Text type="secondary">
                   Прослушиваний: {track.listens}
                 </Typography.Text>

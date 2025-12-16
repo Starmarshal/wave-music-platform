@@ -1,6 +1,6 @@
 'use client';
 
-import {Typography, Button} from 'antd';
+import {Button, Typography} from 'antd';
 import {useRouter} from 'next/navigation';
 
 type AlbumNotFoundProps = {
@@ -11,7 +11,7 @@ export default function AlbumNotFound({backHref}: AlbumNotFoundProps) {
   const router = useRouter();
 
   return (
-    <div style={{textAlign: 'center', marginTop: '50px'}}>
+    <div className="text-center !mt-10">
       <Typography.Title level={3}>Альбом не найден</Typography.Title>
       <Button onClick={() => router.push(backHref)}>
         Вернуться к альбомам

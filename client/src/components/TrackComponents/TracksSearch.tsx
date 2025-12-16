@@ -38,23 +38,14 @@ export default function TracksSearch({
 
   return (
     <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: '20px'
-      }}
+      className="!flex !justify-center !items-center !mb-5"
     >
       <Input
         onChange={handleSearch}
         value={query}
         placeholder={placeholder}
         size={'large'}
-        style={{
-          borderRadius: '8px',
-          height: '45px',
-          width: '100%',
-        }}
+        className="!rounded-lg !h-[45px] !w-full"
       />
     </div>
   );

@@ -39,31 +39,31 @@ export default function AlbumFormFields({
   return (
     <>
       {/* Название альбома */}
-      <div style={{marginBottom: '20px'}}>
+      <div className="mb-5">
         <Typography.Text strong>Название альбома</Typography.Text>
         <Input
           value={name}
           onChange={(e) => onNameChange(e.target.value)}
           placeholder={namePlaceholder}
           size="large"
-          style={{marginTop: '8px', height: '50px'}}
+          className="!mt-2 h-[50px]"
         />
       </div>
 
       {/* Автор */}
-      <div style={{marginBottom: '20px'}}>
+      <div className="!mb-5">
         <Typography.Text strong>Автор</Typography.Text>
         <Input
           value={author}
           onChange={(e) => onAuthorChange(e.target.value)}
           placeholder={authorPlaceholder}
           size="large"
-          style={{marginTop: '8px', height: '50px'}}
+          className="!mt-2 h-[50px]"
         />
       </div>
 
       {/* Выбор треков */}
-      <div style={{marginBottom: '20px'}}>
+      <div className="!mb-5">
         <Typography.Text strong>Выберите треки</Typography.Text>
         <Select
           mode="multiple"
@@ -71,7 +71,7 @@ export default function AlbumFormFields({
           onChange={onTracksChange}
           placeholder="Выберите треки для альбома"
           size="large"
-          style={{width: '100%', marginTop: '8px'}}
+          className="w-full !mt-2"
           maxTagCount="responsive"
         >
           {tracks.map((track) => (
@@ -86,11 +86,7 @@ export default function AlbumFormFields({
         {selectedTracks.length > 0 && (
           <Typography.Text
             type="secondary"
-            style={{
-              fontSize: '12px',
-              display: 'block',
-              marginTop: '8px'
-            }}
+            className="text-xs block !mt-2"
           >
             Выбрано треков: {selectedTracks.length}
           </Typography.Text>
@@ -98,7 +94,7 @@ export default function AlbumFormFields({
       </div>
 
       {/* Загрузка обложки */}
-      <div style={{marginBottom: '30px'}}>
+      <div className="!mb-7">
         <Typography.Text strong>Обложка альбома</Typography.Text>
         <FileUpload
           file={picture}
@@ -106,37 +102,14 @@ export default function AlbumFormFields({
           accept={pictureAccept}
         >
           <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              border: '2px dashed #d9d9d9',
-              borderRadius: '8px',
-              padding: '40px',
-              marginTop: '8px',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.borderColor = '#32c4d0';
-              e.currentTarget.style.backgroundColor = '#f0f9fa';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.borderColor = '#d9d9d9';
-              e.currentTarget.style.backgroundColor = 'transparent';
-            }}
+            className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg !p-25 !mt-2 cursor-pointer transition-all duration-300 hover:border-[#32c4d0] hover:bg-[#f0f9fa]"
           >
             {picture ? (
               <Typography.Text>{picture.name}</Typography.Text>
             ) : (
               <>
                 <UploadOutlined
-                  style={{
-                    fontSize: '48px',
-                    color: '#999',
-                    marginBottom: '16px'
-                  }}
+                  className="text-5xl text-gray-400 !mb-4"
                 />
                 <Typography.Text type="secondary">Нажмите для загрузки обложки</Typography.Text>
               </>

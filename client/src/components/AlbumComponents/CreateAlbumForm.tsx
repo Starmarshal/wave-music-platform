@@ -14,7 +14,7 @@ type CreateAlbumFormProps = {
   tracks: ITrack[];
   onNameChange: (value: string) => void;
   onAuthorChange: (value: string) => void;
-  onPictureChange: (file: File) => void;
+  onPictureChange: React.Dispatch<React.SetStateAction<File | null>>;
   onTracksChange: (trackIds: string[]) => void;
   onSubmit: () => void;
   onCancel: () => void;
@@ -36,25 +36,13 @@ export default function CreateAlbumForm({
                                           loading = false
                                         }: CreateAlbumFormProps) {
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        padding: '40px 20px',
-        minHeight: 'calc(100vh - 200px)',
-      }}
-    >
+    <div className="flex justify-center !py-10 !px-5 min-h-[calc(100vh-200px)]">
       <Card
-        style={{
-          width: '100%',
-          maxWidth: '600px',
-          borderRadius: '16px',
-          boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
-        }}
+        className="w-full max-w-[600px] rounded-2xl shadow-xl"
       >
         <Typography.Title
           level={2}
-          style={{marginBottom: '30px', textAlign: 'center'}}
+          className="!mb-7 text-center"
         >
           Создать альбом
         </Typography.Title>

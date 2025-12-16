@@ -8,11 +8,11 @@ const Loader = () => {
     <Flex
       align="center"
       justify="center"
-      style={{height: '80vh', width: '100vw'}}
+      className="!h-[80vh] !w-screen"
     >
       <Spin
         indicator={<LoadingOutlined
-          style={{fontSize: 120}}
+          className="!text-[120px]"
           spin
         />}
       />

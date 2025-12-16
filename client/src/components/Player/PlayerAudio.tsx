@@ -70,7 +70,7 @@ export default function PlayerAudio({
       let errorMessage = 'Ошибка загрузки аудио';
 
       if (error) {
-        switch(error.code) {
+        switch (error.code) {
           case MediaError.MEDIA_ERR_ABORTED:
             errorMessage = 'Загрузка аудио прервана';
             break;
@@ -120,7 +120,7 @@ export default function PlayerAudio({
       ref={audioRef}
       src={staticUrl(currentTrack.audio)}
       preload="metadata"
-      style={{display: 'none'}}
+      className="!hidden"
       crossOrigin="anonymous"
     />
   );

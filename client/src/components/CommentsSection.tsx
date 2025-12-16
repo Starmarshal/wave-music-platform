@@ -1,6 +1,6 @@
 'use client';
 
-import {Card, Form, Input, Button, Typography, Flex, message} from 'antd';
+import {Button, Card, Flex, Form, Input, message, Typography} from 'antd';
 import {useState} from 'react';
 
 type CommentType = {
@@ -42,17 +42,11 @@ export default function CommentsSection({
   };
 
   return (
-    <div style={{width: '100%', maxWidth: '500px'}}>
+    <div className="!w-full !max-w-[500px] !mt-[1rem]">
       {/* Секция с существующими комментариями */}
       <Card
         title={title}
-        style={{
-          width: 500,
-          minHeight: 300,
-          maxHeight: 500,
-          marginBottom: '20px',
-          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
-        }}
+        className="!w-[500px] !min-h-[300px] !max-h-[500px] !mb-5 !shadow-lg"
       >
         <Flex
           vertical
@@ -66,11 +60,7 @@ export default function CommentsSection({
             comments.map((comment, index) => (
               <div
                 key={comment._id || index}
-                style={{
-                  padding: '8px 0',
-                  borderBottom: '1px solid #f0f0f0',
-                  width: '100%'
-                }}
+                className="!py-2 !border-0 !border-b !border-gray-100 !w-full"
               >
                 <Typography.Text strong>{comment.username}:</Typography.Text> {comment.text}
               </div>
@@ -81,15 +71,11 @@ export default function CommentsSection({
 
       {/* Форма для добавления комментария */}
       <Card
-        style={{
-          width: 500,
-          marginTop: 20,
-          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
-        }}
+        className="!w-[500px] !mt-5 !shadow-lg"
       >
         <Typography.Title
           level={4}
-          style={{marginBottom: '20px'}}
+          className="!mb-5"
         >
           Добавить комментарий
         </Typography.Title>
@@ -131,7 +117,7 @@ export default function CommentsSection({
             />
           </Form.Item>
 
-          <Form.Item style={{textAlign: 'right'}}>
+          <Form.Item className="!text-right">
             <Button
               type="primary"
               htmlType="submit"

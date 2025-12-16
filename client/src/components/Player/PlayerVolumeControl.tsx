@@ -14,14 +14,9 @@ export default function PlayerVolumeControl({
                                             }: PlayerVolumeControlProps) {
   return (
     <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '10px',
-        width: '120px'
-      }}
+      className="!flex !items-center !gap-2.5 !w-[120px] !mb-2.5"
     >
-      <SoundOutlined style={{color: '#999'}} />
+      <SoundOutlined className="!text-gray-400" />
       <Slider
         value={volume}
         min={0}
@@ -29,7 +24,7 @@ export default function PlayerVolumeControl({
         step={0.01}
         onChange={onVolumeChange}
         tooltip={{formatter: (value) => `${Math.round((value || 0) * 100)}%`}}
-        style={{width: '80px'}}
+        className="!w-20"
       />
     </div>
   );

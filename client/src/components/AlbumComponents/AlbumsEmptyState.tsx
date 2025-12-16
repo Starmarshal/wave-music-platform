@@ -10,11 +10,11 @@ export default function AlbumsEmptyState({message = 'Пока нет альбо�
   return (
     <Empty
       description={
-        <Typography.Text style={{color: '#fff', fontSize: '16px'}}>
+        <Typography.Text className="text-white !text-base">
           {message}
         </Typography.Text>
       }
-      style={{margin: '60px 0'}}
+      className="my-15"
     />
   );
 }

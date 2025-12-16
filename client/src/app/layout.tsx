@@ -18,15 +18,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ru">
-    <body className={inter.className}>
+    <body className={`${inter.className} !min-h-screen !pb-30`}>
     <ReduxProvider>
-      <div style={{paddingBottom: '80px'}}>
-        {children}
-      </div>
+      {children}
       <FooterPlayer />
     </ReduxProvider>
     </body>
     </html>
   );
 }
-

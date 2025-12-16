@@ -1,12 +1,12 @@
 import {
-  Get,
-  Post,
-  Controller,
   Body,
-  Param,
+  Controller,
   Delete,
-  UseInterceptors,
+  Get,
+  Param,
+  Post,
   UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { AlbumService } from './album.service';
 import { CreateAlbumDTO } from './dto/create-album.dto';

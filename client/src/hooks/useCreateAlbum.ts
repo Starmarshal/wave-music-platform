@@ -1,6 +1,6 @@
 'use client';
 
-import {useState, useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {message} from 'antd';
 import {api} from '@/src/shared/api';
 import {ITrack} from '@/src/types/track';

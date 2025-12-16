@@ -8,8 +8,11 @@ type TracksErrorProps = {
 
 export default function TracksError({error}: TracksErrorProps) {
   return (
-    <div style={{textAlign: 'center', padding: '40px'}}>
-      <Typography.Title level={3} style={{color: '#ff4d4f'}}>
+    <div className="!text-center !p-10">
+      <Typography.Title
+        level={3}
+        className="!text-red-500"
+      >
         Ошибка загрузки
       </Typography.Title>
       <Typography.Text type="secondary">

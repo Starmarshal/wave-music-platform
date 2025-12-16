@@ -10,10 +10,15 @@ type TrackImageProps = {
   height?: number;
 };
 
-export default function TrackImage({picture, name, width = 500, height = 500}: TrackImageProps) {
+export default function TrackImage({
+                                     picture,
+                                     name,
+                                     width = 500,
+                                     height = 500
+                                   }: TrackImageProps) {
   return (
     <Image
-      style={{borderRadius: '1rem', border: '1px solid #293A52'}}
+      className="!rounded-2xl !border !border-[#293A52]"
       preview={false}
       width={width}
       height={height}

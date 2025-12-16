@@ -19,9 +19,12 @@ const FileUpload: React.FC<FileUploadProps> = ({setFile, accept, children}) => {
   };
 
   return (
-    <div onClick={() => ref.current?.click()}>
+    <div
+      onClick={() => ref.current?.click()}
+      className="!cursor-pointer"
+    >
       <input
-        style={{display: 'none'}}
+        className="!hidden"
         accept={accept}
         type="file"
         ref={ref}

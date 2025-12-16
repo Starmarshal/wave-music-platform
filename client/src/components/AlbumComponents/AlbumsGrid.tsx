@@ -1,6 +1,6 @@
 'use client';
 
-import {Row, Col} from 'antd';
+import {Col, Row} from 'antd';
 import {IAlbum} from '@/src/types/album';
 import AlbumCard from '@/src/components/AlbumComponents/AlbumCard';
 

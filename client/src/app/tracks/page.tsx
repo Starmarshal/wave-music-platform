@@ -1,7 +1,6 @@
 'use client';
 
-import Header from '@/src/components/Header/Header';
-import Loader from '@/src/components/Loader';
+import Header from '@/src/components/Header';
 import useTracksPage from '@/src/hooks/useTracksPage';
 import TracksContainer from '@/src/components/TrackComponents/TracksContainer';
 import TracksError from '@/src/components/TrackComponents/TracksError';
@@ -12,20 +11,8 @@ import TracksSearch from '@/src/components/TrackComponents/TracksSearch';
 export default function TracksPage() {
   const {
     error,
-    loading,
     handleSearch,
-    handleQueryChange,
-    refetchTracks
   } = useTracksPage();
-
-  if (loading) {
-    return (
-      <>
-        <Header />
-        <Loader />
-      </>
-    );
-  }
 
   if (error) {
     return (
@@ -42,7 +29,7 @@ export default function TracksPage() {
     <>
       <Header />
 
-      <TracksContainer maxWidth="1200px">
+      <TracksContainer maxWidth="75%">
         <TracksHeader
           title="Список треков"
           buttonText="Загрузить трек"

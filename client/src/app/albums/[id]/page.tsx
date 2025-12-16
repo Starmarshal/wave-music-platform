@@ -1,6 +1,6 @@
 'use client';
 
-import Header from '@/src/components/Header/Header';
+import Header from '@/src/components/Header';
 import CommentsSection from '@/src/components/CommentsSection';
 import AlbumDetails from '@/src/components/AlbumComponents/AlbumDetails';
 import AlbumTracksList from '@/src/components/AlbumComponents/AlbumTracksList';
@@ -45,18 +45,18 @@ export default function AlbumDetailPage() {
       />
 
       <div
-        className="mb-5 flex items-start justify-center gap-7 px-5 md:gap-8"
+        className="!mb-5 !flex !items-start !justify-center !gap-7 !px-5 md:!gap-8"
       >
         {/* Левая колонка: изображение и комментарии */}
         <div
-          className="flex flex-col items-center flex-none"
+          className="!flex !flex-col !items-center !flex-none"
         >
           <AlbumImage
             picture={album.picture}
             name={album.name}
           />
 
-          <div className="mt-5">
+          <div className="!mt-5">
             <CommentsSection
               comments={comments}
               onAddComment={addComment}
@@ -69,7 +69,7 @@ export default function AlbumDetailPage() {
 
         {/* Правая колонка: информация об альбоме */}
         <div
-          className="flex-1 max-w-[700px]"
+          className="!flex-1 !max-w-[700px]"
         >
           <AlbumDetails album={album} />
           <AlbumTracksList tracks={album.tracks} />

@@ -32,21 +32,21 @@ export default function TrackFormStep1({
         onChange={(e) => onNameChange(e.target.value)}
         placeholder={namePlaceholder}
         size={'large'}
-        style={{marginBottom: '1rem', height: '50px'}}
+        className="!mb-4 !h-[50px]"
       />
       <Input
         value={artist}
         onChange={(e) => onArtistChange(e.target.value)}
         placeholder={artistPlaceholder}
         size={'large'}
-        style={{marginBottom: '1rem', height: '50px'}}
+        className="!mb-4 !h-[50px]"
       />
       <Input.TextArea
         value={text}
         onChange={(e) => onTextChange(e.target.value)}
         placeholder={textPlaceholder}
         size={'large'}
-        style={{marginBottom: '1rem', height: 120, resize: 'none'}}
+        className="!mb-4 !h-30 !resize-none"
         rows={4}
       />
     </div>

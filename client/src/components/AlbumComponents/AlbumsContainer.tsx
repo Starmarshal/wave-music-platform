@@ -9,12 +9,7 @@ type AlbumsContainerProps = {
 export default function AlbumsContainer({children}: AlbumsContainerProps) {
   return (
     <Card
-      style={{
-        padding: '30px',
-        borderRadius: '16px',
-        boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)',
-        border: 'none',
-      }}
+      className="!p-7 rounded-2xl shadow-xl border-none"
     >
       {children}
     </Card>

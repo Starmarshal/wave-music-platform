@@ -45,22 +45,9 @@ const FooterPlayer: React.FC = () => {
         />
 
         {/* Центральная часть: управление и прогресс */}
-        <div
-          style={{
-            flex: 10,
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-            minWidth: 0,
-            maxWidth: 'calc(100% - 120px)'
-          }}
-        >
+        <div className="!flex-10 !flex !items-center !gap-2.5 !min-w-0 !max-w-[calc(100%-120px)]">
           {/* Кнопки управления */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-          }}>
+          <div className="!flex !items-center !gap-2.5">
             <PlayerControls
               isPlaying={isPlaying}
               hasNextTrack={hasNextTrack}

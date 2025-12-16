@@ -1,6 +1,6 @@
 'use client';
 
-import {Typography, Button} from 'antd';
+import {Button, Typography} from 'antd';
 import {UploadOutlined} from '@ant-design/icons';
 import {useRouter} from 'next/navigation';
 
@@ -31,21 +31,12 @@ export default function TracksHeader({
 
   return (
     <div
-      style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: '30px'
-      }}
+      className="!flex !justify-between !items-center !mb-7"
     >
       <Typography.Title
         level={2}
-        style={{
-          marginBottom: 0,
-          color: '#32c2ce',
-          fontWeight: 700,
-          textShadow: '0 2px 4px rgba(0,0,0,0.2)',
-        }}
+        className="!mb-0 !text-[#32c2ce] !font-bold"
+        style={{textShadow: '0 2px 4px rgba(0,0,0,0.2)'}}
       >
         {title}
       </Typography.Title>
@@ -54,12 +45,7 @@ export default function TracksHeader({
         type="primary"
         size="large"
         icon={buttonIcon}
-        style={{
-          borderRadius: '8px',
-          height: '45px',
-          fontWeight: 600,
-          boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-        }}
+        className="!rounded-lg !h-[45px] !font-semibold !shadow-lg"
       >
         {buttonText}
       </Button>

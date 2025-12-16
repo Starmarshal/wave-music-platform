@@ -1,6 +1,6 @@
 'use client';
 
-import {Card, Typography, Button, Flex} from 'antd';
+import {Card, Typography} from 'antd';
 import {useRouter} from 'next/navigation';
 import {useState} from 'react';
 
@@ -26,7 +26,7 @@ export default function TrackDetails({track}: TrackDetailsProps) {
       if (regex.test(line)) {
         return <p
           key={index}
-          style={{fontWeight: 'bold'}}
+          className="!font-bold"
         >{line}</p>;
       }
       return <p key={index}>{line}</p>;
@@ -34,36 +34,31 @@ export default function TrackDetails({track}: TrackDetailsProps) {
   };
 
   return (
-    <div style={{maxWidth: '600px'}}>
+    <div className="!max-w-[600px]">
       <Card
-        style={{boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'}}
+        className="!shadow-lg"
         title="Детали трека"
         variant={'borderless'}
       >
         <Typography.Title level={2}>{track.name}</Typography.Title>
-        <p><strong>Исполнитель:</strong> {track.artist}</p>
+        <p className="!mb-2"><strong>Исполнитель:</strong> {track.artist}</p>
         <p><strong>Прослушиваний:</strong> {track.listens}</p>
       </Card>
 
       <Card
-        style={{
-          width: '100%',
-          minWidth: '490px',
-          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-          marginTop: '1rem'
-        }}
+        className="!w-full !min-w-[490px] !shadow-lg !mt-4"
         variant={'borderless'}
       >
         <Typography.Title
           onClick={() => setShowText(prev => !prev)}
-          style={{cursor: 'pointer'}}
+          className="!cursor-pointer"
           level={4}
         >
           {showText ? 'Скрыть текст трека' : 'Показать текст трека'}
         </Typography.Title>
 
         {showText && (
-          <div style={{marginTop: '20px'}}>
+          <div className="!mt-5">
             {formatLyrics(track.text)}
           </div>
         )}

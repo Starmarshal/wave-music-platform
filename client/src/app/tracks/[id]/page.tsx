@@ -1,6 +1,6 @@
 'use client';
 
-import Header from '@/src/components/Header/Header';
+import Header from '@/src/components/Header';
 import CommentsSection from '@/src/components/CommentsSection';
 import TrackDetails from '@/src/components/TrackComponents/TrackDetails';
 import TrackImage from '@/src/components/TrackComponents/TrackImage';
@@ -44,30 +44,18 @@ export default function TrackDetailPage() {
       />
 
       <div
-        style={{
-          marginBottom: '20px',
-          display: 'flex',
-          alignItems: 'flex-start',
-          justifyContent: 'center',
-          gap: '30px',
-          padding: '0 20px'
-        }}
+        className="!mb-5 !flex !items-start !justify-center !gap-7 !px-5"
       >
         {/* Левая колонка: изображение и комментарии */}
         <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            flex: '0 0 auto'
-          }}
+          className="!flex !flex-col !items-center !flex-none"
         >
           <TrackImage
             picture={track.picture}
             name={track.name}
           />
 
-          <div style={{marginTop: '20px'}}>
+          <div className="!mt-5">
             <CommentsSection
               comments={comments}
               onAddComment={addComment}

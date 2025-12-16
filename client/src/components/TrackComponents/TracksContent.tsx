@@ -9,11 +9,7 @@ type TracksContentProps = {
 export default function TracksContent({children}: TracksContentProps) {
   return (
     <div
-      style={{
-        backgroundColor: '#fff',
-        borderRadius: '12px',
-        padding: '20px'
-      }}
+      className="!bg-white !rounded-xl !p-5"
     >
       {children || <TrackList />}
     </div>
