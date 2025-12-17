@@ -48,7 +48,7 @@ export default function AlbumDetailPage() {
         className="!mb-5 !flex !flex-col !items-center !gap-1 lg:!gap-6 !px-2 sm:!px-4 lg:!px-5"
       >
         {/* Мобильная и планшетная версия: картинка сверху, центрированная */}
-        <div className="!w-full !flex !flex-col !items-center lg:!hidden !mb-1">
+        <div className="!w-full !flex !flex-col !items-center lg:!hidden !mb-4">
           <AlbumImage
             picture={album.picture}
             name={album.name}

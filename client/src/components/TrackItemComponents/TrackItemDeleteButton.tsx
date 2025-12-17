@@ -1,6 +1,6 @@
 'use client';
 
-import {Button, Popconfirm, message} from 'antd';
+import {Button, message, Popconfirm} from 'antd';
 import {DeleteOutlined} from '@ant-design/icons';
 
 type TrackItemDeleteButtonProps = {

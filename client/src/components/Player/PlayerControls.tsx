@@ -3,10 +3,10 @@
 import React from 'react';
 import {Button, Tooltip} from 'antd';
 import {
-  StepBackwardOutlined,
-  StepForwardOutlined,
+  PauseCircleOutlined,
   PlayCircleOutlined,
-  PauseCircleOutlined
+  StepBackwardOutlined,
+  StepForwardOutlined
 } from '@ant-design/icons';
 
 interface PlayerControlsProps {

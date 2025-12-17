@@ -4,6 +4,7 @@ import {Button, Drawer, Layout, Menu} from 'antd';
 import {UnorderedListOutlined} from '@ant-design/icons';
 import {useState} from 'react';
 import {useRouter} from 'next/navigation';
+import Logo from '@/src/components/Logo';
 
 const Header = () => {
   const [open, setOpen] = useState(false);
@@ -42,14 +43,24 @@ const Header = () => {
   return (
     <>
       <div className="!w-full !text-center !p-2 sm:!p-3 md:!p-4 !flex !justify-between !items-center !bg-[#32c4d0] dark:!bg-cyan-700 !fixed !top-0 !z-[1000] !h-14 sm:!h-16">
-        <Layout.Header className="!bg-transparent !w-full !h-full !flex !items-center !justify-start">
+        <Layout.Header className="!bg-transparent !w-full !h-full !flex !items-center !justify-between">
+          {/* Кнопка меню - слева */}
           <Button
             icon={<UnorderedListOutlined />}
             onClick={showDrawer}
-            className="!ml-2 sm:!ml-4 !text-base sm:!text-lg !text-gray-800 dark:!text-gray-100 !bg-white dark:!bg-gray-800"
+            className="!ml-2 sm:!ml-4 !text-base sm:!text-lg !text-gray-100 !bg-transparent hover:!bg-transparent !border-none !shadow-none !p-0 !min-w-0"
             size="large"
+            type="text"
           />
-          <div className="demo-logo" />
+
+          {/* SVG логотип - по центру */}
+          <div className="!absolute !left-1/2 !-translate-x-1/2 !flex !justify-center !items-center !mt-[10px]">
+            <Logo />
+          </div>
+
+          {/* Пустой div для балансировки - справа */}
+          <div className="!w-10 sm:!w-12"></div>
+
         </Layout.Header>
 
         <Drawer

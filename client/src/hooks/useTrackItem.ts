@@ -1,20 +1,20 @@
 'use client';
 
-import {useState, useCallback} from 'react';
+import {useCallback, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '@/src/store/reducers';
 import {api} from '@/src/shared/api';
 import {
   pauseTrack,
+  playNextTrack,
   playTrack,
+  setAlbumMode,
+  setAlbumTracks,
   setCurrentTime,
   setCurrentTrack,
   setCurrentTrackData,
   setDuration,
-  setVolume,
-  setAlbumMode,
-  setAlbumTracks,
-  playNextTrack
+  setVolume
 } from '@/src/store/action-creators/player';
 
 export default function useTrackItem(track: any) {

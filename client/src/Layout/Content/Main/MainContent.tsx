@@ -8,7 +8,7 @@ const MainContent = () => {
   const router = useRouter();
 
   return (
-    <Layout.Content className="!bg-gradient-to-b !from-gray-50 dark:!from-gray-900 !to-white dark:!to-gray-800 !min-h-[calc(100vh-60px)] !flex !items-center !justify-center !text-center !flex !flex-col !text-white !p-2 sm:!p-4">
+    <Layout.Content className="!min-h-[calc(100vh-60px)] !flex !items-center !justify-center !text-center !flex !flex-col !text-white !p-2 sm:!p-4">
       <div className="!text-center !max-w-[800px] !mx-auto !px-3 sm:!px-5 !py-6 sm:!py-10 !w-full">
         <Typography.Title
           className="!text-cyan-500 dark:!text-cyan-400 !text-2xl sm:!text-3xl md:!text-4xl lg:!text-5xl !font-bold !mb-3 sm:!mb-5 !drop-shadow-lg"

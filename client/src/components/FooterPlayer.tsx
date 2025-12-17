@@ -8,7 +8,6 @@ import PlayerControls from '@/src/components/Player/PlayerControls';
 import PlayerProgressBar from '@/src/components/Player/PlayerProgressBar';
 import PlayerVolumeControl from '@/src/components/Player/PlayerVolumeControl';
 import PlayerAudio from '@/src/components/Player/PlayerAudio';
-import {message} from 'antd';
 
 const FooterPlayer: React.FC = () => {
   const {

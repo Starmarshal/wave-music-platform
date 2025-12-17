@@ -4,6 +4,7 @@ import './globals.css';
 import {ReduxProvider} from '@/src/store/ReduxProvider';
 import FooterPlayer from '@/src/components/FooterPlayer';
 import ThemeSync from '@/src/components/ThemeSync';
+import Background from '@/src/components/Background';
 
 const inter = Inter({subsets: ['latin']});
 
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
                                      children,
                                    }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html
@@ -44,12 +45,20 @@ export default function RootLayout({
         }}
       />
     </head>
-    <body className={`${inter.className} !min-h-screen !pb-20 sm:!pb-24 md:!pb-32 !bg-white dark:!bg-gray-900 !text-gray-900 dark:!text-gray-100`}>
-    <ReduxProvider>
-      <ThemeSync />
-      {children}
-      <FooterPlayer />
-    </ReduxProvider>
+    <body
+      className={`${inter.className} !min-h-screen !pb-20 sm:!pb-24 md:!pb-32 !bg-white dark:!bg-gray-900 !text-gray-900 dark:!text-gray-100 relative`}
+    >
+    {/* Фоновый компонент */}
+    <Background />
+
+    {/* Основное содержимое */}
+    <div className="relative z-10">
+      <ReduxProvider>
+        <ThemeSync />
+        {children}
+        <FooterPlayer />
+      </ReduxProvider>
+    </div>
     </body>
     </html>
   );

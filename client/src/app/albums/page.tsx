@@ -6,10 +6,10 @@ import useAlbums from '@/src/hooks/useAlbums';
 import {useDispatch} from 'react-redux';
 import {
   playTrack,
+  setAlbumMode,
   setAlbumTracks,
   setCurrentTrack,
-  setCurrentTrackData,
-  setAlbumMode // Добавляем импорт
+  setCurrentTrackData
 } from '@/src/store/action-creators/player';
 import {message} from 'antd';
 import {IAlbum} from '@/src/types/album';

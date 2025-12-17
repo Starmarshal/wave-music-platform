@@ -1,13 +1,12 @@
 'use client';
 
-import React, {useEffect, useState, useMemo} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchTracks} from '@/src/store/action-creators/track';
 import {RootState} from '@/src/store/reducers';
 import TrackItem from '../TrackItemComponents/TrackItem';
 import {AppDispatch} from '@/src/store/store';
-import {ShowMore} from '@/src/components/show-more';
-import {PAGE_LIMIT} from '@/src/components/show-more';
+import {PAGE_LIMIT, ShowMore} from '@/src/components/show-more';
 
 const TrackList: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();

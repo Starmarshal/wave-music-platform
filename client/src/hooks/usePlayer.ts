@@ -8,12 +8,12 @@ import {
   playNextTrack,
   playPrevTrack,
   playTrack,
+  setAlbumMode,
   setCurrentTime,
   setCurrentTrack,
   setCurrentTrackData,
   setDuration,
-  setVolume,
-  setAlbumMode
+  setVolume
 } from '@/src/store/action-creators/player';
 import {trackService} from '@/src/shared/api/trackService'; // Используем trackService
 import {message} from 'antd';

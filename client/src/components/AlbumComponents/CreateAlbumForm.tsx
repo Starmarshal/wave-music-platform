@@ -38,7 +38,7 @@ export default function CreateAlbumForm({
   return (
     <div className="!flex !justify-center !py-6 sm:!py-10 !px-2 sm:!px-4 md:!px-5 !min-h-[calc(100vh-200px)]">
       <Card
-        className="!w-full !max-w-[600px] !rounded-xl md:!rounded-2xl !shadow-xl !p-4 sm:!p-6 dark:!bg-gray-800 dark:!border-gray-700"
+        className="!w-full !max-w-[600px] !rounded-xl md:!rounded-2xl !shadow-xl !p-4 sm:!p-6 !bg-white/10 dark:!bg-gray-500/10 !border !border-white/30 dark:!border-gray-700/20"
       >
         <Typography.Title
           level={2}

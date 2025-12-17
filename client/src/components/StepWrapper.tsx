@@ -48,7 +48,7 @@ const StepWrapper: React.FC<StepWrapperProps> = ({activeStep, children}) => {
           className="
             !w-full !mt-6 md:!mt-10
             !shadow-xl !rounded-lg !p-4 sm:!p-6
-            dark:!bg-gray-800 dark:!border-gray-700
+            !bg-white/10 dark:!bg-gray-500/10 !border !border-white/30 dark:!border-gray-700/20
             dark:!text-gray-100
           "
         >

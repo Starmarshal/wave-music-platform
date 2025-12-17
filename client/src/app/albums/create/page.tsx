@@ -1,9 +1,9 @@
 'use client';
 
 import {useRouter} from 'next/navigation';
-import {Header} from 'antd/es/layout/layout';
 import CreateAlbumForm from '@/src/components/AlbumComponents/CreateAlbumForm';
 import useCreateAlbum from '@/src/hooks/useCreateAlbum';
+import Header from '@/src/components/Header';
 
 export default function CreateAlbumPage() {
   const router = useRouter();

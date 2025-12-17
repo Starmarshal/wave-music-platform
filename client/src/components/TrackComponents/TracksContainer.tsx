@@ -21,7 +21,7 @@ export default function TracksContainer({
       style={style}
     >
       <Card
-        className={`!w-full !max-w-[1200px] !p-3 sm:!p-5 md:!p-7 !rounded-xl md:!rounded-2xl !shadow-xl !border-none dark:!bg-gray-800 dark:!border-gray-700`}
+        className={`!w-full !max-w-[1200px] !p-3 sm:!p-5 md:!p-7 !rounded-xl md:!rounded-2xl !shadow-md !backdrop-blur-lg !bg-white/10 dark:!bg-gray-500/10 !border !border-white/30 dark:!border-gray-700/20`}
         style={{maxWidth: maxWidth}}
       >
         {children}

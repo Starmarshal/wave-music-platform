@@ -1,7 +1,7 @@
 'use client';
 
 import {Button, Card, Flex, Form, Input, message, Typography} from 'antd';
-import {useState, useId} from 'react';
+import {useId, useState} from 'react';
 
 type CommentType = {
   username: string;
