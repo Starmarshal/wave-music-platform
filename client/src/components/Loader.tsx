@@ -12,7 +12,7 @@ const Loader = () => {
     >
       <Spin
         indicator={<LoadingOutlined
-          className="!text-[120px]"
+          className="!text-[120px] !text-[#32c4d0] dark:!text-cyan-400"
           spin
         />}
       />

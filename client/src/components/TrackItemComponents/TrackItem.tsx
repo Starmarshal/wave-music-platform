@@ -13,7 +13,6 @@ import TrackItemPlayButton
 import TrackItemProgress
   from '@/src/components/TrackItemComponents/TrackItemProgress';
 import TrackItemVolume from '@/src/components/TrackItemComponents/TrackItemVolume';
-// Убираем импорт TrackItemAudio
 
 interface TrackItemProps {
   track: ITrack;
@@ -31,12 +30,10 @@ const TrackItem: React.FC<TrackItemProps> = ({track, onDelete}) => {
     handlePlayPause,
     handleTimeChange,
     handleVolumeChange,
-    // Убираем: handleAudioLoadedMetadata, handleAudioEnded
     formatTime
   } = useTrackItem(track);
 
   const handleImageClick = () => {
-    // Можно добавить обработчик клика по изображению
   };
 
   const handleDeleteWithCallback = async () => {
@@ -46,54 +43,62 @@ const TrackItem: React.FC<TrackItemProps> = ({track, onDelete}) => {
 
   return (
     <Card
-      className={`!mt-3.5 !flex !flex-col !p-2.5 !mb-2.5 !transition-all !duration-300 !ease-in-out ${
+      className={`!mt-2 sm:!mt-3 !flex !flex-col !p-3 sm:!p-4 !mb-2 sm:!mb-2.5 !transition-all !duration-300 !ease-in-out !max-w-full !mx-auto dark:!bg-gray-800 dark:!border-gray-700 ${
         isCurrentTrack
-          ? '!shadow-xl !border-2 !border-[#32c4d0] !scale-[1.01]'
-          : '!shadow-lg !border-transparent !scale-100'
+          ? '!shadow-lg !border-2 !border-[#32c4d0] dark:!border-cyan-400 !bg-gradient-to-r !from-[#f0f9fa] !to-white dark:!from-gray-800 dark:!to-gray-700'
+          : '!shadow-md !border !border-gray-200 dark:!border-gray-700 !bg-white dark:!bg-gray-800 hover:!shadow-lg'
       }`}
     >
-      <div className="!flex !justify-between !items-center">
-        <TrackItemImage
-          picture={track.picture}
-          isCurrentTrack={isCurrentTrack}
-          onClick={handleImageClick}
-        />
+      <div className="!flex !items-center !gap-3 !w-full">
+        <div className="!flex-shrink-0">
+          <TrackItemImage
+            picture={track.picture}
+            isCurrentTrack={isCurrentTrack}
+            onClick={handleImageClick}
+          />
+        </div>
 
-        <TrackItemInfo
-          trackId={track._id}
-          name={track.name}
-          artist={track.artist}
-          isCurrentTrack={isCurrentTrack}
-          listens={track.listens}
-        />
+        <div className="!flex-1 !min-w-0 !flex !flex-col !justify-center">
+          <TrackItemInfo
+            trackId={track._id}
+            name={track.name}
+            artist={track.artist}
+            isCurrentTrack={isCurrentTrack}
+            listens={track.listens}
+          />
+        </div>
 
-        <TrackItemDeleteButton
-          onDelete={handleDeleteWithCallback}
-        />
+        <div className="!flex-shrink-0 !hidden sm:!block">
+          <TrackItemDeleteButton
+            onDelete={handleDeleteWithCallback}
+          />
+        </div>
       </div>
 
-      <div className="!flex !items-center !mt-2.5">
+      <div className="!flex !items-center !gap-3 !mt-3 !w-full">
         <TrackItemPlayButton
           isCurrentTrack={isCurrentTrack}
           isPlaying={isPlaying}
           onClick={handlePlayPause}
         />
 
-        <TrackItemProgress
-          isCurrentTrack={isCurrentTrack}
-          currentTime={currentTime}
-          duration={duration}
-          onTimeChange={handleTimeChange}
-          formatTime={formatTime}
-        />
+        <div className="!flex-1 !min-w-0">
+          <TrackItemProgress
+            isCurrentTrack={isCurrentTrack}
+            currentTime={currentTime}
+            duration={duration}
+            onTimeChange={handleTimeChange}
+            formatTime={formatTime}
+          />
+        </div>
 
-        <TrackItemVolume
-          volume={globalVolume}
-          onVolumeChange={handleVolumeChange}
-        />
+        <div className="!hidden sm:!block !flex-shrink-0">
+          <TrackItemVolume
+            volume={globalVolume}
+            onVolumeChange={handleVolumeChange}
+          />
+        </div>
       </div>
-
-      {/* УБИРАЕМ TrackItemAudio - теперь аудио управляется в FooterPlayer */}
     </Card>
   );
 };

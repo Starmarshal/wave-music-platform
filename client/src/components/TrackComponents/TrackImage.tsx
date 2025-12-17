@@ -6,22 +6,16 @@ import {staticUrl} from '@/src/shared/config';
 type TrackImageProps = {
   picture: string;
   name: string;
-  width?: number;
-  height?: number;
 };
 
 export default function TrackImage({
                                      picture,
                                      name,
-                                     width = 500,
-                                     height = 500
                                    }: TrackImageProps) {
   return (
     <Image
-      className="!rounded-2xl !border !border-[#293A52]"
+      className="!rounded-xl md:!rounded-2xl !border !border-[#293A52] dark:!border-gray-600 !w-[500px] !max-w-[280px] sm:!max-w-[350px] md:!max-w-[500px] !h-auto !mx-auto"
       preview={false}
-      width={width}
-      height={height}
       src={staticUrl(picture)}
       alt={name}
     />

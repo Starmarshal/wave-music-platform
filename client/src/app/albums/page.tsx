@@ -53,9 +53,9 @@ export default function AlbumsPage() {
     <>
       <Header />
       <div
-        className="!flex !justify-center !mt-8 !px-5 !min-h-[calc(100vh-200px)]"
+        className="!flex !justify-center !mt-4 md:!mt-8 !px-2 sm:!px-4 md:!px-5 !min-h-[calc(100vh-200px)]"
       >
-        <div className="!w-full !max-w-[75%]">
+        <div className="!w-full !max-w-full md:!max-w-[90%] lg:!max-w-[75%]">
           <AlbumsContainer>
             <AlbumsHeader />
 

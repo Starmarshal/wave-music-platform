@@ -16,7 +16,7 @@ interface PlayerControlsProps {
   onPlayPause: () => void;
   onNextTrack: () => void;
   onPrevTrack: () => void;
-  showNavigation?: boolean; // Новый пропс для контроля отображения навигации
+  showNavigation?: boolean;
 }
 
 const PlayerControls: React.FC<PlayerControlsProps> = ({
@@ -26,11 +26,10 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
                                                          onPlayPause,
                                                          onNextTrack,
                                                          onPrevTrack,
-                                                         showNavigation = false, // По умолчанию скрываем
+                                                         showNavigation = false,
                                                        }) => {
   return (
-    <div className="!flex !items-center !gap-2">
-      {/* Кнопка предыдущего трека (только в режиме альбома) */}
+    <div className="!flex !items-center !gap-1 md:!gap-2 !mb-5">
       {showNavigation && (
         <Tooltip title="Предыдущий трек" placement="top">
           <Button
@@ -38,22 +37,42 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
             icon={<StepBackwardOutlined />}
             onClick={onPrevTrack}
             disabled={!hasPrevTrack}
-            className={`!text-xl '!text-gray-500' `}
+            className="
+              !text-base md:!text-lg
+              !text-gray-600 dark:!text-gray-400
+              hover:!text-[#32c4d0] dark:hover:!text-cyan-400
+              !p-1 md:!p-2 !transition-colors
+              !border-none !outline-none !shadow-none
+              [&_.ant-btn]:!border-none
+              [&_.ant-btn]:!outline-none
+              [&_.ant-btn]:!shadow-none
+              :focus:!border-none :focus:!outline-none
+              :hover:!border-none :active:!border-none
+            "
           />
         </Tooltip>
       )}
 
-      {/* Кнопка воспроизведения/паузы */}
       <Tooltip title={isPlaying ? "Пауза" : "Воспроизвести"} placement="top">
         <Button
           type="text"
           icon={isPlaying ? <PauseCircleOutlined /> : <PlayCircleOutlined />}
           onClick={onPlayPause}
-          className="!text-2xl !text-gray-500 hover:!text-blue-400"
+          className="
+            !text-xl md:!text-2xl
+            !text-[#32c4d0] dark:!text-cyan-400
+            hover:!text-[#28a5b0] dark:hover:!text-cyan-300
+            !p-1 md:!p-2 !transition-all hover:!scale-110
+            !border-none !outline-none !shadow-none
+            [&_.ant-btn]:!border-none
+            [&_.ant-btn]:!outline-none
+            [&_.ant-btn]:!shadow-none
+            :focus:!border-none :focus:!outline-none
+            :hover:!border-none :active:!border-none
+          "
         />
       </Tooltip>
 
-      {/* Кнопка следующего трека (только в режиме альбома) */}
       {showNavigation && (
         <Tooltip title="Следующий трек" placement="top">
           <Button
@@ -61,7 +80,18 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
             icon={<StepForwardOutlined />}
             onClick={onNextTrack}
             disabled={!hasNextTrack}
-            className={`!text-xl'!text-gray-500'`}
+            className="
+              !text-base md:!text-lg
+              !text-gray-600 dark:!text-gray-400
+              hover:!text-[#32c4d0] dark:hover:!text-cyan-400
+              !p-1 md:!p-2 !transition-colors
+              !border-none !outline-none !shadow-none
+              [&_.ant-btn]:!border-none
+              [&_.ant-btn]:!outline-none
+              [&_.ant-btn]:!shadow-none
+              :focus:!border-none :focus:!outline-none
+              :hover:!border-none :active:!border-none
+            "
           />
         </Tooltip>
       )}

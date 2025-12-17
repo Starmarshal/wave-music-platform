@@ -22,7 +22,7 @@ export default function TrackItemProgress({
                                             }
                                           }: TrackItemProgressProps) {
   return (
-    <div className="!flex-1 !mt-4">
+    <div className="!flex-1 !mt-0 sm:!mt-4 !w-full">
       <Tooltip
         title={formatTime(isCurrentTrack ? currentTime : 0)}
         placement="top"
@@ -39,9 +39,9 @@ export default function TrackItemProgress({
         />
       </Tooltip>
 
-      <div className="!flex !justify-between !mt-1.5 !ml-0">
+      <div className="!flex !justify-between !mt-1 sm:!mt-1.5 !ml-0">
         <Typography.Text
-          className={`!transition-opacity !duration-300 !ease-in-out !font-[12px] ${
+          className={`!transition-opacity !duration-300 !ease-in-out !text-[10px] sm:!text-xs dark:!text-gray-400 ${
             isCurrentTrack ? '!opacity-100' : '!opacity-60'
           }`}
         >

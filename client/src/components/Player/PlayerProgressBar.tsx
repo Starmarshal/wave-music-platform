@@ -21,16 +21,17 @@ export default function PlayerProgressBar({
                                             }
                                           }: PlayerProgressBarProps) {
   return (
-    <div className="!flex-1 !min-w-0 !mt-2.5">
+    <div className="!flex-1 !min-w-0 !w-full">
       <Slider
         value={currentTime}
         max={duration || 0}
         onChange={onTimeChange}
         tooltip={{formatter: (value) => formatTime(value || 0)}}
         className="!m-0"
+
       />
       <div
-        className="!flex !justify-between !text-xs !text-gray-400 !mt-1"
+        className="!flex !justify-between !text-[10px] md:!text-xs !text-gray-500 dark:!text-gray-400 !mt-1 !font-medium"
       >
         <span>{formatTime(currentTime)}</span>
         <span>{formatTime(duration)}</span>

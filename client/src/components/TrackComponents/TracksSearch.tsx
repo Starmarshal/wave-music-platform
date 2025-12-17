@@ -29,7 +29,6 @@ export default function TracksSearch({
     debouncedSearch(value);
   };
 
-  // Очистка debounce при размонтировании
   useEffect(() => {
     return () => {
       debouncedSearch.cancel();
@@ -38,14 +37,14 @@ export default function TracksSearch({
 
   return (
     <div
-      className="!flex !justify-center !items-center !mb-5"
+      className="!flex !justify-center !items-center !mb-4 md:!mb-5"
     >
       <Input
         onChange={handleSearch}
         value={query}
         placeholder={placeholder}
         size={'large'}
-        className="!rounded-lg !h-[45px] !w-full"
+        className="!rounded-lg !h-[40px] sm:!h-[45px] !w-full dark:!bg-gray-700 dark:!border-gray-600 dark:!text-gray-200"
       />
     </div>
   );

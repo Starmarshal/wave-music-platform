@@ -45,34 +45,62 @@ export default function AlbumDetailPage() {
       />
 
       <div
-        className="!mb-5 !flex !items-start !justify-center !gap-7 !px-5 md:!gap-8"
+        className="!mb-5 !flex !flex-col !items-center !gap-1 lg:!gap-6 !px-2 sm:!px-4 lg:!px-5"
       >
-        {/* Левая колонка: изображение и комментарии */}
-        <div
-          className="!flex !flex-col !items-center !flex-none"
-        >
+        {/* Мобильная и планшетная версия: картинка сверху, центрированная */}
+        <div className="!w-full !flex !flex-col !items-center lg:!hidden !mb-1">
           <AlbumImage
             picture={album.picture}
             name={album.name}
           />
+        </div>
 
-          <div className="!mt-5">
-            <CommentsSection
-              comments={comments}
-              onAddComment={addComment}
-              title="Комментарии"
-              placeholder="Напишите ваш комментарий об альбоме..."
-              loading={loading}
+        {/* Десктопная версия: две колонки */}
+        <div className="!hidden lg:!flex !flex-row !items-start !justify-center !gap-7 !w-full">
+          {/* Левая колонка: изображение и комментарии */}
+          <div
+            className="!flex !flex-col !items-center !flex-none"
+          >
+            <AlbumImage
+              picture={album.picture}
+              name={album.name}
             />
+
+            <div className="!mt-5 !w-full">
+              <CommentsSection
+                comments={comments}
+                onAddComment={addComment}
+                title="Комментарии"
+                placeholder="Напишите ваш комментарий об альбоме..."
+                loading={loading}
+              />
+            </div>
+          </div>
+
+          {/* Правая колонка: информация об альбоме */}
+          <div
+            className="!flex-1 !max-w-[600px]"
+          >
+            <AlbumDetails album={album} />
+            <AlbumTracksList tracks={album.tracks} />
           </div>
         </div>
 
-        {/* Правая колонка: информация об альбоме */}
-        <div
-          className="!flex-1 !max-w-[700px]"
-        >
-          <AlbumDetails album={album} />
+        {/* Мобильная и планшетная версия: информация об альбоме */}
+        <div className="!w-full !flex !flex-col !items-center lg:!hidden !max-w-[600px] !-mt-2">
+          <AlbumDetails album={album}/>
           <AlbumTracksList tracks={album.tracks} />
+        </div>
+
+        {/* Мобильная и планшетная версия: комментарии внизу */}
+        <div className="!w-full !flex !flex-col !items-center lg:!hidden !max-w-full">
+          <CommentsSection
+            comments={comments}
+            onAddComment={addComment}
+            title="Комментарии"
+            placeholder="Напишите ваш комментарий об альбоме..."
+            loading={loading}
+          />
         </div>
       </div>
     </>

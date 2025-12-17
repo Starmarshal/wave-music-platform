@@ -12,8 +12,8 @@ export default function TrackNotFound({backHref}: TrackNotFoundProps) {
 
   return (
     <div className="!text-center !mt-12">
-      <Typography.Title level={3}>Трек не найден</Typography.Title>
-      <Button onClick={() => router.push(backHref)}>
+      <Typography.Title level={3} className="dark:!text-gray-200">Трек не найден</Typography.Title>
+      <Button onClick={() => router.push(backHref)} className="dark:!bg-blue-600 dark:!border-blue-600">
         Вернуться к трекам
       </Button>
     </div>

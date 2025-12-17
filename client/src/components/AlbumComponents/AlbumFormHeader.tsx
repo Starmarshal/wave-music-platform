@@ -33,8 +33,7 @@ export default function AlbumsHeader({
     <div className="flex justify-between items-center !mb-7">
       <Typography.Title
         level={2}
-        className="mb-0 text-[#32c2ce] font-bold shadow-text"
-        style={{textShadow: '0 2px 4px rgba(0,0,0,0.2)'}}
+        className="!mb-0 !text-[#32c2ce] dark:!text-cyan-400 !font-bold !drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)] dark:!drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]"
       >
         {title}
       </Typography.Title>

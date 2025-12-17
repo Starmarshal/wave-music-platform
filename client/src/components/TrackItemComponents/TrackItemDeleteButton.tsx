@@ -39,9 +39,17 @@ export default function TrackItemDeleteButton({
       <Button
         icon={<DeleteOutlined />}
         type="text"
-        className="!ml-auto !text-2xl !transition-transform !duration-200 !ease-in-out"
-        onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
-        onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+        className="
+          !ml-auto !text-lg sm:!text-xl md:!text-2xl
+          !transition-transform !duration-200 !ease-in-out
+          !p-1 sm:!p-2 hover:!scale-110
+          !text-gray-600 dark:!text-gray-400
+          hover:!text-red-500 dark:hover:!text-red-400
+          !border-none !shadow-none
+          hover:!border-none active:!border-none focus:!border-none
+          ![&:focus]:!shadow-none ![&:hover]:!border-none
+          ![&_.ant-btn]:!border-none
+        "
       />
     </Popconfirm>
   );

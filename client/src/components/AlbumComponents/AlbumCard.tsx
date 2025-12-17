@@ -17,19 +17,19 @@ export default function AlbumCard({album, onPlayAlbum}: AlbumCardProps) {
   return (
     <Card
       hoverable
-      className="rounded-xl overflow-hidden transition-all duration-300 shadow-lg hover:shadow-xl h-full"
+      className="!rounded-xl !overflow-hidden !transition-all !duration-300 !shadow-lg hover:!shadow-xl !h-full dark:!bg-gray-800 dark:!border-gray-700"
       cover={
         <div
-          className="relative w-full aspect-square overflow-hidden"
+          className="!relative !w-full !aspect-square !overflow-hidden"
         >
-          <div className="absolute inset-0 flex">
+          <div className="!absolute !inset-0 !flex">
             <Image
               src={staticUrl(album.picture)}
               alt={album.name}
               preview={false}
-              className="!w-full !h-full object-cover flex"
+              className="!w-full !h-full !object-cover !flex"
             />
-            <div className="album-overlay absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 transition-opacity duration-300 hover:opacity-100">
+            <div className="!album-overlay !absolute !inset-0 !bg-black/40 dark:!bg-black/60 !flex !items-center !justify-center !opacity-0 !transition-opacity !duration-300 hover:!opacity-100">
               <Button
                 type="primary"
                 shape="circle"
@@ -39,7 +39,7 @@ export default function AlbumCard({album, onPlayAlbum}: AlbumCardProps) {
                   e.stopPropagation();
                   onPlayAlbum(album);
                 }}
-                className="!w-16 !h-16 border-none !shadow-lg"
+                className="!w-16 !h-16 !border-none !shadow-lg dark:!bg-blue-600"
               />
             </div>
           </div>
@@ -51,13 +51,13 @@ export default function AlbumCard({album, onPlayAlbum}: AlbumCardProps) {
         title={
           <Typography.Text
             strong
-            className="text-base"
+            className="!text-base dark:!text-gray-200"
           >
             {album.name}
           </Typography.Text>
         }
         description={
-          <Typography.Text type="secondary">
+          <Typography.Text type="secondary" className="dark:!text-gray-400">
             {album.author}
           </Typography.Text>
         }

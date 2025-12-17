@@ -6,7 +6,6 @@
   box-sizing: border-box;
 }
 
-/* Плавные анимации для плеера */
 @keyframes pulse {
   0%, 100% {
     opacity: 1;
@@ -20,7 +19,6 @@
   animation: pulse 1s ease-in-out infinite;
 }
 
-/* Плавные переходы для слайдеров */
 .ant-slider {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
@@ -33,26 +31,18 @@
   transform: scale(1.2) !important;
 }
 
-/* Плавные переходы для кнопок */
 .ant-btn {
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-/* Плавные переходы для карточек */
 .ant-card {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-/* Плавное обновление слайдера времени */
 .ant-slider-track {
   transition: width 0.1s linear !important;
 }
 
-.ant-slider-handle {
-  transition: left 0.1s linear !important;
-}
-
-/* Hover эффект для альбомов */
 .ant-card:hover .album-overlay {
   opacity: 1 !important;
 }
@@ -60,5 +50,153 @@
 .ant-card:hover {
   transform: translateY(-4px) !important;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
+}
+
+@media (max-width: 640px) {
+  .ant-typography {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .ant-card {
+    border-radius: 12px !important;
+  }
+
+  .ant-btn {
+    font-size: 14px !important;
+  }
+
+  .ant-input,
+  .ant-input-affix-wrapper {
+    font-size: 16px !important;
+  }
+
+  .ant-slider {
+    margin: 8px 0 !important;
+  }
+
+  .ant-steps-item-title {
+    font-size: 12px !important;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .ant-card {
+    border-radius: 16px !important;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .ant-btn,
+  .ant-card {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+
+  .ant-card {
+    background-color: #1f2937 !important;
+    border-color: #374151 !important;
+  }
+
+  .ant-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+  }
+
+  .ant-input,
+  .ant-input-affix-wrapper {
+    background-color: #1f2937 !important;
+    border-color: #374151 !important;
+    color: #f9fafb !important;
+  }
+
+  .ant-btn {
+    border-color: #374151 !important;
+  }
+
+  .ant-btn-primary {
+    background-color: #3b82f6 !important;
+    border-color: #3b82f6 !important;
+  }
+
+  .ant-typography {
+    color: #f9fafb !important;
+  }
+
+  .ant-menu {
+    background-color: #1f2937 !important;
+  }
+
+  .ant-drawer-content {
+    background-color: #1f2937 !important;
+  }
+
+  .ant-select-selector {
+    background-color: #1f2937 !important;
+    border-color: #374151 !important;
+  }
+
+  .ant-slider-rail {
+    background-color: #374151 !important;
+  }
+
+  .ant-slider-track {
+    background-color: #32c4d0 !important;
+  }
+}
+
+.dark .ant-input::placeholder,
+.dark .ant-input-textarea::placeholder {
+  color: #9ca3af !important;
+}
+
+.dark .ant-input::-webkit-input-placeholder,
+.dark .ant-input-textarea::-webkit-input-placeholder {
+  color: #9ca3af !important;
+}
+
+.dark .ant-input::-moz-placeholder,
+.dark .ant-input-textarea::-moz-placeholder {
+  color: #9ca3af !important;
+}
+
+.dark .ant-input:-ms-input-placeholder,
+.dark .ant-input-textarea:-ms-input-placeholder {
+  color: #9ca3af !important;
+}
+
+.dark .ant-input:-moz-placeholder,
+.dark .ant-input-textarea:-moz-placeholder {
+  color: #9ca3af !important;
+}
+
+/* Глобальные стили для placeholder в dark mode */
+.dark .ant-input::placeholder,
+.dark .ant-input-textarea::placeholder {
+  color: #9ca3af !important; /* gray-400 */
+}
+
+.dark .ant-input::-webkit-input-placeholder,
+.dark .ant-input-textarea::-webkit-input-placeholder {
+  color: #9ca3af !important;
+}
+
+.dark .ant-input::-moz-placeholder,
+.dark .ant-input-textarea::-moz-placeholder {
+  color: #9ca3af !important;
+}
+
+.dark .ant-input:-ms-input-placeholder,
+.dark .ant-input-textarea:-ms-input-placeholder {
+  color: #9ca3af !important;
+}
+
+.dark .ant-input:-moz-placeholder,
+.dark .ant-input-textarea:-moz-placeholder {
+  color: #9ca3af !important;
 }
 

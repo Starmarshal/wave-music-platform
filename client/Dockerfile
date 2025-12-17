@@ -3,7 +3,7 @@ FROM node:20-alpine
 WORKDIR /app
 
 # Копируем package files
-COPY package.json ./
+COPY package.json  package-lock.json ./
 
 # Устанавливаем зависимости
 RUN npm ci

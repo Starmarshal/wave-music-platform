@@ -23,7 +23,7 @@ export default function TrackItemVolume({
         max={1}
         step={0.01}
         onChange={onVolumeChange}
-        className="!w-[60px] !ml-2.5 !transition-opacity !duration-300 !ease-in-out !mb-4"
+        className="!w-[50px] sm:!w-[60px] !ml-1 sm:!ml-2.5 !transition-opacity !duration-300 !ease-in-out !mb-0 sm:!mb-4"
       />
     </Tooltip>
   );

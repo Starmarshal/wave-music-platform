@@ -31,11 +31,11 @@ export default function TrackFormNavigation({
 
   return (
     <div
-      className="!flex !justify-between !mt-8"
+      className="!flex !justify-between !gap-3 !mt-6 sm:!mt-8"
     >
       <Button
         disabled={backDisabled || activeStep === 0}
-        className="!text-xl"
+        className="!text-base sm:!text-lg md:!text-xl !h-[40px] sm:!h-[45px] !flex-1  dark:!text-gray-100"
         onClick={onBack}
         color="danger"
         variant="solid"
@@ -44,7 +44,7 @@ export default function TrackFormNavigation({
         {backText}
       </Button>
       <Button
-        className="!text-xl"
+        className="!text-base sm:!text-lg md:!text-xl !h-[40px] sm:!h-[45px] !flex-1 dark:!bg-blue-600 dark:!border-blue-600"
         onClick={onNext}
         color="primary"
         variant="solid"

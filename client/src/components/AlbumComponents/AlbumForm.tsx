@@ -33,9 +33,9 @@ export default function AlbumForm({
                                     cancelText = 'Отмена'
                                   }: AlbumFormProps) {
   return (
-    <div className="flex justify-center py-10 px-5 min-h-[calc(100vh-200px)]">
+    <div className="!flex !justify-center !py-6 sm:!py-10 !px-2 sm:!px-4 md:!px-5 !min-h-[calc(100vh-200px)]">
       <Card
-        className="w-full max-w-[600px] rounded-2xl shadow-xl"
+        className="!w-full !max-w-[600px] !rounded-xl md:!rounded-2xl !shadow-xl !p-4 sm:!p-6 dark:!bg-gray-800 dark:!border-gray-700"
       >
         <AlbumFormHeader title={title} />
 

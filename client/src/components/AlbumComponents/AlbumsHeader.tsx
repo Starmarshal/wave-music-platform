@@ -12,11 +12,10 @@ export default function AlbumsHeader({title = 'Альбомы'}: AlbumsHeaderPro
   const router = useRouter();
 
   return (
-    <div className="flex justify-between items-center !mb-7">
+    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0 !mb-4 md:!mb-7">
       <Typography.Title
         level={2}
-        className="!mb-0 text-[#32c2ce] !font-bold"
-        style={{textShadow: '0 2px 4px rgba(0,0,0,0.2)'}}
+        className="!mb-0 !text-[#32c2ce] dark:!text-cyan-400 !font-bold !text-xl sm:!text-2xl md:!text-3xl !drop-shadow-[0_2px_4px_rgba(0,0,0,0.2)] dark:!drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]"
       >
         {title}
       </Typography.Title>
@@ -25,7 +24,7 @@ export default function AlbumsHeader({title = 'Альбомы'}: AlbumsHeaderPro
         type="primary"
         size="large"
         icon={<UploadOutlined />}
-        className="rounded-lg !h-[45px] !font-semibold !shadow-lg"
+        className="!rounded-lg !h-[40px] sm:!h-[45px] !font-semibold !shadow-lg !w-full sm:!w-auto dark:!bg-blue-600 dark:!border-blue-600"
       >
         Создать альбом
       </Button>

@@ -16,24 +16,35 @@ export default function TrackItemPlayButton({
                                             }: TrackItemPlayButtonProps) {
   return (
     <Button
-      className="!mr-4 !transition-transform !duration-200 !ease-in-out"
+      className="
+        !mr-2 sm:!mr-4
+        !transition-transform !duration-200 !ease-in-out
+        !p-1 sm:!p-2 !mb-1.5
+        hover:!scale-110
+        !border-none !shadow-none
+        ![&_.ant-btn]:!border-none
+        ![&_.ant-btn]:!shadow-none
+        :focus:!border-none :focus:!shadow-none
+        :active:!border-none :active:!shadow-none
+        !outline-none
+        :focus-visible:!outline-none
+        :focus-visible:!ring-0
+      "
       type="text"
       icon={isPlaying ? (
         <PauseCircleOutlined
-          className={`!text-2xl !transition-colors !duration-300 !ease-in-out ${
-            isCurrentTrack ? '!text-[#32c4d0]' : ''
+          className={`!text-xl sm:!text-2xl !transition-colors !duration-300 !ease-in-out ${
+            isCurrentTrack ? '!text-[#32c4d0] dark:!text-cyan-400' : 'dark:!text-gray-400'
           }`}
         />
       ) : (
         <PlayCircleOutlined
-          className={`!text-2xl !transition-colors !duration-300 !ease-in-out ${
-            isCurrentTrack ? '!text-[#32c4d0]' : ''
+          className={`!text-xl sm:!text-2xl !transition-colors !duration-300 !ease-in-out ${
+            isCurrentTrack ? '!text-[#32c4d0] dark:!text-cyan-400' : 'dark:!text-gray-400'
           }`}
         />
       )}
       onClick={onClick}
-      onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
-      onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
     />
   );
 }

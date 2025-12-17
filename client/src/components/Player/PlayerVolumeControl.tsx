@@ -16,7 +16,7 @@ export default function PlayerVolumeControl({
     <div
       className="!flex !items-center !gap-2.5 !w-[120px] !mb-2.5"
     >
-      <SoundOutlined className="!text-gray-400" />
+      <SoundOutlined className="!text-gray-400 dark:!text-gray-500" />
       <Slider
         value={volume}
         min={0}

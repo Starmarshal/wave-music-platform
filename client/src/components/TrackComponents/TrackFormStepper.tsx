@@ -52,7 +52,6 @@ export default function TrackFormStepper({
 
   return (
     <StepWrapper activeStep={activeStep}>
-      {/* Шаг 1: Информация о треке */}
       {activeStep === 0 && (
         <TrackFormStep1
           name={name}
@@ -64,7 +63,6 @@ export default function TrackFormStepper({
         />
       )}
 
-      {/* Шаг 2: Загрузка изображения */}
       {activeStep === 1 && (
         <TrackFormStep2
           picture={picture}
@@ -72,7 +70,6 @@ export default function TrackFormStepper({
         />
       )}
 
-      {/* Шаг 3: Загрузка аудио */}
       {activeStep === 2 && (
         <TrackFormStep3
           audio={audio}
@@ -80,7 +77,6 @@ export default function TrackFormStepper({
         />
       )}
 
-      {/* Навигация */}
       <TrackFormNavigation
         activeStep={activeStep}
         onBack={onBack}

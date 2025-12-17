@@ -29,7 +29,7 @@ export default function TracksPage() {
     <>
       <Header />
 
-      <TracksContainer maxWidth="75%">
+      <TracksContainer maxWidth="100%">
         <TracksHeader
           title="Список треков"
           buttonText="Загрузить трек"

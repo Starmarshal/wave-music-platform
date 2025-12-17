@@ -9,7 +9,7 @@ type AlbumsContainerProps = {
 export default function AlbumsContainer({children}: AlbumsContainerProps) {
   return (
     <Card
-      className="!p-7 rounded-2xl shadow-xl border-none"
+      className="!p-3 sm:!p-5 md:!p-7 !rounded-xl md:!rounded-2xl !shadow-xl !border-none dark:!bg-gray-800 dark:!border-gray-700"
     >
       {children}
     </Card>

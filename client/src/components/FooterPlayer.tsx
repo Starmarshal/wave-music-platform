@@ -40,18 +40,17 @@ const FooterPlayer: React.FC = () => {
   return (
     <>
       <PlayerContainer>
-        {/* Левая часть: информация о треке */}
-        <PlayerTrackInfo
-          track={currentTrack}
-          albumTracks={albumTracks}
-          currentAlbumIndex={currentAlbumIndex}
-          isAlbumMode={isAlbumMode}
-        />
+        <div className="!w-full sm:!w-auto !flex !items-center !justify-center sm:!justify-start">
+          <PlayerTrackInfo
+            track={currentTrack}
+            albumTracks={albumTracks}
+            currentAlbumIndex={currentAlbumIndex}
+            isAlbumMode={isAlbumMode}
+          />
+        </div>
 
-        {/* Центральная часть: управление и прогресс */}
-        <div className="!flex-10 !flex !items-center !gap-2.5 !min-w-0 !max-w-[calc(100%-120px)]">
-          {/* Кнопки управления */}
-          <div className="!flex !items-center !gap-2.5">
+        <div className="!w-full sm:!flex-1 !flex !flex-row !items-center !gap-2 md:!gap-3 !min-w-0 !px-2 md:!px-4">
+          <div className="!flex !items-center !justify-center !gap-1 md:!gap-2">
             <PlayerControls
               isPlaying={isPlaying}
               hasNextTrack={hasNextTrack}
@@ -59,27 +58,28 @@ const FooterPlayer: React.FC = () => {
               onPlayPause={handlePlayPause}
               onNextTrack={handleNextTrack}
               onPrevTrack={handlePrevTrack}
-              showNavigation={isAlbumMode} // Показываем навигацию только в режиме альбома
+              showNavigation={isAlbumMode}
             />
           </div>
 
-          {/* Прогресс бар */}
-          <PlayerProgressBar
-            currentTime={currentTime}
-            duration={duration}
-            onTimeChange={handleTimeChange}
-            formatTime={formatTime}
-          />
+          <div className="!w-full !flex-1">
+            <PlayerProgressBar
+              currentTime={currentTime}
+              duration={duration}
+              onTimeChange={handleTimeChange}
+              formatTime={formatTime}
+            />
+          </div>
         </div>
 
-        {/* Правая часть: громкость */}
-        <PlayerVolumeControl
-          volume={volume}
-          onVolumeChange={handleVolumeChange}
-        />
+        <div className="!hidden md:!block !flex-shrink-0">
+          <PlayerVolumeControl
+            volume={volume}
+            onVolumeChange={handleVolumeChange}
+          />
+        </div>
       </PlayerContainer>
 
-      {/* Скрытый аудио элемент */}
       <PlayerAudio
         currentTrack={currentTrack}
         isPlaying={isPlaying}

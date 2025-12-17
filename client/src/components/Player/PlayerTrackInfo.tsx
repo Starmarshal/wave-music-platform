@@ -1,6 +1,6 @@
 'use client';
 
-import {Image, Typography, Badge} from 'antd';
+import {Image, Typography} from 'antd';
 import {staticUrl} from '@/src/shared/config';
 import {useRouter} from 'next/navigation';
 
@@ -15,88 +15,54 @@ type PlayerTrackInfoProps = {
   track: Track;
   albumTracks?: Track[];
   currentAlbumIndex?: number;
-  isAlbumMode?: boolean; // Добавляем пропс
+  isAlbumMode?: boolean;
 };
 
 export default function PlayerTrackInfo({
                                           track,
                                           albumTracks = [],
                                           currentAlbumIndex = -1,
-                                          isAlbumMode = false // Значение по умолчанию
+                                          isAlbumMode = false
                                         }: PlayerTrackInfoProps) {
   const router = useRouter();
 
-  // Показываем информацию о позиции в альбоме только в режиме альбома
   const showAlbumInfo = isAlbumMode && albumTracks.length > 0 && currentAlbumIndex >= 0;
 
   return (
-    <div className="!flex !items-center !gap-3 !min-w-[200px]">
-      {/* Обложка с бейджем режима альбома */}
-      <div className="!relative">
+    <div className="!flex !items-center !gap-2 sm:!gap-2 md:!gap-3 !min-w-[100px] sm:!min-w-[140px] md:!min-w-[200px] !flex-shrink-0 !w-full sm:!w-auto !justify-center sm:!justify-start">
+      <div className="!relative !flex-shrink-0">
         <Image
           src={staticUrl(track.picture)}
           preview={false}
-          width={56}
-          height={56}
-          className="!rounded-lg !cursor-pointer !transition-transform !duration-200 !ease-in-out"
-          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+          width={40}
+          height={40}
+          className="!rounded-lg !cursor-pointer !transition-all !duration-300 !ease-in-out !shadow-sm !w-10 !h-10 sm:!w-12 sm:!h-12 md:!w-14 md:!h-14 hover:!shadow-md hover:!scale-105 !max-w-[45px] !max-h-[45px] dark:!border dark:!border-gray-700"
           onClick={() => router.push(`/tracks/${track._id}`)}
         />
 
-        {/* Бейдж режима альбома */}
-        {isAlbumMode && (
-          <Badge
-            count="Альбом"
-            size="small"
-            style={{
-              backgroundColor: '#1890ff',
-              fontSize: '8px',
-              padding: '0 4px',
-              transform: 'scale(0.8)'
-            }}
-            className="!absolute -top-1 -right-1"
-          />
-        )}
       </div>
 
-      {/* Информация о треке */}
-      <div className="!flex-1 !min-w-0">
+      <div className="!flex-1 !min-w-0 !text-left">
         <Typography.Text
           strong
-          className="!block !cursor-pointer !text-[#32c4d0] !transition-colors !duration-200 !ease-in-out"
+          className="!block !cursor-pointer !text-[#32c4d0] dark:!text-cyan-400 !transition-colors !duration-200 !ease-in-out !text-xs sm:!text-sm md:!text-base !font-semibold !truncate hover:!text-[#28a5b0] dark:hover:!text-cyan-300"
           onClick={() => router.push(`/tracks/${track._id}`)}
-          onMouseEnter={(e) => e.currentTarget.style.color = '#28a5b0'}
-          onMouseLeave={(e) => e.currentTarget.style.color = '#32c4d0'}
         >
           {track.name}
         </Typography.Text>
 
         <Typography.Text
           type="secondary"
-          className="!text-xs"
+          className="!text-[10px] sm:!text-xs md:!text-sm !truncate !block !mt-0.5 dark:!text-gray-400"
         >
           {track.artist}
 
-          {/* Показываем позицию в альбоме только в режиме альбома */}
           {showAlbumInfo && (
-            <span className="!ml-2 !text-gray-400">
+            <span className="!ml-2 !text-gray-500 dark:!text-gray-400 !font-medium">
               {currentAlbumIndex + 1} / {albumTracks.length}
             </span>
           )}
         </Typography.Text>
-
-        {/* Дополнительная информация для режима альбома */}
-        {isAlbumMode && albumTracks.length > 0 && (
-          <div className="!flex !items-center !gap-1 !mt-1">
-            <Typography.Text
-              type="secondary"
-              className="!text-[10px] !text-gray-400"
-            >
-              Альбомный режим
-            </Typography.Text>
-          </div>
-        )}
       </div>
     </div>
   );
