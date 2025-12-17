@@ -1,7 +1,7 @@
 'use client';
 
 import {Input} from 'antd';
-import {useEffect, useState} from 'react';
+import {type ChangeEvent, useEffect, useMemo, useState} from 'react';
 import debounce from 'lodash.debounce';
 
 type TracksSearchProps = {
@@ -19,15 +19,24 @@ export default function TracksSearch({
                                      }: TracksSearchProps) {
   const [query, setQuery] = useState<string>(initialValue);
 
-  const debouncedSearch = debounce((value: string) => {
-    onSearch(value);
-  }, debounceDelay);
+  // Memoize debounced function to avoid recreating it on every render
+  const debouncedSearch = useMemo(
+    () =>
+      debounce((value: string) => {
+        onSearch(value);
+      }, debounceDelay),
+    [onSearch, debounceDelay],
+  );
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setQuery(value);
     debouncedSearch(value);
   };
+
+  useEffect(() => {
+    setQuery(initialValue);
+  }, [initialValue]);
 
   useEffect(() => {
     return () => {
