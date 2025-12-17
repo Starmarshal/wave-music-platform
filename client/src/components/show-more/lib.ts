@@ -9,11 +9,11 @@ export async function fetchMoreProducts<Filters, Item = unknown>(
 ) {
   const res = await fetch('/api/cources', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {'Content-Type': 'application/json'},
     body: JSON.stringify(params),
-  })
+  });
   if (!res.ok) {
-    throw new Error('Failed to load more products')
+    throw new Error('Failed to load more products');
   }
-  return (await res.json()) as { totalCount: number; items: Item[] }
+  return (await res.json()) as { totalCount: number; items: Item[] };
 }

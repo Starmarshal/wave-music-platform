@@ -26,7 +26,10 @@ export default function TrackFormStep3({
       <div
         className="!flex !flex-col !items-center"
       >
-        <Typography.Title level={2} className="!text-xl sm:!text-2xl md:!text-3xl dark:!text-gray-200">{title}</Typography.Title>
+        <Typography.Title
+          level={2}
+          className="!text-xl sm:!text-2xl md:!text-3xl dark:!text-gray-200"
+        >{title}</Typography.Title>
         <Button
           className="
             !text-[40px] sm:!text-[50px] md:!text-[60px]

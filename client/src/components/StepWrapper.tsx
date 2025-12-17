@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Card, Steps } from 'antd';
+import {Card, Steps} from 'antd';
 
 interface StepWrapperProps {
   activeStep: number;
@@ -23,7 +23,7 @@ const items = [
   },
 ];
 
-const StepWrapper: React.FC<StepWrapperProps> = ({ activeStep, children }) => {
+const StepWrapper: React.FC<StepWrapperProps> = ({activeStep, children}) => {
   return (
     <div className="!flex !flex-col !items-center !w-full !mt-4 md:!mt-8 !px-2 sm:!px-4">
       <Steps

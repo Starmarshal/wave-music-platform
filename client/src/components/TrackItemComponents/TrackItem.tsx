@@ -4,7 +4,8 @@ import React from 'react';
 import {Card} from 'antd';
 import {ITrack} from '@/src/types/track';
 import useTrackItem from '@/src/hooks/useTrackItem';
-import TrackItemImage from '@/src/components/TrackItemComponents/TrackItemImage';
+import TrackItemImage
+  from '@/src/components/TrackItemComponents/TrackItemImage';
 import TrackItemInfo from '@/src/components/TrackItemComponents/TrackItemInfo';
 import TrackItemDeleteButton
   from '@/src/components/TrackItemComponents/TrackItemDeleteButton';
@@ -12,7 +13,8 @@ import TrackItemPlayButton
   from '@/src/components/TrackItemComponents/TrackItemPlayButton';
 import TrackItemProgress
   from '@/src/components/TrackItemComponents/TrackItemProgress';
-import TrackItemVolume from '@/src/components/TrackItemComponents/TrackItemVolume';
+import TrackItemVolume
+  from '@/src/components/TrackItemComponents/TrackItemVolume';
 
 interface TrackItemProps {
   track: ITrack;

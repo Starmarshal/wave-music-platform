@@ -37,12 +37,20 @@ export default function TrackDetails({track}: TrackDetailsProps) {
     <div className="!max-w-full md:!max-w-[600px] !w-full">
       <Card
         className="!shadow-lg !rounded-xl !mt-0 md:!mt-0 dark:!bg-gray-800 dark:!border-gray-700"
-        title={<span className="!text-base sm:!text-lg dark:!text-gray-200">Детали трека</span>}
+        title={
+          <span className="!text-base sm:!text-lg dark:!text-gray-200">Детали трека</span>}
         variant={'borderless'}
       >
-        <Typography.Title level={2} className="!text-xl sm:!text-2xl md:!text-3xl dark:!text-gray-200">{track.name}</Typography.Title>
-        <p className="!mb-2 !text-sm sm:!text-base dark:!text-gray-300"><strong className="dark:!text-gray-200">Исполнитель:</strong> {track.artist}</p>
-        <p className="!text-sm sm:!text-base dark:!text-gray-300"><strong className="dark:!text-gray-200">Прослушиваний:</strong> {track.listens}</p>
+        <Typography.Title
+          level={2}
+          className="!text-xl sm:!text-2xl md:!text-3xl dark:!text-gray-200"
+        >{track.name}</Typography.Title>
+        <p className="!mb-2 !text-sm sm:!text-base dark:!text-gray-300">
+          <strong className="dark:!text-gray-200">Исполнитель:</strong> {track.artist}
+        </p>
+        <p className="!text-sm sm:!text-base dark:!text-gray-300">
+          <strong className="dark:!text-gray-200">Прослушиваний:</strong> {track.listens}
+        </p>
       </Card>
 
       <Card

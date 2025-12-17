@@ -39,7 +39,10 @@ export default function AlbumFormFields({
   return (
     <>
       <div className="!mb-4 sm:!mb-5">
-        <Typography.Text strong className="!text-sm sm:!text-base dark:!text-gray-200">Название альбома</Typography.Text>
+        <Typography.Text
+          strong
+          className="!text-sm sm:!text-base dark:!text-gray-200"
+        >Название альбома</Typography.Text>
         <Input
           value={name}
           onChange={(e) => onNameChange(e.target.value)}
@@ -50,7 +53,10 @@ export default function AlbumFormFields({
       </div>
 
       <div className="!mb-4 sm:!mb-5">
-        <Typography.Text strong className="!text-sm sm:!text-base dark:!text-gray-200">Автор</Typography.Text>
+        <Typography.Text
+          strong
+          className="!text-sm sm:!text-base dark:!text-gray-200"
+        >Автор</Typography.Text>
         <Input
           value={author}
           onChange={(e) => onAuthorChange(e.target.value)}
@@ -61,7 +67,10 @@ export default function AlbumFormFields({
       </div>
 
       <div className="!mb-4 sm:!mb-5">
-        <Typography.Text strong className="!text-sm sm:!text-base dark:!text-gray-200">Выберите треки</Typography.Text>
+        <Typography.Text
+          strong
+          className="!text-sm sm:!text-base dark:!text-gray-200"
+        >Выберите треки</Typography.Text>
         <Select
           mode="multiple"
           value={selectedTracks}
@@ -90,7 +99,10 @@ export default function AlbumFormFields({
       </div>
 
       <div className="!mb-5 sm:!mb-7">
-        <Typography.Text strong className="!text-sm sm:!text-base dark:!text-gray-200">Обложка альбома</Typography.Text>
+        <Typography.Text
+          strong
+          className="!text-sm sm:!text-base dark:!text-gray-200"
+        >Обложка альбома</Typography.Text>
         <FileUpload
           file={picture}
           setFile={onPictureChange}
@@ -106,7 +118,10 @@ export default function AlbumFormFields({
                 <UploadOutlined
                   className="!text-3xl sm:!text-4xl md:!text-5xl !text-gray-400 dark:!text-gray-500 !mb-2 sm:!mb-4"
                 />
-                <Typography.Text type="secondary" className="!text-xs sm:!text-sm !text-center !px-2 dark:!text-gray-400">Нажмите для загрузки обложки</Typography.Text>
+                <Typography.Text
+                  type="secondary"
+                  className="!text-xs sm:!text-sm !text-center !px-2 dark:!text-gray-400"
+                >Нажмите для загрузки обложки</Typography.Text>
               </>
             )}
           </div>

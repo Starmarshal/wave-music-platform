@@ -1,5 +1,5 @@
 // src/shared/api/trackService.ts
-import { api } from '../api';
+import {api} from '../api';
 
 export const trackService = {
   // Увеличить счетчик прослушиваний

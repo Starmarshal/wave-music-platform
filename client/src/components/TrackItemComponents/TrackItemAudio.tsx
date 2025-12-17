@@ -75,7 +75,10 @@ export default function TrackItemAudio({
         }
       }}
     >
-      <source src={staticUrl(audioUrl)} type="audio/mpeg" />
+      <source
+        src={staticUrl(audioUrl)}
+        type="audio/mpeg"
+      />
       Ваш браузер не поддерживает аудиоплеер.
     </audio>
   );

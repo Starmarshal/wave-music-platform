@@ -88,7 +88,7 @@ export default function AlbumDetailPage() {
 
         {/* Мобильная и планшетная версия: информация об альбоме */}
         <div className="!w-full !flex !flex-col !items-center lg:!hidden !max-w-[600px] !-mt-2">
-          <AlbumDetails album={album}/>
+          <AlbumDetails album={album} />
           <AlbumTracksList tracks={album.tracks} />
         </div>
 

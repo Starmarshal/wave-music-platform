@@ -1,15 +1,15 @@
-'use client'
+'use client';
 
-import * as Icons from '@gravity-ui/icons'
-import React from 'react'
-import clsx from 'clsx'
+import * as Icons from '@gravity-ui/icons';
+import React from 'react';
+import clsx from 'clsx';
 
 export type ShowMoreProps = {
   onClick: () => void
   disabled?: boolean
 }
 
-const ShowMore = ({ onClick, disabled = false }: ShowMoreProps) => {
+const ShowMore = ({onClick, disabled = false}: ShowMoreProps) => {
   return (
     <div className="!w-full px-2 sm:px-4 md:px-0 !mt-5">
       <button
@@ -46,7 +46,7 @@ const ShowMore = ({ onClick, disabled = false }: ShowMoreProps) => {
         <span className="whitespace-nowrap">Показать ещё</span>
       </button>
     </div>
-  )
-}
+  );
+};
 
-export default ShowMore
+export default ShowMore;

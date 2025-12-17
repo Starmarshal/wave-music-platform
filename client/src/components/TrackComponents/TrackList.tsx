@@ -50,7 +50,10 @@ const TrackList: React.FC = () => {
 
       {hasMore && (
         <div className="flex justify-center mt-4">
-          <ShowMore onClick={handleShowMore} disabled={!hasMore} />
+          <ShowMore
+            onClick={handleShowMore}
+            disabled={!hasMore}
+          />
         </div>
       )}
     </div>

@@ -1,8 +1,8 @@
 'use client';
 
 import FileUpload from '@/src/components/FileUpload';
-import { Button, Typography } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import {Button, Typography} from 'antd';
+import {UploadOutlined} from '@ant-design/icons';
 
 type TrackFormStep2Props = {
   picture: File | null;
@@ -26,7 +26,10 @@ export default function TrackFormStep2({
       <div
         className="!flex !flex-col !items-center"
       >
-        <Typography.Title level={2} className="!text-xl sm:!text-2xl md:!text-3xl dark:!text-gray-200">
+        <Typography.Title
+          level={2}
+          className="!text-xl sm:!text-2xl md:!text-3xl dark:!text-gray-200"
+        >
           {title}
         </Typography.Title>
 

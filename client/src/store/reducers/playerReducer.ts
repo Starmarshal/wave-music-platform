@@ -110,6 +110,7 @@ interface SetCurrentAlbumIndexAction {
 interface SetAlbumModeAction {
   type: PlayerActionType.SET_ALBUM_MODE;
   payload: boolean;
+
   [key: string]: any;
 }
 

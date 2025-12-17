@@ -40,14 +40,17 @@ export default function TrackItemInfo({
       >
         {name}
       </Typography.Title>
-      <Typography.Text 
-        type="secondary" 
+      <Typography.Text
+        type="secondary"
         className="!block !text-[13px] !leading-[1.4] !break-words !w-full !whitespace-normal dark:!text-gray-400"
       >
         {artist}
       </Typography.Text>
       {(listens || duration) && (
-        <Typography.Text type="secondary" className="!text-[11px] !block !mt-0.5 !hidden sm:!block dark:!text-gray-500">
+        <Typography.Text
+          type="secondary"
+          className="!text-[11px] !block !mt-0.5 !hidden sm:!block dark:!text-gray-500"
+        >
           {listens && `Прослушиваний: ${listens}`}
           {duration && ` • Длительность: ${formatDuration(duration)}`}
         </Typography.Text>

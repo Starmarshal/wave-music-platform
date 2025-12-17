@@ -15,8 +15,8 @@ import {
   setVolume,
   setAlbumMode
 } from '@/src/store/action-creators/player';
-import { trackService } from '@/src/shared/api/trackService'; // Используем trackService
-import { message } from 'antd';
+import {trackService} from '@/src/shared/api/trackService'; // Используем trackService
+import {message} from 'antd';
 
 export default function usePlayer() {
   const dispatch = useDispatch();

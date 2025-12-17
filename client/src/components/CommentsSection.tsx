@@ -1,7 +1,7 @@
 'use client';
 
-import { Button, Card, Flex, Form, Input, message, Typography } from 'antd';
-import { useState, useId } from 'react';
+import {Button, Card, Flex, Form, Input, message, Typography} from 'antd';
+import {useState, useId} from 'react';
 
 type CommentType = {
   username: string;
@@ -45,7 +45,8 @@ export default function CommentsSection({
   return (
     <div className="!w-full !max-w-full md:!max-w-[600px] !mt-[1rem]">
       <Card
-        title={<span className="!text-base sm:!text-lg dark:!text-gray-200">{title}</span>}
+        title={
+          <span className="!text-base sm:!text-lg dark:!text-gray-200">{title}</span>}
         className="!w-full md:!w-[600px] !min-h-[200px] sm:!min-h-[300px] !max-h-[400px] sm:!max-h-[500px] !mb-4 sm:!mb-5 !shadow-lg !rounded-xl dark:!bg-gray-800 dark:!border-gray-700"
       >
         <Flex
@@ -53,7 +54,10 @@ export default function CommentsSection({
           gap="middle"
         >
           {comments.length === 0 ? (
-            <Typography.Text type="secondary" className="!text-sm sm:!text-base dark:!text-gray-400">
+            <Typography.Text
+              type="secondary"
+              className="!text-sm sm:!text-base dark:!text-gray-400"
+            >
               Пока нет комментариев. Будьте первым!
             </Typography.Text>
           ) : (
@@ -62,7 +66,10 @@ export default function CommentsSection({
                 key={comment._id || index}
                 className="!py-2 !border-0 !border-b !border-gray-100 dark:!border-gray-700 !w-full"
               >
-                <Typography.Text strong className="!text-sm sm:!text-base dark:!text-gray-200">{comment.username}:</Typography.Text>
+                <Typography.Text
+                  strong
+                  className="!text-sm sm:!text-base dark:!text-gray-200"
+                >{comment.username}:</Typography.Text>
                 <span className="!text-sm sm:!text-base dark:!text-gray-300"> {comment.text}</span>
               </div>
             ))
@@ -88,11 +95,12 @@ export default function CommentsSection({
           disabled={loading || submitting}
         >
           <Form.Item
-            label={<span className="!text-sm sm:!text-base dark:!text-gray-300">Имя</span>}
+            label={
+              <span className="!text-sm sm:!text-base dark:!text-gray-300">Имя</span>}
             name="username"
             rules={[
-              { required: true, message: 'Введите ваше имя!' },
-              { min: 2, message: 'Имя должно содержать минимум 2 символа' }
+              {required: true, message: 'Введите ваше имя!'},
+              {min: 2, message: 'Имя должно содержать минимум 2 символа'}
             ]}
           >
             <Input
@@ -112,10 +120,11 @@ export default function CommentsSection({
           </Form.Item>
 
           <Form.Item
-            label={<span className="!text-sm sm:!text-base dark:!text-gray-300">Комментарий</span>}
+            label={
+              <span className="!text-sm sm:!text-base dark:!text-gray-300">Комментарий</span>}
             name="text"
             rules={[
-              { required: true, message: 'Введите ваш комментарий!' },
+              {required: true, message: 'Введите ваш комментарий!'},
               {
                 min: 3,
                 message: 'Комментарий должен содержать минимум 3 символа'

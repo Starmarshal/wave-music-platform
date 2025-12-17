@@ -15,7 +15,10 @@ export default function TracksError({error}: TracksErrorProps) {
       >
         Ошибка загрузки
       </Typography.Title>
-      <Typography.Text type="secondary" className="dark:!text-gray-400">
+      <Typography.Text
+        type="secondary"
+        className="dark:!text-gray-400"
+      >
         {error}
       </Typography.Text>
     </div>

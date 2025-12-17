@@ -18,11 +18,14 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="ru" suppressHydrationWarning>
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
+    <html
+      lang="ru"
+      suppressHydrationWarning
+    >
+    <head>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
               (function() {
                 function getThemePreference() {
                   if (typeof window !== 'undefined' && window.matchMedia) {
@@ -38,16 +41,16 @@ export default function RootLayout({
                 }
               })();
             `,
-          }}
-        />
-      </head>
-      <body className={`${inter.className} !min-h-screen !pb-20 sm:!pb-24 md:!pb-32 !bg-white dark:!bg-gray-900 !text-gray-900 dark:!text-gray-100`}>
-        <ReduxProvider>
-          <ThemeSync />
-          {children}
-          <FooterPlayer />
-        </ReduxProvider>
-      </body>
+        }}
+      />
+    </head>
+    <body className={`${inter.className} !min-h-screen !pb-20 sm:!pb-24 md:!pb-32 !bg-white dark:!bg-gray-900 !text-gray-900 dark:!text-gray-100`}>
+    <ReduxProvider>
+      <ThemeSync />
+      {children}
+      <FooterPlayer />
+    </ReduxProvider>
+    </body>
     </html>
   );
 }

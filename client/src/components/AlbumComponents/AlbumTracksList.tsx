@@ -1,7 +1,7 @@
 'use client';
 
-import { Button, Card, Flex, Typography } from 'antd';
-import { useRouter } from 'next/navigation';
+import {Button, Card, Flex, Typography} from 'antd';
+import {useRouter} from 'next/navigation';
 
 type TrackType = {
   _id: string;
@@ -14,14 +14,15 @@ type AlbumTracksListProps = {
   tracks: TrackType[];
 };
 
-export default function AlbumTracksList({ tracks }: AlbumTracksListProps) {
+export default function AlbumTracksList({tracks}: AlbumTracksListProps) {
   const router = useRouter();
 
   return (
     <div className="!max-w-full lg:!max-w-[600px] !w-full">
       <Card
         className="!shadow-lg !mt-4 !rounded-xl dark:!bg-gray-800 dark:!border-gray-700"
-        title={<span className="!text-base sm:!text-lg dark:!text-gray-200">Треки альбома ({tracks.length})</span>}
+        title={
+          <span className="!text-base sm:!text-lg dark:!text-gray-200">Треки альбома ({tracks.length})</span>}
         variant={'borderless'}
       >
         <Flex

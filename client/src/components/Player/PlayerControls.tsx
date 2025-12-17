@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Button, Tooltip } from 'antd';
+import {Button, Tooltip} from 'antd';
 import {
   StepBackwardOutlined,
   StepForwardOutlined,
@@ -31,7 +31,10 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
   return (
     <div className="!flex !items-center !gap-1 md:!gap-2 !mb-5">
       {showNavigation && (
-        <Tooltip title="Предыдущий трек" placement="top">
+        <Tooltip
+          title="Предыдущий трек"
+          placement="top"
+        >
           <Button
             type="text"
             icon={<StepBackwardOutlined />}
@@ -53,7 +56,10 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
         </Tooltip>
       )}
 
-      <Tooltip title={isPlaying ? "Пауза" : "Воспроизвести"} placement="top">
+      <Tooltip
+        title={isPlaying ? 'Пауза' : 'Воспроизвести'}
+        placement="top"
+      >
         <Button
           type="text"
           icon={isPlaying ? <PauseCircleOutlined /> : <PlayCircleOutlined />}
@@ -74,7 +80,10 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
       </Tooltip>
 
       {showNavigation && (
-        <Tooltip title="Следующий трек" placement="top">
+        <Tooltip
+          title="Следующий трек"
+          placement="top"
+        >
           <Button
             type="text"
             icon={<StepForwardOutlined />}

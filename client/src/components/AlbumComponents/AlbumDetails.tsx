@@ -21,7 +21,8 @@ export default function AlbumDetails({album}: AlbumDetailsProps) {
     <div className="!max-w-full md:!max-w-[600px] !w-full">
       <Card
         className="!shadow-lg !rounded-xl !mt-0 md:!mt-0 dark:!bg-gray-800 dark:!border-gray-700"
-        title={<span className="!text-base sm:!text-lg dark:!text-gray-200">Детали альбома</span>}
+        title={
+          <span className="!text-base sm:!text-lg dark:!text-gray-200">Детали альбома</span>}
         variant={'borderless'}
       >
         <Typography.Title

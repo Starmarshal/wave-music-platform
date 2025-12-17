@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect } from 'react';
+import {useEffect} from 'react';
 
 export default function ThemeSync() {
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    
+
     const handleThemeChange = (e: MediaQueryListEvent | MediaQueryList) => {
       if (e.matches) {
         document.documentElement.classList.add('dark');

@@ -57,7 +57,10 @@ export default function AlbumCard({album, onPlayAlbum}: AlbumCardProps) {
           </Typography.Text>
         }
         description={
-          <Typography.Text type="secondary" className="dark:!text-gray-400">
+          <Typography.Text
+            type="secondary"
+            className="dark:!text-gray-400"
+          >
             {album.author}
           </Typography.Text>
         }
