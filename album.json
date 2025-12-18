@@ -1,0 +1,189 @@
+{
+  "_id": {
+    "$oid": "694007c7b864be57acfab6ba"
+  },
+  "name": "ALISHER",
+  "author": "MORGENSHTERN",
+  "picture": "image/b7f746e5-3cd7-4f60-a78f-f6d266649efa.jpg",
+  "tracks": [
+    {
+      "$oid": "69400434b864be57acfab68e"
+    },
+    {
+      "$oid": "694006abb864be57acfab698"
+    },
+    {
+      "$oid": "694006feb864be57acfab6a2"
+    },
+    {
+      "$oid": "6940070db864be57acfab6a4"
+    },
+    {
+      "$oid": "69400721b864be57acfab6a6"
+    }
+  ],
+  "comments": [
+    {
+      "$oid": "69417452b864be57acfab7b7"
+    }
+  ],
+  "__v": 1
+}
+
+{
+  "_id": {
+    "$oid": "694007e2b864be57acfab6c3"
+  },
+  "name": "Малолетки",
+  "author": "МУККА & Три дня дождя",
+  "picture": "image/9797f2a1-e48c-47dc-ae9e-f71a042ae491.png",
+  "tracks": [
+    {
+      "$oid": "6940074eb864be57acfab6a8"
+    },
+    {
+      "$oid": "69400760b864be57acfab6aa"
+    },
+    {
+      "$oid": "69400772b864be57acfab6ac"
+    }
+  ],
+  "comments": [],
+  "__v": 0
+}
+
+{
+  "_id": {
+    "$oid": "6942cf09b864be57acfac2d5"
+  },
+  "name": "Мертвые цветы",
+  "author": "МУККА",
+  "picture": "image/fd9945f9-5c5f-4849-8881-f48ddab54e8b.jpg",
+  "tracks": [
+    {
+      "$oid": "6942cd45b864be57acfac2af"
+    },
+    {
+      "$oid": "6942cd94b864be57acfac2b6"
+    },
+    {
+      "$oid": "6942cdbab864be57acfac2ba"
+    },
+    {
+      "$oid": "6942cdefb864be57acfac2be"
+    },
+    {
+      "$oid": "6942ce0eb864be57acfac2c0"
+    },
+    {
+      "$oid": "6942ce2eb864be57acfac2c2"
+    },
+    {
+      "$oid": "6942ce56b864be57acfac2c4"
+    },
+    {
+      "$oid": "6942cec0b864be57acfac2ca"
+    },
+    {
+      "$oid": "6942cedbb864be57acfac2cc"
+    }
+  ],
+  "comments": [],
+  "__v": 0
+}
+
+{
+  "_id": {
+    "$oid": "69430d87b864be57acfac5ce"
+  },
+  "name": "77",
+  "author": "Lida",
+  "picture": "image/aab4c0a9-8130-43cb-b2bc-d0112ee7d78a.png",
+  "tracks": [
+    {
+      "$oid": "6943075db864be57acfac583"
+    },
+    {
+      "$oid": "69430781b864be57acfac585"
+    },
+    {
+      "$oid": "694307b8b864be57acfac587"
+    },
+    {
+      "$oid": "694307e2b864be57acfac589"
+    },
+    {
+      "$oid": "69430800b864be57acfac58b"
+    },
+    {
+      "$oid": "6943082eb864be57acfac58d"
+    },
+    {
+      "$oid": "69430857b864be57acfac58f"
+    },
+    {
+      "$oid": "69430886b864be57acfac591"
+    },
+    {
+      "$oid": "69400322b864be57acfab66c"
+    },
+    {
+      "$oid": "694308f4b864be57acfac595"
+    },
+    {
+      "$oid": "694309b1b864be57acfac59b"
+    },
+    {
+      "$oid": "694309d2b864be57acfac59d"
+    },
+    {
+      "$oid": "694309f3b864be57acfac59f"
+    },
+    {
+      "$oid": "69430d4bb864be57acfac5c8"
+    },
+    {
+      "$oid": "69430a10b864be57acfac5a1"
+    },
+    {
+      "$oid": "69430a37b864be57acfac5a3"
+    },
+    {
+      "$oid": "69430aa6b864be57acfac5a7"
+    },
+    {
+      "$oid": "69430afeb864be57acfac5ab"
+    },
+    {
+      "$oid": "69430b28b864be57acfac5ad"
+    },
+    {
+      "$oid": "69430b4cb864be57acfac5af"
+    },
+    {
+      "$oid": "69430b7fb864be57acfac5b1"
+    },
+    {
+      "$oid": "69430bb9b864be57acfac5b3"
+    },
+    {
+      "$oid": "69430bdcb864be57acfac5b5"
+    },
+    {
+      "$oid": "69430c03b864be57acfac5b7"
+    },
+    {
+      "$oid": "69430c28b864be57acfac5b9"
+    },
+    {
+      "$oid": "69430c52b864be57acfac5bb"
+    },
+    {
+      "$oid": "69430c7cb864be57acfac5bd"
+    }
+  ],
+  "comments": [],
+  "__v": 0
+}
+
+

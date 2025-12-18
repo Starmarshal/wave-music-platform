@@ -10,6 +10,7 @@ type TrackType = {
   artist: string;
   listens: number;
   text: string;
+  comments: any[];
 };
 
 type TrackDetailsProps = {
@@ -50,6 +51,9 @@ export default function TrackDetails({track}: TrackDetailsProps) {
         </p>
         <p className="!text-sm sm:!text-base dark:!text-gray-300">
           <strong className="dark:!text-gray-200">Прослушиваний:</strong> {track.listens}
+        </p>
+        <p className="mt-2.5 !text-sm sm:!text-base dark:!text-gray-300">
+          <strong className="dark:!text-gray-200">Комментариев:</strong> {track.comments.length}
         </p>
       </Card>
 
