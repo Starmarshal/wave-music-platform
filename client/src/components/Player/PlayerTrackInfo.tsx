@@ -16,17 +16,19 @@ type PlayerTrackInfoProps = {
   albumTracks?: Track[];
   currentAlbumIndex?: number;
   isAlbumMode?: boolean;
+  isShuffleMode?: boolean;
 };
 
 export default function PlayerTrackInfo({
                                           track,
                                           albumTracks = [],
                                           currentAlbumIndex = -1,
-                                          isAlbumMode = false
+                                          isAlbumMode = false,
+                                          isShuffleMode = false
                                         }: PlayerTrackInfoProps) {
   const router = useRouter();
 
-  const showAlbumInfo = isAlbumMode && albumTracks.length > 0 && currentAlbumIndex >= 0;
+  const showAlbumInfo = isAlbumMode && albumTracks.length > 0 && currentAlbumIndex >= 0 && !isShuffleMode;
 
   return (
     <div className="!flex !items-center !gap-2 sm:!gap-2 md:!gap-3 !min-w-[100px] sm:!min-w-[140px] md:!min-w-[200px] !flex-shrink-0 !w-full sm:!w-auto !justify-center sm:!justify-start">

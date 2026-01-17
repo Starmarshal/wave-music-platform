@@ -60,3 +60,8 @@ export const setAlbumMode = (isAlbumMode: boolean) => ({
   type: 'SET_ALBUM_MODE' as const,
   payload: isAlbumMode,
 });
+
+export const setShuffleMode = (isShuffleMode: boolean) => ({
+  type: PlayerActionType.SET_SHUFFLE_MODE as const,
+  payload: isShuffleMode,
+});

@@ -1,36 +1,52 @@
 'use client';
 
-import {useCallback, useEffect, useState} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import {useAppDispatch} from '@/src/hooks/useAppDispatch';
 import {useTypedSelector} from '@/src/hooks/useTypedSelector';
-import {fetchTracks, searchTracks} from '@/src/store/action-creators/track';
+import {fetchTracks} from '@/src/store/action-creators/track';
 
 export default function useTracksPage() {
   const dispatch = useAppDispatch();
-  const {tracks, error} = useTypedSelector(state => state.track);
-  const [query, setQuery] = useState<string>('');
+  const {tracks, error, loading} = useTypedSelector(state => state.track);
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
   useEffect(() => {
     dispatch(fetchTracks());
   }, [dispatch]);
 
-  const handleSearch = useCallback(async (searchQuery: string) => {
-    await dispatch(searchTracks(searchQuery));
-  }, [dispatch]);
-
-  const handleQueryChange = (value: string) => {
-    setQuery(value);
+  const handleSearch = (query: string) => {
+    setSearchQuery(query.toLowerCase().trim());
   };
 
-  return {
-    // Data
-    tracks,
-    error,
-    query,
+  const filteredTracks = useMemo(() => {
+    if (!searchQuery) return tracks;
 
-    // Methods
+    return tracks.filter((track) => {
+      const query = searchQuery.toLowerCase();
+
+      if (track.name?.toLowerCase().includes(query)) {
+        return true;
+      }
+
+      if (track.artist?.toLowerCase().includes(query)) {
+        return true;
+      }
+
+      if (track.text?.toLowerCase().includes(query)) {
+        return true;
+      }
+
+      return false;
+    });
+  }, [tracks, searchQuery]);
+
+  return {
+    tracks: filteredTracks,
+    allTracks: tracks,
+    error,
+    loading,
+    searchQuery,
+
     handleSearch,
-    handleQueryChange,
-    refetchTracks: () => dispatch(fetchTracks()),
   };
 }

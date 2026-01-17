@@ -2,6 +2,7 @@
 
 import {useEffect, useState} from 'react';
 import {api} from '@/src/shared/api';
+import {ITrack} from '@/src/types/track';
 
 type CommentType = {
   username: string;
@@ -9,16 +10,11 @@ type CommentType = {
   _id?: string;
 };
 
-type TrackType = {
-  _id: string;
-  name: string;
-  artist: string;
-  listens: number;
-  picture: string;
-  audio: string;
-  duration: number;
-  text: string;
-  comments: CommentType[];
+type TrackType = ITrack & {
+  duration?: number;
+  album?: {
+    name: string;
+  };
 };
 
 export default function useTrack(id: string | undefined) {
@@ -59,7 +55,7 @@ export default function useTrack(id: string | undefined) {
       if (track) {
         setTrack({
           ...track,
-          comments: [...track.comments, newComment],
+          comments: [...(track.comments || []), newComment],
         });
       }
     } catch (error) {
@@ -74,5 +70,38 @@ export default function useTrack(id: string | undefined) {
     comments,
     addComment,
     setTrack,
+  };
+}
+
+// Экспорт для списка треков (если понадобится)
+export type {TrackType};
+
+export function useTracks() {
+  const [tracks, setTracks] = useState<TrackType[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchTracks = async () => {
+      try {
+        const response = await api.get('/tracks');
+        setTracks(response.data);
+        setError(null);
+      } catch (error) {
+        console.error('Ошибка загрузки треков:', error);
+        setError('Ошибка при загрузке треков');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTracks();
+  }, []);
+
+  return {
+    tracks,
+    loading,
+    error,
+    setTracks,
   };
 }

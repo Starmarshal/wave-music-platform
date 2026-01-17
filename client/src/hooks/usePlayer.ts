@@ -28,15 +28,16 @@ export default function usePlayer() {
     duration,
     albumTracks,
     currentAlbumIndex,
-    isAlbumMode
+    isAlbumMode,
+    isShuffleMode
   } = useSelector((state: RootState) => state.player);
 
   const [audioError, setAudioError] = useState<string | null>(null);
   const animationFrameRef = useRef<number | null>(null);
 
-  const hasNextTrack = isAlbumMode && albumTracks.length > 0 && currentAlbumIndex >= 0 &&
+  const hasNextTrack = (isAlbumMode || isShuffleMode) && albumTracks.length > 0 && currentAlbumIndex >= 0 &&
     currentAlbumIndex < albumTracks.length - 1;
-  const hasPrevTrack = isAlbumMode && albumTracks.length > 0 && currentAlbumIndex > 0;
+  const hasPrevTrack = (isAlbumMode || isShuffleMode) && albumTracks.length > 0 && currentAlbumIndex > 0;
 
   const formatTime = useCallback((time: number) => {
     if (isNaN(time) || !isFinite(time)) return '00:00';
@@ -54,16 +55,16 @@ export default function usePlayer() {
   }, [isPlaying, dispatch]);
 
   const handleNextTrack = useCallback(() => {
-    if (isAlbumMode) {
+    if (isAlbumMode || isShuffleMode) {
       dispatch(playNextTrack());
     }
-  }, [isAlbumMode, dispatch]);
+  }, [isAlbumMode, isShuffleMode, dispatch]);
 
   const handlePrevTrack = useCallback(() => {
-    if (isAlbumMode) {
+    if (isAlbumMode || isShuffleMode) {
       dispatch(playPrevTrack());
     }
-  }, [isAlbumMode, dispatch]);
+  }, [isAlbumMode, isShuffleMode, dispatch]);
 
   const handleTimeChange = useCallback((value: number) => {
     dispatch(setCurrentTime(value));
@@ -102,8 +103,8 @@ export default function usePlayer() {
       console.error('Не удалось обновить счетчик прослушиваний:', error);
     }
 
-    // Переключаем на следующий трек только в режиме альбома
-    if (isAlbumMode && albumTracks.length > 0 && currentAlbumIndex >= 0) {
+    // Переключаем на следующий трек только в режиме альбома или случайного воспроизведения
+    if ((isAlbumMode || isShuffleMode) && albumTracks.length > 0 && currentAlbumIndex >= 0) {
       const isLastTrack = currentAlbumIndex === albumTracks.length - 1;
 
       if (!isLastTrack) {
@@ -115,21 +116,25 @@ export default function usePlayer() {
         // Если это последний трек, останавливаем воспроизведение
         dispatch(pauseTrack());
         dispatch(setCurrentTime(0));
-        message.info('Альбом завершен');
+        if (!isShuffleMode) {
+          message.info('Альбом завершен');
+        } else {
+          message.info('Все треки проиграны');
+        }
       }
     } else {
       // В обычном режиме просто останавливаем воспроизведение
       dispatch(pauseTrack());
       dispatch(setCurrentTime(0));
     }
-  }, [currentTrack, isAlbumMode, albumTracks, currentAlbumIndex, incrementListenCount, dispatch]);
+  }, [currentTrack, isAlbumMode, isShuffleMode, albumTracks, currentAlbumIndex, incrementListenCount, dispatch]);
 
   const handleAudioError = useCallback((error: Error | string) => {
     console.error('Audio error:', error);
     setAudioError(typeof error === 'string' ? error : error.message || 'Ошибка загрузки аудио');
 
-    // Если ошибка в режиме альбома, пытаемся перейти к следующему треку
-    if (isAlbumMode && albumTracks.length > 0 && currentAlbumIndex >= 0) {
+    // Если ошибка в режиме альбома или случайного воспроизведения, пытаемся перейти к следующему треку
+    if ((isAlbumMode || isShuffleMode) && albumTracks.length > 0 && currentAlbumIndex >= 0) {
       const isLastTrack = currentAlbumIndex === albumTracks.length - 1;
       if (!isLastTrack) {
         setTimeout(() => {
@@ -187,6 +192,7 @@ export default function usePlayer() {
     albumTracks,
     currentAlbumIndex,
     isAlbumMode,
+    isShuffleMode,
     hasNextTrack,
     hasPrevTrack,
     audioError,

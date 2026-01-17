@@ -1,29 +1,23 @@
 'use client';
 
 import React, {useEffect, useMemo, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {fetchTracks} from '@/src/store/action-creators/track';
-import {RootState} from '@/src/store/reducers';
+import {ITrack} from '@/src/types/track';
 import TrackItem from '../TrackItemComponents/TrackItem';
-import {AppDispatch} from '@/src/store/store';
-import {PAGE_LIMIT, ShowMore} from '@/src/components/show-more';
+import {ShowMore, TRACKS_PAGE_LIMIT} from '@/src/components/show-more';
 
-const TrackList: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const tracks = useSelector((state: RootState) => state.track.tracks);
+interface TrackListProps {
+  tracks: ITrack[];
+  onDelete?: () => void;
+}
 
+const TrackList: React.FC<TrackListProps> = ({tracks, onDelete}) => {
   const [page, setPage] = useState(1);
 
-  useEffect(() => {
-    dispatch(fetchTracks());
-  }, [dispatch]);
-
-  // Сбрасываем страницу при смене списка треков (например, при поиске)
   useEffect(() => {
     setPage(1);
   }, [tracks]);
 
-  const visibleCount = useMemo(() => page * PAGE_LIMIT, [page]);
+  const visibleCount = useMemo(() => page * TRACKS_PAGE_LIMIT, [page]);
   const visibleTracks = useMemo(
     () => tracks.slice(0, visibleCount),
     [tracks, visibleCount],
@@ -43,7 +37,7 @@ const TrackList: React.FC = () => {
         <TrackItem
           key={track._id}
           track={track}
-          onDelete={() => dispatch(fetchTracks())}
+          onDelete={onDelete}
         />
       ))}
 

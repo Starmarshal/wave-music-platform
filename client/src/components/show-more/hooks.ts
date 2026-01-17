@@ -1,13 +1,14 @@
 import {useCallback, useMemo} from 'react';
 import {usePathname, useRouter, useSearchParams} from 'next/navigation';
-import {PAGE_LIMIT, QUERY_PAGE_NAME} from './model';
+import {QUERY_PAGE_NAME, TRACKS_PAGE_LIMIT} from './model';
 
 export type UseShowMoreOptions = {
-  totalCount?: number
+  totalCount?: number;
+  limit?: number;
 }
 
 export function useShowMore(options: UseShowMoreOptions = {}) {
-  const {totalCount} = options;
+  const {totalCount, limit = TRACKS_PAGE_LIMIT} = options;
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
@@ -18,7 +19,7 @@ export function useShowMore(options: UseShowMoreOptions = {}) {
     return Number.isFinite(n) && n > 0 ? Math.floor(n) : 1;
   }, [searchParams]);
 
-  const visibleCount = page * PAGE_LIMIT;
+  const visibleCount = page * limit;
 
   const hasMore = useMemo(() => {
     if (typeof totalCount === 'number') return visibleCount < totalCount;

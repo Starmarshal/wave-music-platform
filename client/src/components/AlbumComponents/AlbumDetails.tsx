@@ -2,6 +2,12 @@
 
 import {Card, Typography} from 'antd';
 
+type CommentType = {
+  username: string;
+  text: string;
+  _id?: string;
+};
+
 type AlbumType = {
   _id: string;
   name: string;
@@ -9,7 +15,7 @@ type AlbumType = {
   description?: string;
   releaseDate?: string;
   tracks: any[];
-  comments: any[];
+  comments?: CommentType[];
 };
 
 type AlbumDetailsProps = {
@@ -51,7 +57,7 @@ export default function AlbumDetails({album}: AlbumDetailsProps) {
         </p>
 
         <p className="mt-2.5 !text-sm sm:!text-base dark:!text-gray-300">
-          <strong className="dark:!text-gray-200">Комментариев:</strong> {album.comments.length}
+          <strong className="dark:!text-gray-200">Комментариев:</strong> {album.comments?.length || 0}
         </p>
       </Card>
     </div>

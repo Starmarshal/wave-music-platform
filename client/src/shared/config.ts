@@ -1,4 +1,4 @@
-export const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://194.87.250.42:5000';
+export const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://wave-music.pro/api';
 
 export const staticUrl = (filePath: string) => {
   // Убираем лишние слэши и дублирование /static/

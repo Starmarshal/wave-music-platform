@@ -1,3 +1,5 @@
+export const revalidate = 60;
+
 import MainContent from '@/src/Layout/Content/Main/MainContent';
 import Header from '@/src/components/Header';
 

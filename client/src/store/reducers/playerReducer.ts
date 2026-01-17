@@ -10,6 +10,7 @@ export interface PlayerState {
   albumTracks: ITrack[];
   currentAlbumIndex: number;
   isAlbumMode: boolean;
+  isShuffleMode: boolean;
 }
 
 export enum PlayerActionType {
@@ -26,6 +27,7 @@ export enum PlayerActionType {
   PLAY_PREV_TRACK = 'PLAY_PREV_TRACK',
   SET_CURRENT_ALBUM_INDEX = 'SET_CURRENT_ALBUM_INDEX',
   SET_ALBUM_MODE = 'SET_ALBUM_MODE',
+  SET_SHUFFLE_MODE = 'SET_SHUFFLE_MODE',
 }
 
 interface SetCurrentTrackAction {
@@ -114,6 +116,13 @@ interface SetAlbumModeAction {
   [key: string]: any;
 }
 
+interface SetShuffleModeAction {
+  type: PlayerActionType.SET_SHUFFLE_MODE;
+  payload: boolean;
+
+  [key: string]: any;
+}
+
 export type PlayerAction =
   | SetCurrentTrackAction
   | SetCurrentTrackDataAction
@@ -127,7 +136,8 @@ export type PlayerAction =
   | PlayNextTrackAction
   | PlayPrevTrackAction
   | SetCurrentAlbumIndexAction
-  | SetAlbumModeAction;
+  | SetAlbumModeAction
+  | SetShuffleModeAction;
 
 const initialState: PlayerState = {
   currentTrackId: null,
@@ -139,6 +149,7 @@ const initialState: PlayerState = {
   albumTracks: [],
   currentAlbumIndex: -1,
   isAlbumMode: false,
+  isShuffleMode: false,
 };
 
 export const playerReducer = (state = initialState, action: PlayerAction): PlayerState => {
@@ -147,6 +158,14 @@ export const playerReducer = (state = initialState, action: PlayerAction): Playe
       return {
         ...state,
         isAlbumMode: action.payload,
+      };
+
+    case PlayerActionType.SET_SHUFFLE_MODE:
+      return {
+        ...state,
+        isShuffleMode: action.payload,
+        // Выключаем режим альбома при включении shuffle mode
+        isAlbumMode: action.payload ? false : state.isAlbumMode,
       };
 
     case PlayerActionType.SET_CURRENT_TRACK:
@@ -222,6 +241,7 @@ export const playerReducer = (state = initialState, action: PlayerAction): Playe
         duration: 0,
         albumTracks: [],
         currentAlbumIndex: -1,
+        isShuffleMode: false,
       };
 
     case 'SET_ALBUM_TRACKS':
@@ -229,7 +249,8 @@ export const playerReducer = (state = initialState, action: PlayerAction): Playe
         ...state,
         albumTracks: action.payload,
         currentAlbumIndex: action.payload.length > 0 ? 0 : -1,
-        isAlbumMode: action.payload.length > 0, // Автоматически включаем режим альбома при установке треков
+        // Автоматически включаем режим альбома при установке треков, только если не в режиме shuffle
+        isAlbumMode: action.payload.length > 0 && !state.isShuffleMode,
       };
 
     case PlayerActionType.PLAY_NEXT_TRACK:

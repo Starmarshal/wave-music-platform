@@ -18,7 +18,7 @@ import TrackItemVolume
 
 interface TrackItemProps {
   track: ITrack;
-  onDelete: () => void;
+  onDelete?: () => void;
 }
 
 const TrackItem: React.FC<TrackItemProps> = ({track, onDelete}) => {
@@ -40,7 +40,7 @@ const TrackItem: React.FC<TrackItemProps> = ({track, onDelete}) => {
 
   const handleDeleteWithCallback = async () => {
     await handleDelete();
-    onDelete();
+    onDelete?.();
   };
 
   return (

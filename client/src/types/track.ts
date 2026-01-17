@@ -1,4 +1,4 @@
-export interface ICommnet {
+export interface IComment {
   _id: string;
   username: string;
   text: string;
@@ -12,17 +12,19 @@ export interface ITrack {
   listens: number;
   picture: string;
   audio: string;
-  comments: ICommnet[];
+  comments: IComment[];
 }
 
 export interface TrackState {
   tracks: ITrack[];
   error: string;
+  loading: boolean;
 }
 
 export enum TrackActionType {
   FETCH_TRACKS = 'FETCH_TRACKS',
   FETCH_TRACKS_ERROR = 'FETCH_TRACKS_ERROR',
+  FETCH_TRACKS_LOADING = 'FETCH_TRACKS_LOADING',
 }
 
 interface FetchTracksAction {

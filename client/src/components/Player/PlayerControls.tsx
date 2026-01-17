@@ -104,6 +104,11 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
           />
         </Tooltip>
       )}
+      {!showNavigation && (
+          <div
+            className="!w-7"
+          />
+      )}
     </div>
   );
 };

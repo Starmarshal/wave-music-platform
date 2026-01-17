@@ -38,6 +38,14 @@ const Header = () => {
         onClose();
       }
     },
+    {
+      key: '4',
+      label: 'Волна',
+      onClick: () => {
+        router.push('/wave');
+        onClose();
+      }
+    },
   ];
 
   return (

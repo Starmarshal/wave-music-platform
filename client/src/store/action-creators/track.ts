@@ -16,16 +16,3 @@ export const fetchTracks = () => {
   };
 };
 
-export const searchTracks = (query: string) => {
-  return async (dispatch: Dispatch<TrackAction>) => {
-    try {
-      const response = await api.get('/tracks/search', {params: {query}});
-      dispatch({type: TrackActionType.FETCH_TRACKS, payload: response.data});
-    } catch (e) {
-      dispatch({
-        type: TrackActionType.FETCH_TRACKS_ERROR,
-        payload: 'Произошла ошибка при загрузке треков'
-      });
-    }
-  };
-};

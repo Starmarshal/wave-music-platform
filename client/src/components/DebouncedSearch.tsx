@@ -1,7 +1,7 @@
 'use client';
 
-import { Input } from 'antd';
-import { type ChangeEvent, useEffect, useMemo, useState } from 'react';
+import {Input} from 'antd';
+import {type ChangeEvent, useEffect, useMemo, useState} from 'react';
 import debounce from 'lodash.debounce';
 
 interface DebouncedSearchProps {

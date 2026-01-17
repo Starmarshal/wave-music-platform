@@ -1,9 +1,11 @@
 'use client';
 
+export const dynamic = 'force-static';
+
 import Header from '@/src/components/Header';
 import Loader from '@/src/components/Loader';
 import useAlbums from '@/src/hooks/useAlbums';
-import { useDispatch } from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {
   playTrack,
   setAlbumMode,
@@ -11,18 +13,19 @@ import {
   setCurrentTrack,
   setCurrentTrackData,
 } from '@/src/store/action-creators/player';
-import { message } from 'antd';
-import { IAlbum } from '@/src/types/album';
+import {message} from 'antd';
+import {IAlbum} from '@/src/types/album';
 import AlbumsContainer from '@/src/components/AlbumComponents/AlbumsContainer';
 import AlbumsHeader from '@/src/components/AlbumComponents/AlbumsHeader';
-import AlbumsEmptyState from '@/src/components/AlbumComponents/AlbumsEmptyState';
+import AlbumsEmptyState
+  from '@/src/components/AlbumComponents/AlbumsEmptyState';
 import AlbumsGrid from '@/src/components/AlbumComponents/AlbumsGrid';
 import AlbumSearch from '@/src/components/AlbumComponents/AlbumSearch';
-import { useState, useMemo } from 'react';
+import {useMemo, useState} from 'react';
 
 export default function AlbumsPage() {
   const dispatch = useDispatch();
-  const { albums, loading } = useAlbums();
+  const {albums, loading} = useAlbums();
   const [searchQuery, setSearchQuery] = useState('');
 
   const handleSearch = (query: string) => {
@@ -45,7 +48,8 @@ export default function AlbumsPage() {
 
       if (album.tracks?.some(track =>
         track.name?.toLowerCase().includes(query) ||
-        track.artist?.toLowerCase().includes(query)
+        track.artist?.toLowerCase().includes(query) ||
+        track.text?.toLowerCase().includes(query)
       )) {
         return true;
       }
@@ -86,7 +90,7 @@ export default function AlbumsPage() {
   return (
     <>
       <Header />
-      <div className="!flex !justify-center !mt-4 md:!mt-8 !px-2 sm:!px-4 md:!px-5 !min-h-[calc(100vh-200px)]">
+      <div className="!flex !justify-center !mt-4 md:!mt-8 !px-2 sm:!px-4 md:!px-5 !min-h-[calc(100vh-200px)] !mb-10">
         <div className="!w-full !max-w-full md:!max-w-[90%] lg:!max-w-[75%]">
           <AlbumsContainer>
             <AlbumsHeader />

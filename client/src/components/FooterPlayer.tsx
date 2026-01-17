@@ -19,6 +19,7 @@ const FooterPlayer: React.FC = () => {
     albumTracks,
     currentAlbumIndex,
     isAlbumMode,
+    isShuffleMode,
     hasNextTrack,
     hasPrevTrack,
     handlePlayPause,
@@ -39,43 +40,89 @@ const FooterPlayer: React.FC = () => {
   return (
     <>
       <PlayerContainer>
-        <div className="!w-full sm:!w-auto !flex !items-center !justify-center sm:!justify-start">
-          <PlayerTrackInfo
-            track={currentTrack}
-            albumTracks={albumTracks}
-            currentAlbumIndex={currentAlbumIndex}
-            isAlbumMode={isAlbumMode}
-          />
-        </div>
+        <div className="!w-full md:!w-[95%] md:!mx-auto !mt-2">
+          <div className="!w-full !flex !flex-col sm:!hidden !gap-2">
+            <div className="!w-full !flex !items-start !justify-between !gap-2">
+              <div className="!flex-1 !min-w-0">
+                <PlayerTrackInfo
+                  track={currentTrack}
+                  albumTracks={albumTracks}
+                  currentAlbumIndex={currentAlbumIndex}
+                  isAlbumMode={isAlbumMode}
+                  isShuffleMode={isShuffleMode}
+                />
+              </div>
 
-        <div className="!w-full sm:!flex-1 !flex !flex-row !items-center !gap-2 md:!gap-3 !min-w-0 !px-2 md:!px-4">
-          <div className="!flex !items-center !justify-center !gap-1 md:!gap-2">
-            <PlayerControls
-              isPlaying={isPlaying}
-              hasNextTrack={hasNextTrack}
-              hasPrevTrack={hasPrevTrack}
-              onPlayPause={handlePlayPause}
-              onNextTrack={handleNextTrack}
-              onPrevTrack={handlePrevTrack}
-              showNavigation={isAlbumMode}
-            />
+              <div className="!flex-shrink-0 !flex !items-center !gap-1">
+                <PlayerControls
+                  isPlaying={isPlaying}
+                  hasNextTrack={hasNextTrack}
+                  hasPrevTrack={hasPrevTrack}
+                  onPlayPause={handlePlayPause}
+                  onNextTrack={handleNextTrack}
+                  onPrevTrack={handlePrevTrack}
+                  showNavigation={isAlbumMode || isShuffleMode}
+                />
+              </div>
+            </div>
+
+            {/* ProgressBar посередине */}
+            <div className="!w-full">
+              <PlayerProgressBar
+                currentTime={currentTime}
+                duration={duration}
+                onTimeChange={handleTimeChange}
+                formatTime={formatTime}
+              />
+            </div>
           </div>
 
-          <div className="!w-full !flex-1">
-            <PlayerProgressBar
-              currentTime={currentTime}
-              duration={duration}
-              onTimeChange={handleTimeChange}
-              formatTime={formatTime}
-            />
-          </div>
-        </div>
+          <div className="!hidden sm:!flex !w-full !flex-col !gap-3 md:!gap-4">
+            <div className="!w-full !flex !items-center !justify-between !gap-2 md:!gap-4">
+              {/* TrackInfo в левом углу */}
+              <div className="!flex-shrink-0">
+                <PlayerTrackInfo
+                  track={currentTrack}
+                  albumTracks={albumTracks}
+                  currentAlbumIndex={currentAlbumIndex}
+                  isAlbumMode={isAlbumMode}
+                  isShuffleMode={isShuffleMode}
+                />
+              </div>
 
-        <div className="!hidden md:!block !flex-shrink-0">
-          <PlayerVolumeControl
-            volume={volume}
-            onVolumeChange={handleVolumeChange}
-          />
+              <div className="!flex !items-center !gap-2 md:!gap-4">
+                <div className="!flex !items-center !justify-center !gap-1 md:!gap-2">
+                  <PlayerControls
+                    isPlaying={isPlaying}
+                    hasNextTrack={hasNextTrack}
+                    hasPrevTrack={hasPrevTrack}
+                    onPlayPause={handlePlayPause}
+                    onNextTrack={handleNextTrack}
+                    onPrevTrack={handlePrevTrack}
+                    showNavigation={isAlbumMode || isShuffleMode}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="!w-full !flex !items-center !gap-2 md:!gap-3 lg:!gap-4">
+              <div className="!flex-1 !min-w-0">
+                <PlayerProgressBar
+                  currentTime={currentTime}
+                  duration={duration}
+                  onTimeChange={handleTimeChange}
+                  formatTime={formatTime}
+                />
+              </div>
+
+              <div className="!flex-shrink-0 !mb-2.5">
+                <PlayerVolumeControl
+                  volume={volume}
+                  onVolumeChange={handleVolumeChange}
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </PlayerContainer>
 

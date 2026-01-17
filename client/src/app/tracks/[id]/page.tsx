@@ -1,5 +1,7 @@
 'use client';
 
+export const revalidate = 60;
+
 import Header from '@/src/components/Header';
 import CommentsSection from '@/src/components/CommentsSection';
 import TrackDetails from '@/src/components/TrackComponents/TrackDetails';

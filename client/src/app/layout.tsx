@@ -9,8 +9,13 @@ import Background from '@/src/components/Background';
 const inter = Inter({subsets: ['latin']});
 
 export const metadata: Metadata = {
-  title: 'Musical Platform',
+  title: 'Wave music',
   description: 'Музыкальная платформа',
+  icons: {
+    icon: '/icon.svg',
+    shortcut: '/icon.svg',
+    apple: '/icon.svg',
+  }
 };
 
 export default function RootLayout({
