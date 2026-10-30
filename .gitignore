@@ -60,3 +60,5 @@ server/static/
 # package-lock.json
 # yarn.lock
 # pnpm-lock.yaml
+# Mongo/Postgres dumps
+server/backups/

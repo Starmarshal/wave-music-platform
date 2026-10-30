@@ -1,19 +1,14 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { TrackController } from './track.controller';
 import { TrackService } from './track.service';
-import { MongooseModule } from '@nestjs/mongoose';
-import { Track, TrackSchema } from './schemas/track.schema';
-import { Comment, CommentSchema } from './schemas/comment.schema';
-import { FileService } from '../file/file.service';
+import { Track } from './entities/track.entity';
+import { Comment } from './entities/comment.entity';
+import { FileModule } from '../file/file.module';
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([
-      { name: Track.name, schema: TrackSchema },
-      { name: Comment.name, schema: CommentSchema },
-    ]),
-  ],
+  imports: [TypeOrmModule.forFeature([Track, Comment]), FileModule],
   controllers: [TrackController],
-  providers: [TrackService, FileService],
+  providers: [TrackService],
 })
 export class TrackModule {}

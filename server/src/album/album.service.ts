@@ -1,68 +1,99 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
-import { Album, AlbumDocument } from './schema/album.schema';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
+import { DataSource, In, Repository } from 'typeorm';
+import { Album } from './entities/album.entity';
+import { AlbumTrack } from './entities/album-track.entity';
 import { CreateAlbumDTO } from './dto/create-album.dto';
 import { FileService, FileType } from '../file/file.service';
-import { Comment, CommentDocument } from '../track/schemas/comment.schema';
+import { Comment } from '../track/entities/comment.entity';
+import { Track } from '../track/entities/track.entity';
 import { CreateAlbumCommentDTO } from './dto/create-album-comment.dto';
+import { generateId } from '../shared/object-id';
+import { serializeAlbum, serializeComment } from '../shared/serializers';
+
+const ALBUM_RELATIONS = {
+  albumTracks: { track: { comments: true } },
+  comments: true,
+};
 
 @Injectable()
 export class AlbumService {
   constructor(
-    @InjectModel(Album.name) private albumModel: Model<AlbumDocument>,
-    @InjectModel(Comment.name) private commentModel: Model<CommentDocument>,
+    @InjectRepository(Album) private albumRepository: Repository<Album>,
+    @InjectRepository(Comment) private commentRepository: Repository<Comment>,
+    @InjectDataSource() private dataSource: DataSource,
     private fileService: FileService,
   ) {}
 
-  async create(dto: CreateAlbumDTO, picture): Promise<Album> {
+  async create(dto: CreateAlbumDTO, picture) {
     if (!picture) {
-      throw new Error('Picture is required');
+      throw new BadRequestException('Picture is required');
     }
     const picturePath = this.fileService.createFile(FileType.IMAGE, picture);
-    const tracksIds = dto.tracks.map((id) => new Types.ObjectId(id));
-    const album = await this.albumModel.create({
-      name: dto.name,
-      author: dto.author,
-      picture: picturePath,
-      tracks: tracksIds,
-      comments: [], // Добавляем пустой массив комментариев
+    const albumId = generateId();
+
+    await this.dataSource.transaction(async (manager) => {
+      await manager.insert(Album, {
+        id: albumId,
+        name: dto.name,
+        author: dto.author,
+        picture: picturePath,
+      });
+
+      // Несуществующие и повторяющиеся id треков пропускаем
+      const requestedIds = [...new Set(dto.tracks)];
+      const existing = requestedIds.length
+        ? await manager.findBy(Track, { id: In(requestedIds) })
+        : [];
+      const existingIds = new Set(existing.map((track) => track.id));
+      const albumTracks = requestedIds
+        .filter((id) => existingIds.has(id))
+        .map((trackId, position) => ({ albumId, trackId, position }));
+      if (albumTracks.length) {
+        await manager.insert(AlbumTrack, albumTracks);
+      }
     });
-    return album.populate('tracks');
+
+    return this.getOne(albumId);
   }
 
-  async getAll(): Promise<Album[]> {
-    return this.albumModel
-      .find()
-      .populate('tracks')
-      .populate('comments')
-      .exec();
+  async getAll() {
+    const albums = await this.albumRepository.find({
+      relations: ALBUM_RELATIONS,
+      order: { createdAt: 'ASC', id: 'ASC' },
+    });
+    return albums.map(serializeAlbum);
   }
 
-  async getOne(id: string): Promise<Album | null> {
-    return this.albumModel
-      .findById(id)
-      .populate('tracks')
-      .populate('comments')
-      .exec();
+  async getOne(id: string) {
+    const album = await this.albumRepository.findOne({
+      where: { id },
+      relations: ALBUM_RELATIONS,
+    });
+    return album ? serializeAlbum(album) : null;
   }
 
   async delete(id: string): Promise<void> {
-    await this.albumModel.findByIdAndDelete(id);
+    await this.albumRepository.delete({ id });
   }
 
-  // Новый метод для добавления комментария к альбому
-  async addComment(dto: CreateAlbumCommentDTO): Promise<Comment> {
-    const album = await this.albumModel.findById(dto.albumId);
-    if (!album) {
+  async addComment(dto: CreateAlbumCommentDTO) {
+    const exists = await this.albumRepository.existsBy({ id: dto.albumId });
+    if (!exists) {
       throw new NotFoundException(`Album with id ${dto.albumId} not found`);
     }
-    const comment = await this.commentModel.create({
-      username: dto.username,
-      text: dto.text,
-    });
-    album.comments.push(comment._id);
-    await album.save();
-    return comment;
+    const comment = await this.commentRepository.save(
+      this.commentRepository.create({
+        id: generateId(),
+        username: dto.username,
+        text: dto.text,
+        albumId: dto.albumId,
+      }),
+    );
+    return serializeComment(comment);
   }
 }

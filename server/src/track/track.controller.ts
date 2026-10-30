@@ -11,7 +11,6 @@ import {
 } from '@nestjs/common';
 import { TrackService } from './track.service';
 import { CreateTrackDTO } from './dto/create-track.dto';
-import { ObjectId, Types } from 'mongoose';
 import { CreateCommentDTO } from './dto/create-comment.dto';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 
@@ -42,12 +41,12 @@ export class TrackController {
   }
 
   @Get(':id')
-  getOne(@Param('id') id: ObjectId) {
+  getOne(@Param('id') id: string) {
     return this.trackService.getOne(id);
   }
 
   @Delete(':id')
-  delete(@Param('id') id: Types.ObjectId) {
+  delete(@Param('id') id: string) {
     return this.trackService.delete(id);
   }
 
@@ -57,7 +56,7 @@ export class TrackController {
   }
 
   @Post('/listen/:id')
-  listen(@Param('id') id: ObjectId) {
+  listen(@Param('id') id: string) {
     return this.trackService.listen(id);
   }
 }

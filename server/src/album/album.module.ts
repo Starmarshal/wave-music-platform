@@ -1,19 +1,14 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AlbumController } from './album.controller';
 import { AlbumService } from './album.service';
-import { Album, AlbumSchema } from './schema/album.schema';
+import { Album } from './entities/album.entity';
+import { AlbumTrack } from './entities/album-track.entity';
 import { FileModule } from '../file/file.module';
-import { Comment, CommentSchema } from '../track/schemas/comment.schema';
+import { Comment } from '../track/entities/comment.entity';
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([
-      { name: Album.name, schema: AlbumSchema },
-      { name: Comment.name, schema: CommentSchema }, // Добавляем Comment
-    ]),
-    FileModule,
-  ],
+  imports: [TypeOrmModule.forFeature([Album, AlbumTrack, Comment]), FileModule],
   controllers: [AlbumController],
   providers: [AlbumService],
 })

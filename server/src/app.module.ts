@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { TrackModule } from './track/track.module';
 import { AlbumModule } from './album/album.module';
-import { MongooseModule } from '@nestjs/mongoose';
 import { FileModule } from './file/file.module';
 import * as path from 'path';
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { dataSourceOptions } from './database/data-source';
 
 @Module({
   imports: [
@@ -13,9 +14,8 @@ import { ServeStaticModule } from '@nestjs/serve-static';
       serveRoot: '/static',
       exclude: ['/api*'],
     }),
-    MongooseModule.forRoot(
-      process.env.MONGODB_URI || 'mongodb://mongodb:27017/music-platform',
-    ),
+    // useFactory, чтобы переменные окружения читались после загрузки .env в main.ts
+    TypeOrmModule.forRootAsync({ useFactory: dataSourceOptions }),
     TrackModule,
     AlbumModule,
     FileModule,
