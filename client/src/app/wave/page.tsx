@@ -19,18 +19,10 @@ import {
 import {trackService} from '@/src/shared/api/trackService';
 import {ITrack} from '@/src/types/track';
 import Loader from '@/src/components/Loader';
+import {shuffleArray} from '@/src/shared/shuffle';
 import usePlaybackGuard from '@/src/hooks/usePlaybackGuard';
 
 const {Title, Text} = Typography;
-
-function shuffleArray<T>(array: T[]): T[] {
-  const shuffled = [...array];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-  return shuffled;
-}
 
 export default function WavePage() {
   const dispatch = useAppDispatch();

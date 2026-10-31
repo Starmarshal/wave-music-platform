@@ -4,6 +4,7 @@ export interface IUser {
   _id: string;
   email: string;
   displayName: string;
+  avatar: string;
   role: Role;
   emailVerified: boolean;
   totpEnabled: boolean;

@@ -10,9 +10,13 @@ import {
   Post,
   Req,
   Res,
+  UploadedFile,
+  UseInterceptors,
   UnauthorizedException,
 } from '@nestjs/common';
 import { Throttle } from '@nestjs/throttler';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { FileService, FileType, IMAGE_LIMITS } from '../file/file.service';
 import type { Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { SessionService } from './session.service';
@@ -45,6 +49,7 @@ export class AuthController {
   constructor(
     private authService: AuthService,
     private sessionService: SessionService,
+    private fileService: FileService,
   ) {}
 
   @Get('/me')
@@ -187,6 +192,24 @@ export class AuthController {
     @CurrentUser() user: User,
   ) {
     const updated = await this.authService.updateProfile(user, dto.displayName);
+    return { user: await this.authService.serializeUser(updated) };
+  }
+
+  @Post('/avatar')
+  @HttpCode(200)
+  @Auth({ allowUnverified: true })
+  @UseInterceptors(FileInterceptor('avatar', { limits: IMAGE_LIMITS }))
+  async uploadAvatar(@UploadedFile() avatar, @CurrentUser() user: User) {
+    if (!avatar) throw new BadRequestException('Выберите изображение');
+    const path = this.fileService.createFile(FileType.IMAGE, avatar);
+    const updated = await this.authService.setAvatar(user, path);
+    return { user: await this.authService.serializeUser(updated) };
+  }
+
+  @Delete('/avatar')
+  @Auth({ allowUnverified: true })
+  async deleteAvatar(@CurrentUser() user: User) {
+    const updated = await this.authService.setAvatar(user, '');
     return { user: await this.authService.serializeUser(updated) };
   }
 

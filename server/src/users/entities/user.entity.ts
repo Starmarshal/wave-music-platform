@@ -33,6 +33,10 @@ export class User {
   @Column({ name: 'email_verified_at', type: 'timestamptz', nullable: true })
   emailVerifiedAt: Date | null;
 
+  // Путь вида image/<uuid>.jpg, пустая строка — аватара нет
+  @Column({ type: 'varchar', default: '' })
+  avatar: string;
+
   @Column({ name: 'totp_secret', type: 'varchar', nullable: true })
   totpSecret: string | null;
 

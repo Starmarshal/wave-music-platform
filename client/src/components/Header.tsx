@@ -7,6 +7,7 @@ import {useRouter} from 'next/navigation';
 import Logo from '@/src/components/Logo';
 import AccountNotice from '@/src/components/Auth/AccountNotice';
 import {useAuth} from '@/src/shared/auth/AuthProvider';
+import {staticUrl} from '@/src/shared/config';
 
 const Header = () => {
   const [open, setOpen] = useState(false);
@@ -79,6 +80,7 @@ const Header = () => {
                 placement="bottomRight"
               >
                 <Avatar
+                  src={user.avatar ? staticUrl(user.avatar) : undefined}
                   className="!cursor-pointer !bg-white/25 !text-white"
                   icon={<UserOutlined />}
                 >

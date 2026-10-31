@@ -9,10 +9,12 @@ import { Session } from './entities/session.entity';
 import { UserToken } from './entities/user-token.entity';
 import { BackupCode } from './entities/backup-code.entity';
 import { Label } from '../labels/entities/label.entity';
+import { FileModule } from '../file/file.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User, Session, UserToken, BackupCode, Label]),
+    FileModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, SessionService, MailService],

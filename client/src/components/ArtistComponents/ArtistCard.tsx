@@ -16,9 +16,10 @@ export default function ArtistCard({artist}: { artist: IArtist }) {
       className="!rounded-xl !text-center !shadow-md hover:!shadow-xl !h-full dark:!bg-gray-800 dark:!border-gray-700"
     >
       <Avatar
+        shape="square"
         size={112}
         src={artist.photo ? staticUrl(artist.photo) : undefined}
-        className="!mx-auto !mb-3 !bg-gradient-to-br !from-[#32c4d0] !to-blue-500 !text-4xl"
+        className="!mx-auto !mb-3 !rounded-2xl !bg-gradient-to-br !from-[#32c4d0] !to-blue-500 !text-4xl"
       >
         {artist.name.slice(0, 1).toUpperCase()}
       </Avatar>

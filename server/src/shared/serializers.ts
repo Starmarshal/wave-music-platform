@@ -18,6 +18,7 @@ export const serializeComment = (comment: Comment) => ({
   // У старых гостевых комментариев пользователя нет, остаётся введённое имя
   username: comment.user?.displayName ?? comment.username,
   text: comment.text,
+  avatar: comment.user?.avatar ?? '',
   userId: comment.userId ?? null,
   guest: !comment.userId,
   createdAt: comment.createdAt,

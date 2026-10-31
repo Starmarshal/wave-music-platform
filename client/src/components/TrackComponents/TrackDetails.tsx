@@ -1,6 +1,8 @@
 'use client';
 
-import {Card, Typography} from 'antd';
+import {Button, Card, Typography} from 'antd';
+import {PauseCircleOutlined, PlayCircleOutlined} from '@ant-design/icons';
+import useTrackItem from '@/src/hooks/useTrackItem';
 import {useRouter} from 'next/navigation';
 import {useState} from 'react';
 import ArtistLinks from '@/src/components/ArtistLinks';
@@ -24,6 +26,8 @@ type TrackDetailsProps = {
 
 export default function TrackDetails({track}: TrackDetailsProps) {
   const router = useRouter();
+  // Тот же запуск, что и в списке треков: проверка входа, плеер внизу, волна после трека
+  const {isPlaying, handlePlayPause} = useTrackItem(track);
   const [showText, setShowText] = useState(true);
 
   const formatLyrics = (text: string) => {
@@ -52,6 +56,14 @@ export default function TrackDetails({track}: TrackDetailsProps) {
           className="!text-xl sm:!text-2xl md:!text-3xl dark:!text-gray-200"
         >{track.name}</Typography.Title>
         <div className="!-mt-2 !mb-3 !-ml-2">
+          <Button
+            type="primary"
+            icon={isPlaying ? <PauseCircleOutlined /> : <PlayCircleOutlined />}
+            onClick={handlePlayPause}
+            className="!ml-2 !mr-1 !bg-[#32c4d0] !border-[#32c4d0]"
+          >
+            {isPlaying ? 'Пауза' : 'Слушать'}
+          </Button>
           <LikeButton type="tracks" id={track._id} withText />
           <AddToPlaylistButton trackId={track._id} />
         </div>

@@ -58,9 +58,10 @@ export default function ArtistPage() {
         <Card className="!rounded-2xl !shadow-lg !overflow-hidden dark:!bg-gray-800 dark:!border-gray-700">
           <div className="!flex !flex-col sm:!flex-row !items-center sm:!items-end !gap-5">
             <Avatar
+              shape="square"
               size={160}
               src={artist.photo ? staticUrl(artist.photo) : undefined}
-              className="!flex-shrink-0 !bg-gradient-to-br !from-[#32c4d0] !to-blue-500 !text-6xl"
+              className="!flex-shrink-0 !rounded-3xl !shadow-lg !bg-gradient-to-br !from-[#32c4d0] !to-blue-500 !text-6xl"
             >
               {artist.name.slice(0, 1).toUpperCase()}
             </Avatar>

@@ -17,6 +17,7 @@ import { Playlist, PlaylistTrack } from '../playlists/entities/playlist.entity';
 import { InitSchema1761850000000 } from './migrations/1761850000000-InitSchema';
 import { Auth1761900000000 } from './migrations/1761900000000-Auth';
 import { Catalog1761900000001 } from './migrations/1761900000001-Catalog';
+import { UserAvatar1762000000000 } from './migrations/1762000000000-UserAvatar';
 
 // Общая конфигурация: используется приложением, TypeORM CLI и скриптом миграции данных
 export const dataSourceOptions = (): DataSourceOptions => ({
@@ -46,6 +47,7 @@ export const dataSourceOptions = (): DataSourceOptions => ({
     InitSchema1761850000000,
     Auth1761900000000,
     Catalog1761900000001,
+    UserAvatar1762000000000,
   ],
   migrationsRun: true,
   synchronize: false,

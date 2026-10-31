@@ -4,6 +4,7 @@ export interface IComment {
   _id: string;
   username: string;
   text: string;
+  avatar?: string;
   userId?: string | null;
   guest?: boolean;
   createdAt?: string;

@@ -340,7 +340,7 @@ export default function StudioPage() {
                   {
                     title: 'Артист', render: (_, a: IArtist) => (
                       <Space>
-                        <Avatar src={a.photo ? staticUrl(a.photo) : undefined}>{a.name[0]}</Avatar>
+                        <Avatar shape="square" className="!rounded-lg" src={a.photo ? staticUrl(a.photo) : undefined}>{a.name[0]}</Avatar>
                         <Link href={`/artists/${a.slug}`}>{a.name}</Link>
                       </Space>
                     ),

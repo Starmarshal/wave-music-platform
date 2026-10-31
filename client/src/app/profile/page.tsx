@@ -23,6 +23,7 @@ import useRequireUser from '@/src/hooks/useRequireUser';
 import {useAuth} from '@/src/shared/auth/AuthProvider';
 import {api, apiError} from '@/src/shared/api';
 import {ROLE_NAMES} from '@/src/types/user';
+import AvatarUploader from '@/src/components/Auth/AvatarUploader';
 
 const PASSWORD_RULE = /^(?=.*[A-Za-zА-Яа-яЁё])(?=.*\d).{8,128}$/;
 const cardClass = '!w-full !shadow-lg !rounded-xl !mb-5 dark:!bg-gray-800 dark:!border-gray-700';
@@ -304,6 +305,7 @@ export default function ProfilePage() {
         <Typography.Title level={2} className="!text-[#32c2ce] dark:!text-cyan-400">Профиль</Typography.Title>
 
         <Card className={cardClass} title={<span className={titleClass}>Аккаунт</span>}>
+          <AvatarUploader />
           <Descriptions column={1} size="small" className="!mb-4">
             <Descriptions.Item label="Почта">
               <span className="dark:!text-gray-200">{user.email}</span>

@@ -80,6 +80,7 @@ export class AuthService implements OnApplicationBootstrap {
       _id: user.id,
       email: user.email,
       displayName: user.displayName,
+      avatar: user.avatar,
       role: user.role,
       emailVerified: !!user.emailVerifiedAt,
       totpEnabled: user.totpEnabled,
@@ -219,6 +220,11 @@ export class AuthService implements OnApplicationBootstrap {
     }
     user.passwordHash = await hashPassword(newPassword);
     await this.userRepository.save(user);
+  }
+
+  async setAvatar(user: User, avatar: string) {
+    user.avatar = avatar;
+    return this.userRepository.save(user);
   }
 
   async updateProfile(user: User, displayName?: string) {

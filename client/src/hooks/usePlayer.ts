@@ -11,12 +11,17 @@ import {
   setAlbumMode,
   setCurrentTime,
   setCurrentTrack,
+  setAlbumTracks,
   setCurrentTrackData,
   setDuration,
+  setShuffleMode,
   setVolume
 } from '@/src/store/action-creators/player';
 import {trackService} from '@/src/shared/api/trackService'; // Используем trackService
-import {message} from 'antd';
+import {message, notification} from 'antd';
+import {api} from '@/src/shared/api';
+import {shuffleArray} from '@/src/shared/shuffle';
+import {ITrack} from '@/src/types/track';
 
 export default function usePlayer() {
   const dispatch = useDispatch();
@@ -31,6 +36,7 @@ export default function usePlayer() {
     isAlbumMode,
     isShuffleMode
   } = useSelector((state: RootState) => state.player);
+  const allTracks = useSelector((state: RootState) => state.track.tracks);
 
   const [audioError, setAudioError] = useState<string | null>(null);
   const animationFrameRef = useRef<number | null>(null);
@@ -91,6 +97,31 @@ export default function usePlayer() {
     }
   }, []);
 
+  // Волна из всех треков, кроме только что дослушанного. Без перехода на страницу волны
+  const startWaveAfter = useCallback(async (finishedTrackId: string) => {
+    try {
+      const tracks: ITrack[] = allTracks.length ? allTracks : (await api.get('/tracks')).data;
+      const queue = shuffleArray(tracks.filter(track => track._id !== finishedTrackId));
+      if (!queue.length) return false;
+
+      dispatch(setShuffleMode(true));
+      dispatch(setAlbumTracks(queue));
+      dispatch(setCurrentTrack(queue[0]._id));
+      dispatch(setCurrentTrackData(queue[0]));
+      dispatch(playTrack());
+      notification.info({
+        message: 'Включилась волна',
+        description: 'Трек закончился — дальше играют случайные треки',
+        placement: 'topRight',
+        duration: 4,
+      });
+      return true;
+    } catch (error) {
+      console.error('Не удалось запустить волну:', error);
+      return false;
+    }
+  }, [allTracks, dispatch]);
+
   // Обработчик окончания аудио
   const handleAudioEnded = useCallback(async () => {
     if (!currentTrack) return;
@@ -123,11 +154,14 @@ export default function usePlayer() {
         }
       }
     } else {
-      // В обычном режиме просто останавливаем воспроизведение
-      dispatch(pauseTrack());
-      dispatch(setCurrentTime(0));
+      // Одиночный трек закончился — продолжаем волной, если не получилось — останавливаемся
+      const started = await startWaveAfter(currentTrack._id);
+      if (!started) {
+        dispatch(pauseTrack());
+        dispatch(setCurrentTime(0));
+      }
     }
-  }, [currentTrack, isAlbumMode, isShuffleMode, albumTracks, currentAlbumIndex, incrementListenCount, dispatch]);
+  }, [currentTrack, isAlbumMode, isShuffleMode, albumTracks, currentAlbumIndex, incrementListenCount, startWaveAfter, dispatch]);
 
   const handleAudioError = useCallback((error: Error | string) => {
     console.error('Audio error:', error);

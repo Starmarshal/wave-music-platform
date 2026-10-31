@@ -1,6 +1,6 @@
 'use client';
 
-import {Button, Card, Flex, Form, Input, message, Popconfirm, Tag, Typography} from 'antd';
+import {Avatar, Button, Card, Flex, Form, Input, message, Popconfirm, Tag, Typography} from 'antd';
 import {DeleteOutlined} from '@ant-design/icons';
 import {useId, useState} from 'react';
 import Link from 'next/link';
@@ -8,6 +8,7 @@ import {usePathname} from 'next/navigation';
 import {useAuth} from '@/src/shared/auth/AuthProvider';
 import {apiError} from '@/src/shared/api';
 import {IComment} from '@/src/types/track';
+import {staticUrl} from '@/src/shared/config';
 
 type CommentsSectionProps = {
   comments: IComment[];
@@ -73,6 +74,13 @@ export default function CommentsSection({
                 key={comment._id || index}
                 className="!py-2 !border-0 !border-b !border-gray-100 dark:!border-gray-700 !w-full !flex !items-start !gap-2"
               >
+                <Avatar
+                  size={28}
+                  src={comment.avatar ? staticUrl(comment.avatar) : undefined}
+                  className="!flex-shrink-0 !bg-gradient-to-br !from-[#32c4d0] !to-blue-500 !text-xs"
+                >
+                  {comment.username?.slice(0, 1).toUpperCase()}
+                </Avatar>
                 <div className="!flex-1 !min-w-0">
                   <Typography.Text
                     strong
