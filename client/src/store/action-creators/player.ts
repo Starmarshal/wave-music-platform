@@ -1,4 +1,4 @@
-import {PlayerActionType} from '../reducers/playerReducer';
+import {PlayerActionType, PlayerState} from '../reducers/playerReducer';
 import {ITrack} from '@/src/types/track';
 
 export const setCurrentTrack = (trackId: string | null) => ({
@@ -80,4 +80,14 @@ export const setQueueShuffle = (isQueueShuffle: boolean) => ({
 export const setQueue = (tracks: ITrack[], source: ITrack[], index: number, queueId: string | null) => ({
   type: PlayerActionType.SET_QUEUE as const,
   payload: {tracks, source, index, queueId},
+});
+
+export const setActiveTab = (isActiveTab: boolean) => ({
+  type: PlayerActionType.SET_ACTIVE_TAB as const,
+  payload: isActiveTab,
+});
+
+export const syncState = (state: Partial<PlayerState>) => ({
+  type: PlayerActionType.SYNC_STATE as const,
+  payload: state,
 });

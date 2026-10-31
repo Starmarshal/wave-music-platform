@@ -2,6 +2,8 @@
 
 import {useEffect, useRef} from 'react';
 import {staticUrl} from '@/src/shared/config';
+import {useSelector} from 'react-redux';
+import {RootState} from '@/src/store/reducers';
 
 type Track = {
   _id: string;
@@ -30,12 +32,13 @@ export default function PlayerAudio({
                                       onEnded
                                     }: PlayerAudioProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
+  const isActiveTab = useSelector((state: RootState) => state.player.isActiveTab);
 
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.volume = volume;
     }
-  }, [volume]);
+  }, [volume, isActiveTab]);
 
   useEffect(() => {
     if (audioRef.current && currentTrack) {
@@ -51,7 +54,7 @@ export default function PlayerAudio({
         audioRef.current.pause();
       }
     }
-  }, [isPlaying, currentTrack, onError]);
+  }, [isPlaying, currentTrack, onError, isActiveTab]);
 
   useEffect(() => {
     if (audioRef.current && currentTime > 0 && currentTrack) {
@@ -60,7 +63,7 @@ export default function PlayerAudio({
         audioRef.current.currentTime = currentTime;
       }
     }
-  }, [currentTime, currentTrack]);
+  }, [currentTime, currentTrack, isActiveTab]);
 
   useEffect(() => {
     const audioElement = audioRef.current;
@@ -120,9 +123,10 @@ export default function PlayerAudio({
       audioElement.removeEventListener('timeupdate', handleTimeUpdate);
       audioElement.removeEventListener('ended', handleEnded);
     };
-  }, [currentTrack, onError, onLoadedMetadata, onTimeUpdate, onEnded]);
+  }, [currentTrack, onError, onLoadedMetadata, onTimeUpdate, onEnded, isActiveTab]);
 
-  if (!currentTrack) return null;
+  // В неактивной вкладке звука нет: при переходе плеер монтируется заново и продолжает с currentTime
+  if (!currentTrack || !isActiveTab) return null;
 
   return (
     <audio

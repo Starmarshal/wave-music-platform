@@ -19,6 +19,8 @@ export interface PlayerState {
   queueSource: ITrack[];
   // Что играет: 'album:<id>', 'playlist:<id>' и т.п.
   queueId: string | null;
+  // Звук играет только в одной вкладке, остальные лишь показывают состояние и управляют им
+  isActiveTab: boolean;
 }
 
 export enum PlayerActionType {
@@ -39,6 +41,8 @@ export enum PlayerActionType {
   SET_REPEAT = 'SET_REPEAT',
   SET_QUEUE_SHUFFLE = 'SET_QUEUE_SHUFFLE',
   SET_QUEUE = 'SET_QUEUE',
+  SET_ACTIVE_TAB = 'SET_ACTIVE_TAB',
+  SYNC_STATE = 'SYNC_STATE',
 }
 
 interface SetCurrentTrackAction {
@@ -155,6 +159,20 @@ interface SetQueueAction {
   [key: string]: any;
 }
 
+interface SetActiveTabAction {
+  type: PlayerActionType.SET_ACTIVE_TAB;
+  payload: boolean;
+
+  [key: string]: any;
+}
+
+interface SyncStateAction {
+  type: PlayerActionType.SYNC_STATE;
+  payload: Partial<PlayerState>;
+
+  [key: string]: any;
+}
+
 export type PlayerAction =
   | SetCurrentTrackAction
   | SetCurrentTrackDataAction
@@ -172,7 +190,9 @@ export type PlayerAction =
   | SetShuffleModeAction
   | SetRepeatAction
   | SetQueueShuffleAction
-  | SetQueueAction;
+  | SetQueueAction
+  | SetActiveTabAction
+  | SyncStateAction;
 
 const initialState: PlayerState = {
   currentTrackId: null,
@@ -189,6 +209,7 @@ const initialState: PlayerState = {
   isQueueShuffle: false,
   queueSource: [],
   queueId: null,
+  isActiveTab: true,
 };
 
 export const playerReducer = (state = initialState, action: PlayerAction): PlayerState => {
@@ -235,6 +256,19 @@ export const playerReducer = (state = initialState, action: PlayerAction): Playe
         currentTrackId: action.payload,
         isPlaying: action.payload !== null,
         currentTime: 0,
+      };
+
+    case PlayerActionType.SET_ACTIVE_TAB:
+      return {
+        ...state,
+        isActiveTab: action.payload,
+      };
+
+    // Новая вкладка получает текущее состояние плеера от активной
+    case PlayerActionType.SYNC_STATE:
+      return {
+        ...state,
+        ...action.payload,
       };
 
     case PlayerActionType.SET_REPEAT:
