@@ -34,15 +34,18 @@ export default function usePlayer() {
     albumTracks,
     currentAlbumIndex,
     isAlbumMode,
-    isShuffleMode
+    isShuffleMode,
+    isRepeat,
+    queueId
   } = useSelector((state: RootState) => state.player);
   const allTracks = useSelector((state: RootState) => state.track.tracks);
 
   const [audioError, setAudioError] = useState<string | null>(null);
   const animationFrameRef = useRef<number | null>(null);
 
+  // С повтором после последнего трека альбома идёт первый
   const hasNextTrack = (isAlbumMode || isShuffleMode) && albumTracks.length > 0 && currentAlbumIndex >= 0 &&
-    currentAlbumIndex < albumTracks.length - 1;
+    (currentAlbumIndex < albumTracks.length - 1 || (isAlbumMode && isRepeat));
   const hasPrevTrack = (isAlbumMode || isShuffleMode) && albumTracks.length > 0 && currentAlbumIndex > 0;
 
   const formatTime = useCallback((time: number) => {
@@ -98,7 +101,7 @@ export default function usePlayer() {
   }, []);
 
   // Волна из всех треков, кроме только что дослушанного. Без перехода на страницу волны
-  const startWaveAfter = useCallback(async (finishedTrackId: string) => {
+  const startWaveAfter = useCallback(async (finishedTrackId: string, reason = 'Трек закончился') => {
     try {
       const tracks: ITrack[] = allTracks.length ? allTracks : (await api.get('/tracks')).data;
       const queue = shuffleArray(tracks.filter(track => track._id !== finishedTrackId));
@@ -111,7 +114,7 @@ export default function usePlayer() {
       dispatch(playTrack());
       notification.info({
         message: 'Включилась волна',
-        description: 'Трек закончился — дальше играют случайные треки',
+        description: `${reason} — дальше играют случайные треки`,
         placement: 'topRight',
         duration: 4,
       });
@@ -143,15 +146,26 @@ export default function usePlayer() {
         setTimeout(() => {
           dispatch(playNextTrack());
         }, 500); // Небольшая задержка для плавного перехода
+      } else if (isAlbumMode && isRepeat) {
+        // Повтор: playNextTrack с последнего трека переходит на первый
+        setTimeout(() => {
+          dispatch(playNextTrack());
+        }, 500);
+      } else if (isAlbumMode) {
+        // Альбом закончился без повтора — дальше волна, как после одиночного трека
+        const finished = queueId?.startsWith('playlist:') ? 'Плейлист закончился'
+          : queueId?.startsWith('album:') ? 'Альбом закончился' : 'Треки закончились';
+        const started = await startWaveAfter(currentTrack._id, finished);
+        if (!started) {
+          dispatch(pauseTrack());
+          dispatch(setCurrentTime(0));
+          message.info('Альбом завершен');
+        }
       } else {
-        // Если это последний трек, останавливаем воспроизведение
+        // Волна закончилась — останавливаем воспроизведение
         dispatch(pauseTrack());
         dispatch(setCurrentTime(0));
-        if (!isShuffleMode) {
-          message.info('Альбом завершен');
-        } else {
-          message.info('Все треки проиграны');
-        }
+        message.info('Все треки проиграны');
       }
     } else {
       // Одиночный трек закончился — продолжаем волной, если не получилось — останавливаемся
@@ -161,7 +175,7 @@ export default function usePlayer() {
         dispatch(setCurrentTime(0));
       }
     }
-  }, [currentTrack, isAlbumMode, isShuffleMode, albumTracks, currentAlbumIndex, incrementListenCount, startWaveAfter, dispatch]);
+  }, [currentTrack, isAlbumMode, isShuffleMode, isRepeat, queueId, albumTracks, currentAlbumIndex, incrementListenCount, startWaveAfter, dispatch]);
 
   const handleAudioError = useCallback((error: Error | string) => {
     console.error('Audio error:', error);

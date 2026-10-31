@@ -11,6 +11,14 @@ export interface PlayerState {
   currentAlbumIndex: number;
   isAlbumMode: boolean;
   isShuffleMode: boolean;
+  // Повтор очереди (альбом, плейлист) после последнего трека
+  isRepeat: boolean;
+  // Перемешивать очередь — настройка плеера, действует и на следующие альбомы
+  isQueueShuffle: boolean;
+  // Очередь в исходном порядке, чтобы выключение перемешивания возвращало его
+  queueSource: ITrack[];
+  // Что играет: 'album:<id>', 'playlist:<id>' и т.п.
+  queueId: string | null;
 }
 
 export enum PlayerActionType {
@@ -28,6 +36,9 @@ export enum PlayerActionType {
   SET_CURRENT_ALBUM_INDEX = 'SET_CURRENT_ALBUM_INDEX',
   SET_ALBUM_MODE = 'SET_ALBUM_MODE',
   SET_SHUFFLE_MODE = 'SET_SHUFFLE_MODE',
+  SET_REPEAT = 'SET_REPEAT',
+  SET_QUEUE_SHUFFLE = 'SET_QUEUE_SHUFFLE',
+  SET_QUEUE = 'SET_QUEUE',
 }
 
 interface SetCurrentTrackAction {
@@ -123,6 +134,27 @@ interface SetShuffleModeAction {
   [key: string]: any;
 }
 
+interface SetRepeatAction {
+  type: PlayerActionType.SET_REPEAT;
+  payload: boolean;
+
+  [key: string]: any;
+}
+
+interface SetQueueShuffleAction {
+  type: PlayerActionType.SET_QUEUE_SHUFFLE;
+  payload: boolean;
+
+  [key: string]: any;
+}
+
+interface SetQueueAction {
+  type: PlayerActionType.SET_QUEUE;
+  payload: { tracks: ITrack[]; source: ITrack[]; index: number; queueId: string | null };
+
+  [key: string]: any;
+}
+
 export type PlayerAction =
   | SetCurrentTrackAction
   | SetCurrentTrackDataAction
@@ -137,7 +169,10 @@ export type PlayerAction =
   | PlayPrevTrackAction
   | SetCurrentAlbumIndexAction
   | SetAlbumModeAction
-  | SetShuffleModeAction;
+  | SetShuffleModeAction
+  | SetRepeatAction
+  | SetQueueShuffleAction
+  | SetQueueAction;
 
 const initialState: PlayerState = {
   currentTrackId: null,
@@ -150,6 +185,10 @@ const initialState: PlayerState = {
   currentAlbumIndex: -1,
   isAlbumMode: false,
   isShuffleMode: false,
+  isRepeat: false,
+  isQueueShuffle: false,
+  queueSource: [],
+  queueId: null,
 };
 
 export const playerReducer = (state = initialState, action: PlayerAction): PlayerState => {
@@ -164,6 +203,9 @@ export const playerReducer = (state = initialState, action: PlayerAction): Playe
       return {
         ...state,
         isShuffleMode: action.payload,
+        // Волна — не альбом: очередь альбома забываем
+        queueId: action.payload ? null : state.queueId,
+        queueSource: action.payload ? [] : state.queueSource,
         // Выключаем режим альбома при включении shuffle mode
         isAlbumMode: action.payload ? false : state.isAlbumMode,
       };
@@ -194,6 +236,35 @@ export const playerReducer = (state = initialState, action: PlayerAction): Playe
         isPlaying: action.payload !== null,
         currentTime: 0,
       };
+
+    case PlayerActionType.SET_REPEAT:
+      return {
+        ...state,
+        isRepeat: action.payload,
+      };
+
+    case PlayerActionType.SET_QUEUE_SHUFFLE:
+      return {
+        ...state,
+        isQueueShuffle: action.payload,
+      };
+
+    // Запуск очереди с конкретного трека; порядок tracks уже учитывает перемешивание
+    case PlayerActionType.SET_QUEUE: {
+      const {tracks, source, index, queueId} = action.payload;
+      const track = tracks[index] ?? null;
+      return {
+        ...state,
+        albumTracks: tracks,
+        queueSource: source,
+        queueId,
+        currentAlbumIndex: track ? index : -1,
+        currentTrackId: track?._id ?? null,
+        currentTrack: track,
+        isAlbumMode: tracks.length > 0,
+        isShuffleMode: false,
+      };
+    }
 
     case PlayerActionType.SET_CURRENT_TRACK_DATA:
       return {

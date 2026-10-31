@@ -76,7 +76,7 @@ export default function LibraryPage() {
                 key: 'albums',
                 label: `Альбомы (${albums.length})`,
                 children: albums.length
-                  ? <AlbumsGrid albums={albums} onPlayAlbum={(album) => playQueue(album.tracks, album.name)} />
+                  ? <AlbumsGrid albums={albums} onPlayAlbum={(album) => playQueue(album.tracks, album.name, {queueId: `album:${album._id}`})} />
                   : <Empty description="Пока нет любимых альбомов" />,
               },
               {

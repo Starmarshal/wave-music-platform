@@ -77,16 +77,16 @@ export default function AlbumDetailPage() {
           </div>
 
           <div
-            className="!flex-1 !max-w-[600px]"
+            className="!flex-1 !min-w-0 !max-w-[600px]"
           >
             <AlbumDetails album={album} />
-            <AlbumTracksList tracks={album.tracks} />
+            <AlbumTracksList albumId={album._id} albumName={album.name} tracks={album.tracks} />
           </div>
         </div>
 
         <div className="!w-full !flex !flex-col !items-center lg:!hidden !max-w-[600px] !-mt-2">
           <AlbumDetails album={album} />
-          <AlbumTracksList tracks={album.tracks} />
+          <AlbumTracksList albumId={album._id} albumName={album.name} tracks={album.tracks} />
         </div>
 
         <div className="!w-full !flex !flex-col !items-center lg:!hidden !max-w-full">

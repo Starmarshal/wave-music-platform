@@ -75,7 +75,7 @@ export default function TrackDetailPage() {
             </div>
           </div>
 
-          <div className="!flex-1 !max-w-[600px]">
+          <div className="!flex-1 !min-w-0 !max-w-[600px]">
             <TrackDetails track={track} />
           </div>
         </div>

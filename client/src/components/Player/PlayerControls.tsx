@@ -5,7 +5,9 @@ import {Button, Tooltip} from 'antd';
 import {
   PauseCircleOutlined,
   PlayCircleOutlined,
+  RetweetOutlined,
   StepBackwardOutlined,
+  SwapOutlined,
   StepForwardOutlined
 } from '@ant-design/icons';
 
@@ -17,7 +19,21 @@ interface PlayerControlsProps {
   onNextTrack: () => void;
   onPrevTrack: () => void;
   showNavigation?: boolean;
+  // Повтор и перемешивание — только для альбома или плейлиста
+  queueControls?: {
+    isRepeat: boolean;
+    isShuffle: boolean;
+    onToggleRepeat: () => void;
+    onToggleShuffle: () => void;
+  };
 }
+
+const toggleClass = (active: boolean) => `
+  !text-sm md:!text-base !p-1 md:!p-2 !transition-colors
+  !border-none !outline-none !shadow-none
+  ${active ? '!text-[#32c4d0] dark:!text-cyan-400' : '!text-gray-400 dark:!text-gray-500'}
+  hover:!text-[#32c4d0] dark:hover:!text-cyan-400
+`;
 
 const PlayerControls: React.FC<PlayerControlsProps> = ({
                                                          isPlaying,
@@ -27,9 +43,21 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
                                                          onNextTrack,
                                                          onPrevTrack,
                                                          showNavigation = false,
+                                                         queueControls,
                                                        }) => {
   return (
     <div className="!flex !items-center !gap-1 md:!gap-2 !mb-5">
+      {queueControls && (
+        <Tooltip title={queueControls.isShuffle ? 'Перемешивание включено' : 'Вперемешку'} placement="top">
+          <Button
+            type="text"
+            icon={<SwapOutlined />}
+            onClick={queueControls.onToggleShuffle}
+            aria-pressed={queueControls.isShuffle}
+            className={toggleClass(queueControls.isShuffle)}
+          />
+        </Tooltip>
+      )}
       {showNavigation && (
         <Tooltip
           title="Предыдущий трек"
@@ -101,6 +129,17 @@ const PlayerControls: React.FC<PlayerControlsProps> = ({
               :focus:!border-none :focus:!outline-none
               :hover:!border-none :active:!border-none
             "
+          />
+        </Tooltip>
+      )}
+      {queueControls && (
+        <Tooltip title={queueControls.isRepeat ? 'Повтор включён' : 'Повтор'} placement="top">
+          <Button
+            type="text"
+            icon={<RetweetOutlined />}
+            onClick={queueControls.onToggleRepeat}
+            aria-pressed={queueControls.isRepeat}
+            className={toggleClass(queueControls.isRepeat)}
           />
         </Tooltip>
       )}

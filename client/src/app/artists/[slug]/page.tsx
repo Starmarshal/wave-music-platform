@@ -3,7 +3,7 @@
 import {useEffect, useState} from 'react';
 import {useParams} from 'next/navigation';
 import {Avatar, Button, Card, Col, Result, Row, Statistic, Typography} from 'antd';
-import {PlayCircleOutlined} from '@ant-design/icons';
+import {DownOutlined, PlayCircleOutlined, UpOutlined} from '@ant-design/icons';
 import Header from '@/src/components/Header';
 import Loader from '@/src/components/Loader';
 import BackButton from '@/src/components/BackButton';
@@ -29,6 +29,7 @@ type ArtistCardData = IArtist & {
   playlists: IPlaylist[];
 };
 
+const POPULAR_TRACKS_LIMIT = 5;
 const sectionTitle = '!text-lg sm:!text-xl !mt-8 !mb-3 dark:!text-gray-200';
 const number = (value: number) => value.toLocaleString('ru-RU');
 
@@ -36,6 +37,7 @@ export default function ArtistPage() {
   const {slug} = useParams<{ slug: string }>();
   const [artist, setArtist] = useState<ArtistCardData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [showAllTracks, setShowAllTracks] = useState(false);
   const playQueue = usePlayQueue();
 
   useEffect(() => {
@@ -102,14 +104,25 @@ export default function ArtistPage() {
         {artist.tracks.length > 0 && (
           <>
             <Typography.Title level={3} className={sectionTitle}>Популярные треки</Typography.Title>
-            <TrackList tracks={artist.tracks} />
+            {/* Сначала самые прослушиваемые: сервер уже отдаёт треки по убыванию прослушиваний */}
+            <TrackList tracks={showAllTracks ? artist.tracks : artist.tracks.slice(0, POPULAR_TRACKS_LIMIT)} />
+            {artist.tracks.length > POPULAR_TRACKS_LIMIT && (
+              <Button
+                type="link"
+                icon={showAllTracks ? <UpOutlined /> : <DownOutlined />}
+                onClick={() => setShowAllTracks((prev) => !prev)}
+                className="!px-0 !mt-1 dark:!text-cyan-400"
+              >
+                {showAllTracks ? 'Свернуть' : `Показать все (${artist.tracks.length})`}
+              </Button>
+            )}
           </>
         )}
 
         {artist.albums.length > 0 && (
           <>
             <Typography.Title level={3} className={sectionTitle}>Альбомы</Typography.Title>
-            <AlbumsGrid albums={artist.albums} onPlayAlbum={(album) => playQueue(album.tracks, album.name)} />
+            <AlbumsGrid albums={artist.albums} onPlayAlbum={(album) => playQueue(album.tracks, album.name, {queueId: `album:${album._id}`})} />
           </>
         )}
 

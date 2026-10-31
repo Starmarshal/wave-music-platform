@@ -9,6 +9,7 @@ import PlayerProgressBar from '@/src/components/Player/PlayerProgressBar';
 import PlayerVolumeControl from '@/src/components/Player/PlayerVolumeControl';
 import PlayerAudio from '@/src/components/Player/PlayerAudio';
 import {useAuth} from '@/src/shared/auth/AuthProvider';
+import {useQueueControls} from '@/src/hooks/usePlayQueue';
 
 const FooterPlayer: React.FC = () => {
   const {
@@ -34,6 +35,10 @@ const FooterPlayer: React.FC = () => {
     formatTime,
   } = usePlayer();
   const {user} = useAuth();
+  const {isRepeat, isQueueShuffle, toggleRepeat, toggleShuffle} = useQueueControls();
+  const queueControls = isAlbumMode
+    ? {isRepeat, isShuffle: isQueueShuffle, onToggleRepeat: toggleRepeat, onToggleShuffle: toggleShuffle}
+    : undefined;
 
   // Аудио отдаётся только вошедшим, без сессии плеер не нужен
   if (!currentTrack || !user?.emailVerified) {
@@ -65,6 +70,7 @@ const FooterPlayer: React.FC = () => {
                   onNextTrack={handleNextTrack}
                   onPrevTrack={handlePrevTrack}
                   showNavigation={isAlbumMode || isShuffleMode}
+                  queueControls={queueControls}
                 />
               </div>
             </div>
@@ -103,6 +109,7 @@ const FooterPlayer: React.FC = () => {
                     onNextTrack={handleNextTrack}
                     onPrevTrack={handlePrevTrack}
                     showNavigation={isAlbumMode || isShuffleMode}
+                  queueControls={queueControls}
                   />
                 </div>
               </div>

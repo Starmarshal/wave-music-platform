@@ -5,15 +5,6 @@ export const dynamic = 'force-static';
 import Header from '@/src/components/Header';
 import Loader from '@/src/components/Loader';
 import useAlbums from '@/src/hooks/useAlbums';
-import {useDispatch} from 'react-redux';
-import {
-  playTrack,
-  setAlbumMode,
-  setAlbumTracks,
-  setCurrentTrack,
-  setCurrentTrackData,
-} from '@/src/store/action-creators/player';
-import {message} from 'antd';
 import {IAlbum} from '@/src/types/album';
 import AlbumsContainer from '@/src/components/AlbumComponents/AlbumsContainer';
 import AlbumsHeader from '@/src/components/AlbumComponents/AlbumsHeader';
@@ -22,13 +13,12 @@ import AlbumsEmptyState
 import AlbumsGrid from '@/src/components/AlbumComponents/AlbumsGrid';
 import AlbumSearch from '@/src/components/AlbumComponents/AlbumSearch';
 import {useMemo, useState} from 'react';
-import usePlaybackGuard from '@/src/hooks/usePlaybackGuard';
+import usePlayQueue from '@/src/hooks/usePlayQueue';
 
 export default function AlbumsPage() {
-  const dispatch = useDispatch();
   const {albums, loading} = useAlbums();
   const [searchQuery, setSearchQuery] = useState('');
-  const guard = usePlaybackGuard();
+  const playQueue = usePlayQueue();
 
   const handleSearch = (query: string) => {
     setSearchQuery(query.toLowerCase().trim());
@@ -61,20 +51,7 @@ export default function AlbumsPage() {
   }, [albums, searchQuery]);
 
   const handlePlayAlbum = (album: IAlbum) => {
-    if (!guard()) return;
-    if (album.tracks && album.tracks.length > 0) {
-      dispatch(setAlbumTracks(album.tracks));
-      dispatch(setAlbumMode(true));
-
-      const firstTrack = album.tracks[0];
-      dispatch(setCurrentTrack(firstTrack._id));
-      dispatch(setCurrentTrackData(firstTrack));
-      dispatch(playTrack());
-
-      message.success(`Начинаем воспроизведение альбома "${album.name}"`);
-    } else {
-      message.warning('В альбоме нет треков');
-    }
+    playQueue(album.tracks ?? [], album.name, {queueId: `album:${album._id}`});
   };
 
   if (loading) {

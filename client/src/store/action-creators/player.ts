@@ -65,3 +65,19 @@ export const setShuffleMode = (isShuffleMode: boolean) => ({
   type: PlayerActionType.SET_SHUFFLE_MODE as const,
   payload: isShuffleMode,
 });
+
+export const setRepeat = (isRepeat: boolean) => ({
+  type: PlayerActionType.SET_REPEAT as const,
+  payload: isRepeat,
+});
+
+export const setQueueShuffle = (isQueueShuffle: boolean) => ({
+  type: PlayerActionType.SET_QUEUE_SHUFFLE as const,
+  payload: isQueueShuffle,
+});
+
+// tracks — в порядке воспроизведения, source — в исходном порядке альбома/плейлиста
+export const setQueue = (tracks: ITrack[], source: ITrack[], index: number, queueId: string | null) => ({
+  type: PlayerActionType.SET_QUEUE as const,
+  payload: {tracks, source, index, queueId},
+});

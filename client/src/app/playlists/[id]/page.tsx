@@ -105,7 +105,7 @@ export default function PlaylistPage() {
                 </Typography.Paragraph>
               )}
               <div className="!flex !flex-wrap !gap-2 !justify-center sm:!justify-start !items-center">
-                <Button type="primary" icon={<PlayCircleOutlined />} onClick={() => playQueue(tracks, playlist.name)}
+                <Button type="primary" icon={<PlayCircleOutlined />} onClick={() => playQueue(tracks, playlist.name, {queueId: `playlist:${playlist._id}`})}
                   className="!bg-[#32c4d0] !border-[#32c4d0]">
                   Слушать
                 </Button>

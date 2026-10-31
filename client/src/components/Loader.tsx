@@ -8,7 +8,8 @@ const Loader = () => {
     <Flex
       align="center"
       justify="center"
-      className="!h-[80vh] !w-screen"
+      // Ширина по родителю: w-screen внутри блоков с отступами смещал лоадер вправо
+      className="!min-h-[60vh] !w-full"
     >
       <Spin
         indicator={<LoadingOutlined
