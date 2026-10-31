@@ -33,6 +33,8 @@ export default function PlayerAudio({
                                     }: PlayerAudioProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const isActiveTab = useSelector((state: RootState) => state.player.isActiveTab);
+  const currentTrackIdRef = useRef<string | null>(null);
+  currentTrackIdRef.current = currentTrack?._id ?? null;
 
   useEffect(() => {
     if (audioRef.current) {
@@ -102,7 +104,10 @@ export default function PlayerAudio({
       }
     };
 
+    const listenerTrackId = currentTrack._id;
+
     const handleTimeUpdate = () => {
+      if (currentTrackIdRef.current !== listenerTrackId) return;
       onTimeUpdate(audioElement.currentTime);
     };
 

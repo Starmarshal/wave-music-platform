@@ -287,8 +287,11 @@ export const playerReducer = (state = initialState, action: PlayerAction): Playe
     case PlayerActionType.SET_QUEUE: {
       const {tracks, source, index, queueId} = action.payload;
       const track = tracks[index] ?? null;
+      const trackChanged = track?._id !== state.currentTrackId;
       return {
         ...state,
+        currentTime: trackChanged ? 0 : state.currentTime,
+        duration: trackChanged ? 0 : state.duration,
         albumTracks: tracks,
         queueSource: source,
         queueId,
