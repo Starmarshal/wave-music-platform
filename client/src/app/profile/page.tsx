@@ -181,7 +181,8 @@ function TwoFactorSection() {
       ) : setup ? (
         <div className="!flex !flex-col sm:!flex-row !gap-6 !items-center sm:!items-start">
           <div className="!bg-white !p-2 !rounded-lg">
-            <QRCode value={setup.otpauthUrl} size={180} bordered={false} />
+            {/* Цвета явно: в тёмной теме antd рисует код светлым, а фон здесь белый */}
+            <QRCode value={setup.otpauthUrl} size={180} bordered={false} color="#000000" bgColor="#ffffff" />
           </div>
           <div className="!flex-1 !w-full">
             <ol className="!list-decimal !pl-5 !space-y-1 dark:!text-gray-300">
