@@ -130,7 +130,7 @@ export default function PlayerAudio({
       src={staticUrl(currentTrack.audio)}
       preload="metadata"
       className="!hidden"
-      crossOrigin="anonymous"
+      crossOrigin="use-credentials"
     />
   );
 }

@@ -8,6 +8,7 @@ import PlayerControls from '@/src/components/Player/PlayerControls';
 import PlayerProgressBar from '@/src/components/Player/PlayerProgressBar';
 import PlayerVolumeControl from '@/src/components/Player/PlayerVolumeControl';
 import PlayerAudio from '@/src/components/Player/PlayerAudio';
+import {useAuth} from '@/src/shared/auth/AuthProvider';
 
 const FooterPlayer: React.FC = () => {
   const {
@@ -32,8 +33,10 @@ const FooterPlayer: React.FC = () => {
     handleAudioEnded,
     formatTime,
   } = usePlayer();
+  const {user} = useAuth();
 
-  if (!currentTrack) {
+  // Аудио отдаётся только вошедшим, без сессии плеер не нужен
+  if (!currentTrack || !user?.emailVerified) {
     return null;
   }
 

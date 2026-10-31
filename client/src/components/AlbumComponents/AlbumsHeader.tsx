@@ -3,6 +3,7 @@
 import {Button, Typography} from 'antd';
 import {UploadOutlined} from '@ant-design/icons';
 import {useRouter} from 'next/navigation';
+import {useAuth} from '@/src/shared/auth/AuthProvider';
 
 type AlbumsHeaderProps = {
   title?: string;
@@ -10,6 +11,7 @@ type AlbumsHeaderProps = {
 
 export default function AlbumsHeader({title = 'Альбомы'}: AlbumsHeaderProps) {
   const router = useRouter();
+  const {hasRole} = useAuth();
 
   return (
     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0 !mb-4 md:!mb-7">
@@ -19,7 +21,7 @@ export default function AlbumsHeader({title = 'Альбомы'}: AlbumsHeaderPro
       >
         {title}
       </Typography.Title>
-      <Button
+      {hasRole('label') && <Button
         onClick={() => router.push('/albums/create')}
         type="primary"
         size="large"
@@ -27,7 +29,7 @@ export default function AlbumsHeader({title = 'Альбомы'}: AlbumsHeaderPro
         className="!rounded-lg !h-[40px] sm:!h-[45px] !font-semibold !shadow-lg !w-full sm:!w-auto dark:!bg-blue-600 dark:!border-blue-600"
       >
         Создать альбом
-      </Button>
+      </Button>}
     </div>
   );
 }

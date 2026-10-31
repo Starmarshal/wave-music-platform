@@ -5,15 +5,17 @@ import AlbumFormActions
   from '@/src/components/AlbumComponents/AlbumFormActions';
 import AlbumFormFields from '@/src/components/AlbumComponents/AlbumFormFields';
 import {ITrack} from '@/src/types/track';
+import {IArtist} from '@/src/types/user';
 
 type CreateAlbumFormProps = {
   name: string;
-  author: string;
+  artistIds: string[];
+  artists: IArtist[];
   picture: File | null;
   selectedTracks: string[];
   tracks: ITrack[];
   onNameChange: (value: string) => void;
-  onAuthorChange: (value: string) => void;
+  onArtistIdsChange: (value: string[]) => void;
   onPictureChange: React.Dispatch<React.SetStateAction<File | null>>;
   onTracksChange: (trackIds: string[]) => void;
   onSubmit: () => void;
@@ -23,12 +25,13 @@ type CreateAlbumFormProps = {
 
 export default function CreateAlbumForm({
                                           name,
-                                          author,
+                                          artistIds,
+                                          artists,
                                           picture,
                                           selectedTracks,
                                           tracks,
                                           onNameChange,
-                                          onAuthorChange,
+                                          onArtistIdsChange,
                                           onPictureChange,
                                           onTracksChange,
                                           onSubmit,
@@ -49,12 +52,13 @@ export default function CreateAlbumForm({
 
         <AlbumFormFields
           name={name}
-          author={author}
+          artistIds={artistIds}
+          artists={artists}
           picture={picture}
           selectedTracks={selectedTracks}
           tracks={tracks}
           onNameChange={onNameChange}
-          onAuthorChange={onAuthorChange}
+          onArtistIdsChange={onArtistIdsChange}
           onPictureChange={onPictureChange}
           onTracksChange={onTracksChange}
         />

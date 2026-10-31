@@ -3,6 +3,7 @@
 import {Button, Typography} from 'antd';
 import {UploadOutlined} from '@ant-design/icons';
 import {useRouter} from 'next/navigation';
+import {useAuth} from '@/src/shared/auth/AuthProvider';
 
 type TracksHeaderProps = {
   title?: string;
@@ -20,6 +21,7 @@ export default function TracksHeader({
                                        buttonHref = '/tracks/create'
                                      }: TracksHeaderProps) {
   const router = useRouter();
+  const {hasRole} = useAuth();
 
   const handleButtonClick = () => {
     if (onButtonClick) {
@@ -39,7 +41,7 @@ export default function TracksHeader({
       >
         {title}
       </Typography.Title>
-      <Button
+      {hasRole('label') && <Button
         onClick={handleButtonClick}
         type="primary"
         size="large"
@@ -47,7 +49,7 @@ export default function TracksHeader({
         className="!rounded-lg !h-[40px] sm:!h-[45px] !font-semibold !shadow-lg !w-full sm:!w-auto dark:!bg-blue-600 dark:!border-blue-600"
       >
         {buttonText}
-      </Button>
+      </Button>}
     </div>
   );
 }

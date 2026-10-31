@@ -6,17 +6,19 @@ import TrackFormStep2 from '@/src/components/TrackComponents/TrackFormStep2';
 import TrackFormStep3 from '@/src/components/TrackComponents/TrackFormStep3';
 import TrackFormNavigation
   from '@/src/components/TrackComponents/TrackFormNavigation';
+import {IArtist} from '@/src/types/user';
 
 type TrackFormStepperProps = {
   activeStep: number;
   name: string;
-  artist: string;
+  artistIds: string[];
+  artists: IArtist[];
   text: string;
   picture: File | null;
   audio: File | null;
   loading: boolean;
   onNameChange: (value: string) => void;
-  onArtistChange: (value: string) => void;
+  onArtistIdsChange: (value: string[]) => void;
   onTextChange: (value: string) => void;
   onPictureChange: React.Dispatch<React.SetStateAction<File | null>>
   onAudioChange: React.Dispatch<React.SetStateAction<File | null>>
@@ -28,13 +30,14 @@ type TrackFormStepperProps = {
 export default function TrackFormStepper({
                                            activeStep,
                                            name,
-                                           artist,
+                                           artistIds,
+                                           artists,
                                            text,
                                            picture,
                                            audio,
                                            loading,
                                            onNameChange,
-                                           onArtistChange,
+                                           onArtistIdsChange,
                                            onTextChange,
                                            onPictureChange,
                                            onAudioChange,
@@ -55,10 +58,11 @@ export default function TrackFormStepper({
       {activeStep === 0 && (
         <TrackFormStep1
           name={name}
-          artist={artist}
+          artistIds={artistIds}
+          artists={artists}
           text={text}
           onNameChange={onNameChange}
-          onArtistChange={onArtistChange}
+          onArtistIdsChange={onArtistIdsChange}
           onTextChange={onTextChange}
         />
       )}

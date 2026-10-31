@@ -1,7 +1,8 @@
 'use client';
 
-import {useState} from 'react';
-import {api} from '@/src/shared/api';
+import {useEffect, useState} from 'react';
+import {api, apiError} from '@/src/shared/api';
+import {IArtist} from '@/src/types/user';
 import {message} from 'antd';
 
 export default function useTrackForm() {
@@ -9,9 +10,15 @@ export default function useTrackForm() {
   const [picture, setPicture] = useState<File | null>(null);
   const [audio, setAudio] = useState<File | null>(null);
   const [name, setName] = useState('');
-  const [artist, setArtist] = useState('');
+  const [artistIds, setArtistIds] = useState<string[]>([]);
+  const [artists, setArtists] = useState<IArtist[]>([]);
   const [text, setText] = useState('');
   const [loading, setLoading] = useState(false);
+
+  // Лейбл видит только своих артистов, админ — всех
+  useEffect(() => {
+    api.get('/studio').then(({data}) => setArtists(data.artists)).catch(() => setArtists([]));
+  }, []);
 
   const validateStep = (step: number): boolean => {
     switch (step) {
@@ -20,8 +27,8 @@ export default function useTrackForm() {
           message.warning('Введите название трека');
           return false;
         }
-        if (!artist.trim()) {
-          message.warning('Введите имя исполнителя');
+        if (!artistIds.length) {
+          message.warning('Выберите исполнителей');
           return false;
         }
         return true;
@@ -61,7 +68,7 @@ export default function useTrackForm() {
       setLoading(true);
       const formData = new FormData();
       formData.append('name', name);
-      formData.append('artist', artist);
+      artistIds.forEach((id) => formData.append('artistIds', id));
       formData.append('text', text);
       if (picture) formData.append('picture', picture);
       if (audio) formData.append('audio', audio);
@@ -74,7 +81,7 @@ export default function useTrackForm() {
       return true;
     } catch (error) {
       console.error('Ошибка создания трека:', error);
-      message.error('Не удалось создать трек');
+      message.error(apiError(error, 'Не удалось создать трек'));
       return false;
     } finally {
       setLoading(false);
@@ -83,7 +90,7 @@ export default function useTrackForm() {
 
   const resetForm = () => {
     setName('');
-    setArtist('');
+    setArtistIds([]);
     setText('');
     setPicture(null);
     setAudio(null);
@@ -94,7 +101,8 @@ export default function useTrackForm() {
     // Form values
     activeStep,
     name,
-    artist,
+    artistIds,
+    artists,
     text,
     picture,
     audio,
@@ -102,7 +110,7 @@ export default function useTrackForm() {
 
     // Setters
     setName,
-    setArtist,
+    setArtistIds,
     setText,
     setPicture,
     setAudio,

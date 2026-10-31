@@ -5,6 +5,8 @@ import {PlayCircleOutlined} from '@ant-design/icons';
 import {staticUrl} from '@/src/shared/config';
 import {IAlbum} from '@/src/types/album';
 import {useRouter} from 'next/navigation';
+import ArtistLinks from '@/src/components/ArtistLinks';
+import LikeButton from '@/src/components/LikeButton';
 
 type AlbumCardProps = {
   album: IAlbum;
@@ -49,19 +51,22 @@ export default function AlbumCard({album, onPlayAlbum}: AlbumCardProps) {
     >
       <Card.Meta
         title={
-          <Typography.Text
-            strong
-            className="!text-base dark:!text-gray-200"
-          >
-            {album.name}
-          </Typography.Text>
+          <div className="!flex !items-center !justify-between !gap-2">
+            <Typography.Text
+              strong
+              className="!text-base dark:!text-gray-200 !truncate"
+            >
+              {album.name}
+            </Typography.Text>
+            <LikeButton type="albums" id={album._id} size="small" />
+          </div>
         }
         description={
           <Typography.Text
             type="secondary"
             className="dark:!text-gray-400"
           >
-            {album.author}
+            <ArtistLinks artists={album.artists} fallback={album.author} />
           </Typography.Text>
         }
       />

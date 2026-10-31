@@ -2,11 +2,14 @@
 
 import {Button, Card, Flex, Typography} from 'antd';
 import {useRouter} from 'next/navigation';
+import ArtistLinks from '@/src/components/ArtistLinks';
+import {IArtistRef} from '@/src/types/user';
 
 type TrackType = {
   _id: string;
   name: string;
   artist: string;
+  artists?: IArtistRef[];
   listens: number;
 };
 
@@ -80,7 +83,7 @@ export default function AlbumTracksList({tracks}: AlbumTracksListProps) {
                       type="secondary"
                       className="!text-xs sm:!text-sm !truncate !block !mt-1 dark:!text-gray-400"
                     >
-                      {track.artist}
+                      <ArtistLinks artists={track.artists} fallback={track.artist} />
                     </Typography.Text>
                   </div>
                 </div>

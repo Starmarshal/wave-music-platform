@@ -1,42 +1,56 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
+  Patch,
   Post,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
-import { AlbumService } from './album.service';
-import { CreateAlbumDTO } from './dto/create-album.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { AlbumService } from './album.service';
 import { CreateAlbumCommentDTO } from './dto/create-album-comment.dto';
+import { Auth, CurrentUser } from '../auth/auth.decorators';
+import { Role, User } from '../users/entities/user.entity';
+import { AccessService } from '../access/access.service';
+import { AuditService } from '../access/audit.service';
+import { IMAGE_LIMITS } from '../file/file.service';
+import { parseIdList } from '../shared/form';
 
 @Controller('/albums')
 export class AlbumController {
-  constructor(private albumService: AlbumService) {}
+  constructor(
+    private albumService: AlbumService,
+    private accessService: AccessService,
+    private auditService: AuditService,
+  ) {}
 
   @Post()
-  @UseInterceptors(FileInterceptor('picture'))
-  create(@UploadedFile() picture, @Body() dto: any) {
-    // Преобразуем tracks[] массив в tracks массив
-    let tracks: string[] = [];
-    if (dto.tracks) {
-      tracks = Array.isArray(dto.tracks) ? dto.tracks : [dto.tracks];
-    } else if (dto['tracks[]']) {
-      tracks = Array.isArray(dto['tracks[]'])
-        ? dto['tracks[]']
-        : [dto['tracks[]']];
-    }
-
-    const createDto: CreateAlbumDTO = {
-      name: dto.name,
-      author: dto.author,
-      tracks: tracks,
-    };
-
-    return this.albumService.create(createDto, picture);
+  @Auth({ role: Role.LABEL })
+  @UseInterceptors(FileInterceptor('picture', { limits: IMAGE_LIMITS }))
+  async create(
+    @UploadedFile() picture,
+    @Body() body: Record<string, string>,
+    @CurrentUser() user: User,
+  ) {
+    const artistIds = parseIdList(body, 'artistIds') ?? [];
+    if (!artistIds.length) throw new BadRequestException('Укажите артистов');
+    const trackIds = parseIdList(body, 'tracks') ?? [];
+    await this.accessService.assertCanManageArtists(user, artistIds);
+    await this.accessService.assertCanUseTracks(user, trackIds);
+    const album = await this.albumService.create(
+      { name: body.name, artistIds, trackIds },
+      picture,
+      user,
+    );
+    await this.auditService.log(user, 'create', 'album', album!._id, {
+      name: album!.name,
+    });
+    return album;
   }
 
   @Get()
@@ -49,14 +63,49 @@ export class AlbumController {
     return this.albumService.getOne(id);
   }
 
-  @Delete(':id')
-  delete(@Param('id') id: string) {
-    return this.albumService.delete(id);
+  @Patch(':id')
+  @Auth({ role: Role.LABEL })
+  @UseInterceptors(FileInterceptor('picture', { limits: IMAGE_LIMITS }))
+  async update(
+    @Param('id') id: string,
+    @UploadedFile() picture,
+    @Body() body: Record<string, string>,
+    @CurrentUser() user: User,
+  ) {
+    await this.accessService.assertCanManageAlbum(user, id);
+    const artistIds = parseIdList(body, 'artistIds');
+    if (artistIds) {
+      if (!artistIds.length) throw new BadRequestException('Укажите артистов');
+      await this.accessService.assertCanManageArtists(user, artistIds);
+    }
+    const trackIds = parseIdList(body, 'tracks');
+    if (trackIds) await this.accessService.assertCanUseTracks(user, trackIds);
+    const album = await this.albumService.update(
+      id,
+      { name: body.name, artistIds, trackIds },
+      picture,
+    );
+    await this.auditService.log(user, 'update', 'album', id, {
+      name: album!.name,
+    });
+    return album;
   }
 
-  // Новый эндпоинт для добавления комментария к альбому
+  @Delete(':id')
+  @Auth({ role: Role.LABEL })
+  async delete(@Param('id') id: string, @CurrentUser() user: User) {
+    await this.accessService.assertCanManageAlbum(user, id);
+    const album = await this.albumService.getOne(id);
+    if (!album) throw new NotFoundException(`Album with id ${id} not found`);
+    await this.albumService.delete(id);
+    await this.auditService.log(user, 'delete', 'album', id, {
+      name: album.name,
+    });
+  }
+
   @Post('/comment')
-  addComment(@Body() dto: CreateAlbumCommentDTO) {
-    return this.albumService.addComment(dto);
+  @Auth()
+  addComment(@Body() dto: CreateAlbumCommentDTO, @CurrentUser() user: User) {
+    return this.albumService.addComment(dto.albumId, dto.text, user);
   }
 }

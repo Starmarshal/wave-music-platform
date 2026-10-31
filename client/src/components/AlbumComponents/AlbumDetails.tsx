@@ -1,6 +1,9 @@
 'use client';
 
 import {Card, Typography} from 'antd';
+import ArtistLinks from '@/src/components/ArtistLinks';
+import LikeButton from '@/src/components/LikeButton';
+import {IArtistRef} from '@/src/types/user';
 
 type CommentType = {
   username: string;
@@ -12,6 +15,7 @@ type AlbumType = {
   _id: string;
   name: string;
   author: string;
+  artists?: IArtistRef[];
   description?: string;
   releaseDate?: string;
   tracks: any[];
@@ -35,9 +39,12 @@ export default function AlbumDetails({album}: AlbumDetailsProps) {
           level={2}
           className="!text-xl sm:!text-2xl md:!text-3xl dark:!text-gray-200"
         >{album.name}</Typography.Title>
+        <div className="!-mt-2 !mb-3 !-ml-2">
+          <LikeButton type="albums" id={album._id} withText />
+        </div>
 
         <p className="!mb-2 !text-sm sm:!text-base dark:!text-gray-300">
-          <strong className="dark:!text-gray-200">Исполнитель:</strong> {album.author}
+          <strong className="dark:!text-gray-200">Исполнитель:</strong> <ArtistLinks artists={album.artists} fallback={album.author} />
         </p>
 
         {album.description && (

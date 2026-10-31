@@ -4,36 +4,37 @@ import {Input, Select, Typography} from 'antd';
 import {UploadOutlined} from '@ant-design/icons';
 import {ITrack} from '@/src/types/track';
 import FileUpload from '@/src/components/FileUpload';
+import {IArtist} from '@/src/types/user';
 
 const {Option} = Select;
 
 type AlbumFormFieldsProps = {
   name: string;
-  author: string;
+  artistIds: string[];
+  artists: IArtist[];
   picture: File | null;
   selectedTracks: string[];
   tracks: ITrack[];
   onNameChange: (value: string) => void;
-  onAuthorChange: (value: string) => void;
+  onArtistIdsChange: (value: string[]) => void;
   onPictureChange: React.Dispatch<React.SetStateAction<File | null>>
   onTracksChange: (trackIds: string[]) => void;
   namePlaceholder?: string;
-  authorPlaceholder?: string;
   pictureAccept?: string;
 };
 
 export default function AlbumFormFields({
                                           name,
-                                          author,
+                                          artistIds,
+                                          artists,
                                           picture,
                                           selectedTracks,
                                           tracks,
                                           onNameChange,
-                                          onAuthorChange,
+                                          onArtistIdsChange,
                                           onPictureChange,
                                           onTracksChange,
                                           namePlaceholder = 'Введите название альбома',
-                                          authorPlaceholder = 'Введите имя автора',
                                           pictureAccept = 'image/*'
                                         }: AlbumFormFieldsProps) {
   return (
@@ -56,13 +57,16 @@ export default function AlbumFormFields({
         <Typography.Text
           strong
           className="!text-sm sm:!text-base dark:!text-gray-200"
-        >Автор</Typography.Text>
-        <Input
-          value={author}
-          onChange={(e) => onAuthorChange(e.target.value)}
-          placeholder={authorPlaceholder}
+        >Исполнители</Typography.Text>
+        <Select
+          mode="multiple"
+          value={artistIds}
+          onChange={onArtistIdsChange}
+          placeholder="Выберите исполнителей (первый — основной)"
           size="large"
-          className="!mt-2 !h-[45px] sm:!h-[50px] dark:!bg-gray-700 dark:!border-gray-600 dark:!text-gray-200"
+          optionFilterProp="label"
+          options={artists.map((a) => ({value: a._id, label: a.name}))}
+          className="!w-full !mt-2"
         />
       </div>
 

@@ -5,6 +5,8 @@ import {ReduxProvider} from '@/src/store/ReduxProvider';
 import FooterPlayer from '@/src/components/FooterPlayer';
 import ThemeSync from '@/src/components/ThemeSync';
 import Background from '@/src/components/Background';
+import {AuthProvider} from '@/src/shared/auth/AuthProvider';
+import AntdThemeProvider from '@/src/components/AntdThemeProvider';
 
 const inter = Inter({subsets: ['latin']});
 
@@ -59,9 +61,13 @@ export default function RootLayout({
     {/* Основное содержимое */}
     <div className="relative z-10">
       <ReduxProvider>
-        <ThemeSync />
-        {children}
-        <FooterPlayer />
+        <AntdThemeProvider>
+        <AuthProvider>
+          <ThemeSync />
+          {children}
+          <FooterPlayer />
+        </AuthProvider>
+        </AntdThemeProvider>
       </ReduxProvider>
     </div>
     </body>

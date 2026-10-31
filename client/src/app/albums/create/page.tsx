@@ -4,18 +4,22 @@ import {useRouter} from 'next/navigation';
 import CreateAlbumForm from '@/src/components/AlbumComponents/CreateAlbumForm';
 import useCreateAlbum from '@/src/hooks/useCreateAlbum';
 import Header from '@/src/components/Header';
+import useRequireUser from '@/src/hooks/useRequireUser';
+import Loader from '@/src/components/Loader';
 
 export default function CreateAlbumPage() {
   const router = useRouter();
+  const {ready} = useRequireUser('label');
   const {
     name,
-    author,
+    artistIds,
+    artists,
     picture,
     selectedTracks,
     tracks,
     loading,
     setName,
-    setAuthor,
+    setArtistIds,
     setPicture,
     setSelectedTracks,
     submitForm
@@ -24,7 +28,7 @@ export default function CreateAlbumPage() {
   const handleSubmit = async () => {
     const success = await submitForm();
     if (success) {
-      router.push('/albums');
+      router.push('/studio');
     }
   };
 
@@ -32,18 +36,21 @@ export default function CreateAlbumPage() {
     router.back();
   };
 
+  if (!ready) return (<><Header /><Loader /></>);
+
   return (
     <div>
       <Header />
 
       <CreateAlbumForm
         name={name}
-        author={author}
+        artistIds={artistIds}
+        artists={artists}
         picture={picture}
         selectedTracks={selectedTracks}
         tracks={tracks}
         onNameChange={setName}
-        onAuthorChange={setAuthor}
+        onArtistIdsChange={setArtistIds}
         onPictureChange={setPicture}
         onTracksChange={setSelectedTracks}
         onSubmit={handleSubmit}

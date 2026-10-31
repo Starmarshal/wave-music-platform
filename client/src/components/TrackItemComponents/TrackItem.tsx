@@ -15,6 +15,9 @@ import TrackItemProgress
   from '@/src/components/TrackItemComponents/TrackItemProgress';
 import TrackItemVolume
   from '@/src/components/TrackItemComponents/TrackItemVolume';
+import LikeButton from '@/src/components/LikeButton';
+import AddToPlaylistButton from '@/src/components/AddToPlaylistButton';
+import {useAuth} from '@/src/shared/auth/AuthProvider';
 
 interface TrackItemProps {
   track: ITrack;
@@ -34,6 +37,7 @@ const TrackItem: React.FC<TrackItemProps> = ({track, onDelete}) => {
     handleVolumeChange,
     formatTime
   } = useTrackItem(track);
+  const {hasRole} = useAuth();
 
   const handleImageClick = () => {
   };
@@ -65,15 +69,22 @@ const TrackItem: React.FC<TrackItemProps> = ({track, onDelete}) => {
             trackId={track._id}
             name={track.name}
             artist={track.artist}
+            artists={track.artists}
             isCurrentTrack={isCurrentTrack}
             listens={track.listens}
           />
         </div>
 
-        <div className="!flex-shrink-0 !hidden sm:!block">
-          <TrackItemDeleteButton
-            onDelete={handleDeleteWithCallback}
-          />
+        <div className="!flex-shrink-0 !flex !items-center">
+          <LikeButton type="tracks" id={track._id} />
+          <AddToPlaylistButton trackId={track._id} />
+          {hasRole('admin') && (
+            <div className="!hidden sm:!block">
+              <TrackItemDeleteButton
+                onDelete={handleDeleteWithCallback}
+              />
+            </div>
+          )}
         </div>
       </div>
 

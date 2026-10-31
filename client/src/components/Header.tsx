@@ -1,50 +1,54 @@
 'use client';
 
-import {Button, Drawer, Layout, Menu} from 'antd';
-import {UnorderedListOutlined} from '@ant-design/icons';
+import {Avatar, Button, Drawer, Dropdown, Layout, Menu} from 'antd';
+import {UnorderedListOutlined, UserOutlined} from '@ant-design/icons';
 import {useState} from 'react';
 import {useRouter} from 'next/navigation';
 import Logo from '@/src/components/Logo';
+import AccountNotice from '@/src/components/Auth/AccountNotice';
+import {useAuth} from '@/src/shared/auth/AuthProvider';
 
 const Header = () => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
+  const {user, loading, hasRole, logout} = useAuth();
 
   const showDrawer = () => setOpen(true);
   const onClose = () => setOpen(false);
 
+  const go = (path: string) => () => {
+    router.push(path);
+    onClose();
+  };
+
   const items = [
+    {key: 'home', label: 'Главная', onClick: go('/')},
+    {key: 'tracks', label: 'Список треков', onClick: go('/tracks')},
+    {key: 'albums', label: 'Альбомы', onClick: go('/albums')},
+    {key: 'artists', label: 'Артисты', onClick: go('/artists')},
+    {key: 'playlists', label: 'Плейлисты', onClick: go('/playlists')},
+    {key: 'wave', label: 'Волна', onClick: go('/wave')},
+    ...(user ? [{key: 'library', label: 'Моя музыка', onClick: go('/library')}] : []),
+    ...(hasRole('label') ? [{key: 'studio', label: 'Студия', onClick: go('/studio')}] : []),
+    ...(hasRole('admin') ? [{key: 'admin', label: 'Админка', onClick: go('/admin')}] : []),
+  ];
+
+  const userMenu = [
+    {key: 'name', label: user?.displayName, disabled: true},
+    {type: 'divider' as const},
+    {key: 'profile', label: 'Профиль и безопасность', onClick: go('/profile')},
+    {key: 'library', label: 'Моя музыка', onClick: go('/library')},
+    ...(hasRole('label') ? [{key: 'studio', label: 'Студия', onClick: go('/studio')}] : []),
+    ...(hasRole('admin') ? [{key: 'admin', label: 'Админка', onClick: go('/admin')}] : []),
+    {type: 'divider' as const},
     {
-      key: '1',
-      label: 'Главная',
-      onClick: () => {
+      key: 'logout',
+      label: 'Выйти',
+      danger: true,
+      onClick: async () => {
+        await logout();
         router.push('/');
-        onClose();
-      }
-    },
-    {
-      key: '2',
-      label: 'Список треков',
-      onClick: () => {
-        router.push('/tracks');
-        onClose();
-      }
-    },
-    {
-      key: '3',
-      label: 'Альбомы',
-      onClick: () => {
-        router.push('/albums');
-        onClose();
-      }
-    },
-    {
-      key: '4',
-      label: 'Волна',
-      onClick: () => {
-        router.push('/wave');
-        onClose();
-      }
+      },
     },
   ];
 
@@ -66,9 +70,31 @@ const Header = () => {
             <Logo />
           </div>
 
-          {/* Пустой div для балансировки - справа */}
-          <div className="!w-10 sm:!w-12"></div>
-
+          {/* Аккаунт - справа */}
+          <div className="!mr-1 sm:!mr-3 !flex !items-center">
+            {loading ? null : user ? (
+              <Dropdown
+                menu={{items: userMenu}}
+                trigger={['click']}
+                placement="bottomRight"
+              >
+                <Avatar
+                  className="!cursor-pointer !bg-white/25 !text-white"
+                  icon={<UserOutlined />}
+                >
+                  {user.displayName.slice(0, 1).toUpperCase()}
+                </Avatar>
+              </Dropdown>
+            ) : (
+              <Button
+                size="small"
+                className="!text-white !bg-transparent !border-white/80 hover:!bg-white/15"
+                onClick={() => router.push('/login')}
+              >
+                Войти
+              </Button>
+            )}
+          </div>
         </Layout.Header>
 
         <Drawer
@@ -108,6 +134,7 @@ const Header = () => {
       </div>
 
       <div className="!h-14 sm:!h-16"></div>
+      <AccountNotice />
     </>
   );
 };

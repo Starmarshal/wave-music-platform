@@ -22,11 +22,13 @@ import AlbumsEmptyState
 import AlbumsGrid from '@/src/components/AlbumComponents/AlbumsGrid';
 import AlbumSearch from '@/src/components/AlbumComponents/AlbumSearch';
 import {useMemo, useState} from 'react';
+import usePlaybackGuard from '@/src/hooks/usePlaybackGuard';
 
 export default function AlbumsPage() {
   const dispatch = useDispatch();
   const {albums, loading} = useAlbums();
   const [searchQuery, setSearchQuery] = useState('');
+  const guard = usePlaybackGuard();
 
   const handleSearch = (query: string) => {
     setSearchQuery(query.toLowerCase().trim());
@@ -59,6 +61,7 @@ export default function AlbumsPage() {
   }, [albums, searchQuery]);
 
   const handlePlayAlbum = (album: IAlbum) => {
+    if (!guard()) return;
     if (album.tracks && album.tracks.length > 0) {
       dispatch(setAlbumTracks(album.tracks));
       dispatch(setAlbumMode(true));
@@ -95,7 +98,6 @@ export default function AlbumsPage() {
           <AlbumsContainer>
             <AlbumsHeader />
 
-            {/* Компонент поиска по альбомам */}
             <AlbumSearch
               onSearch={handleSearch}
               placeholder="Поиск альбомов, артистов или треков..."

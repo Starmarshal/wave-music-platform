@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { Track } from './track.entity';
 import { Album } from '../../album/entities/album.entity';
+import { User } from '../../users/entities/user.entity';
 
 @Entity('comments')
 export class Comment {
@@ -36,6 +37,14 @@ export class Comment {
   @ManyToOne(() => Album, (album) => album.comments, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'album_id' })
   album: Album | null;
+
+  // null у старых гостевых комментариев, там есть только username
+  @Column({ name: 'user_id', type: 'varchar', length: 24, nullable: true })
+  userId: string | null;
+
+  @ManyToOne(() => User, { onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'user_id' })
+  user: User | null;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt: Date;

@@ -2,12 +2,14 @@
 
 import {useEffect, useState} from 'react';
 import {message} from 'antd';
-import {api} from '@/src/shared/api';
+import {api, apiError} from '@/src/shared/api';
+import {IArtist} from '@/src/types/user';
 import {ITrack} from '@/src/types/track';
 
 export default function useCreateAlbum() {
   const [name, setName] = useState('');
-  const [author, setAuthor] = useState('');
+  const [artistIds, setArtistIds] = useState<string[]>([]);
+  const [artists, setArtists] = useState<IArtist[]>([]);
   const [picture, setPicture] = useState<File | null>(null);
   const [selectedTracks, setSelectedTracks] = useState<string[]>([]);
   const [tracks, setTracks] = useState<ITrack[]>([]);
@@ -18,8 +20,9 @@ export default function useCreateAlbum() {
     const fetchTracks = async () => {
       try {
         setTracksLoading(true);
-        const response = await api.get('/tracks');
-        setTracks(response.data);
+        const response = await api.get('/studio');
+        setTracks(response.data.tracks);
+        setArtists(response.data.artists);
       } catch (error) {
         console.error('Ошибка загрузки треков:', error);
         message.error('Не удалось загрузить список треков');
@@ -36,8 +39,8 @@ export default function useCreateAlbum() {
       message.warning('Введите название альбома');
       return false;
     }
-    if (!author.trim()) {
-      message.warning('Введите автора альбома');
+    if (!artistIds.length) {
+      message.warning('Выберите исполнителей');
       return false;
     }
     if (selectedTracks.length === 0) {
@@ -60,7 +63,7 @@ export default function useCreateAlbum() {
       setLoading(true);
       const formData = new FormData();
       formData.append('name', name);
-      formData.append('author', author);
+      artistIds.forEach((id) => formData.append('artistIds', id));
       selectedTracks.forEach((trackId) => {
         formData.append('tracks', trackId);
       });
@@ -74,7 +77,7 @@ export default function useCreateAlbum() {
       return true;
     } catch (error) {
       console.error('Ошибка создания альбома:', error);
-      message.error('Не удалось создать альбом');
+      message.error(apiError(error, 'Не удалось создать альбом'));
       return false;
     } finally {
       setLoading(false);
@@ -83,7 +86,7 @@ export default function useCreateAlbum() {
 
   const resetForm = () => {
     setName('');
-    setAuthor('');
+    setArtistIds([]);
     setPicture(null);
     setSelectedTracks([]);
   };
@@ -91,7 +94,8 @@ export default function useCreateAlbum() {
   return {
     // Form values
     name,
-    author,
+    artistIds,
+    artists,
     picture,
     selectedTracks,
     tracks,
@@ -102,7 +106,7 @@ export default function useCreateAlbum() {
 
     // Setters
     setName,
-    setAuthor,
+    setArtistIds,
     setPicture,
     setSelectedTracks,
 

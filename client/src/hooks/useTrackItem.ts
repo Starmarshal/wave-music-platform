@@ -16,6 +16,7 @@ import {
   setDuration,
   setVolume
 } from '@/src/store/action-creators/player';
+import usePlaybackGuard from '@/src/hooks/usePlaybackGuard';
 
 export default function useTrackItem(track: any) {
   const dispatch = useDispatch();
@@ -31,6 +32,7 @@ export default function useTrackItem(track: any) {
   } = useSelector((state: RootState) => state.player);
 
   const [hasBeenPlayed, setHasBeenPlayed] = useState(false);
+  const guard = usePlaybackGuard();
 
   const isCurrentTrack = currentTrackId === track._id;
   const isPlaying = isCurrentTrack && globalIsPlaying;
@@ -40,6 +42,7 @@ export default function useTrackItem(track: any) {
   }, [track._id]);
 
   const handlePlayPause = useCallback(() => {
+    if (!guard()) return;
     if (isCurrentTrack) {
       if (globalIsPlaying) {
         dispatch(pauseTrack());
@@ -62,7 +65,7 @@ export default function useTrackItem(track: any) {
     if (!hasBeenPlayed && !isCurrentTrack) {
       setHasBeenPlayed(true);
     }
-  }, [isCurrentTrack, globalIsPlaying, track, dispatch, hasBeenPlayed, isAlbumMode]);
+  }, [isCurrentTrack, globalIsPlaying, track, dispatch, hasBeenPlayed, isAlbumMode, guard]);
 
   // Функция для увеличения счетчика прослушиваний
   const incrementListenCount = useCallback(async () => {

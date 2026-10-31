@@ -2,11 +2,14 @@
 
 import {Typography} from 'antd';
 import {useRouter} from 'next/navigation';
+import ArtistLinks from '@/src/components/ArtistLinks';
+import {IArtistRef} from '@/src/types/user';
 
 type TrackItemInfoProps = {
   trackId: string;
   name: string;
   artist: string;
+  artists?: IArtistRef[];
   isCurrentTrack: boolean;
   listens?: number;
   duration?: number;
@@ -16,6 +19,7 @@ export default function TrackItemInfo({
                                         trackId,
                                         name,
                                         artist,
+                                        artists,
                                         isCurrentTrack,
                                         listens,
                                         duration
@@ -44,7 +48,7 @@ export default function TrackItemInfo({
         type="secondary"
         className="!block !text-[13px] !leading-[1.4] !break-words !w-full !whitespace-normal dark:!text-gray-400"
       >
-        {artist}
+        <ArtistLinks artists={artists} fallback={artist} />
       </Typography.Text>
       {(listens || duration) && (
         <Typography.Text

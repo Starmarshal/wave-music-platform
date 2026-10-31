@@ -3,11 +3,16 @@
 import {Card, Typography} from 'antd';
 import {useRouter} from 'next/navigation';
 import {useState} from 'react';
+import ArtistLinks from '@/src/components/ArtistLinks';
+import LikeButton from '@/src/components/LikeButton';
+import AddToPlaylistButton from '@/src/components/AddToPlaylistButton';
+import {IArtistRef} from '@/src/types/user';
 
 type TrackType = {
   _id: string;
   name: string;
   artist: string;
+  artists?: IArtistRef[];
   listens: number;
   text: string;
   comments: any[];
@@ -46,8 +51,12 @@ export default function TrackDetails({track}: TrackDetailsProps) {
           level={2}
           className="!text-xl sm:!text-2xl md:!text-3xl dark:!text-gray-200"
         >{track.name}</Typography.Title>
+        <div className="!-mt-2 !mb-3 !-ml-2">
+          <LikeButton type="tracks" id={track._id} withText />
+          <AddToPlaylistButton trackId={track._id} />
+        </div>
         <p className="!mb-2 !text-sm sm:!text-base dark:!text-gray-300">
-          <strong className="dark:!text-gray-200">Исполнитель:</strong> {track.artist}
+          <strong className="dark:!text-gray-200">Исполнитель:</strong> <ArtistLinks artists={track.artists} fallback={track.artist} />
         </p>
         <p className="!text-sm sm:!text-base dark:!text-gray-300">
           <strong className="dark:!text-gray-200">Прослушиваний:</strong> {track.listens}

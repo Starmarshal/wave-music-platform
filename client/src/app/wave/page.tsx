@@ -19,6 +19,7 @@ import {
 import {trackService} from '@/src/shared/api/trackService';
 import {ITrack} from '@/src/types/track';
 import Loader from '@/src/components/Loader';
+import usePlaybackGuard from '@/src/hooks/usePlaybackGuard';
 
 const {Title, Text} = Typography;
 
@@ -35,6 +36,7 @@ export default function WavePage() {
   const dispatch = useAppDispatch();
   const {tracks, loading} = useTypedSelector(state => state.track);
   const [shouldStartPlaying, setShouldStartPlaying] = useState(false);
+  const guard = usePlaybackGuard();
 
   useEffect(() => {
     if (tracks.length === 0 && !loading) {
@@ -50,6 +52,7 @@ export default function WavePage() {
   }, [tracks.length, loading, shouldStartPlaying]);
 
   const handleStartRandomPlay = () => {
+    if (!guard()) return;
     if (tracks.length === 0) {
       if (!loading) {
         setShouldStartPlaying(true);

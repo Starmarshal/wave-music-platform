@@ -2,13 +2,9 @@
 
 import {useEffect, useState} from 'react';
 import {api} from '@/src/shared/api';
-import {ITrack} from '@/src/types/track';
+import {IComment, ITrack} from '@/src/types/track';
 
-type CommentType = {
-  username: string;
-  text: string;
-  _id?: string;
-};
+type CommentType = IComment;
 
 type TrackType = ITrack & {
   duration?: number;
@@ -43,10 +39,10 @@ export default function useTrack(id: string | undefined) {
     fetchTrack();
   }, [id]);
 
-  const addComment = async (values: { username: string; text: string }) => {
+  const addComment = async (values: { text: string }) => {
     try {
       const response = await api.post(`/tracks/comment`, {
-        ...values,
+        text: values.text,
         trackId: track?._id,
       });
 
@@ -64,11 +60,23 @@ export default function useTrack(id: string | undefined) {
     }
   };
 
+  const deleteComment = async (commentId: string) => {
+    await api.delete(`/comments/${commentId}`);
+    setComments(prev => prev.filter(comment => comment._id !== commentId));
+    if (track) {
+      setTrack({
+        ...track,
+        comments: (track.comments || []).filter((comment: CommentType) => comment._id !== commentId),
+      } as typeof track);
+    }
+  };
+
   return {
     track,
     loading,
     comments,
     addComment,
+    deleteComment,
     setTrack,
   };
 }

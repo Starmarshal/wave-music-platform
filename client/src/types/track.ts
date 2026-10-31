@@ -1,13 +1,19 @@
+import {IArtistRef} from './user';
+
 export interface IComment {
   _id: string;
   username: string;
   text: string;
+  userId?: string | null;
+  guest?: boolean;
+  createdAt?: string;
 }
 
 export interface ITrack {
   _id: string;
   name: string;
   artist: string;
+  artists?: IArtistRef[];
   text: string;
   listens: number;
   picture: string;
@@ -38,4 +44,3 @@ interface FetchTracksErrorAction {
 }
 
 export type TrackAction = FetchTracksAction | FetchTracksErrorAction;
-

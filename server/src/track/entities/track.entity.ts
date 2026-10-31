@@ -6,6 +6,7 @@ import {
   PrimaryColumn,
 } from 'typeorm';
 import { Comment } from './comment.entity';
+import { TrackArtist } from '../../artists/entities/track-artist.entity';
 
 @Entity('tracks')
 export class Track {
@@ -34,6 +35,12 @@ export class Track {
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt: Date;
 
+  @Column({ name: 'created_by', type: 'varchar', length: 24, nullable: true })
+  createdBy: string | null;
+
   @OneToMany(() => Comment, (comment) => comment.track)
   comments: Comment[];
+
+  @OneToMany(() => TrackArtist, (trackArtist) => trackArtist.track)
+  trackArtists: TrackArtist[];
 }

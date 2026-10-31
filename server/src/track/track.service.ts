@@ -1,42 +1,87 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { ILike, Repository } from 'typeorm';
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
+import { DataSource, ILike, Repository } from 'typeorm';
 import { Track } from './entities/track.entity';
 import { Comment } from './entities/comment.entity';
-import { CreateTrackDTO } from './dto/create-track.dto';
-import { CreateCommentDTO } from './dto/create-comment.dto';
 import { FileService, FileType } from '../file/file.service';
+import { ArtistsService } from '../artists/artists.service';
+import { User } from '../users/entities/user.entity';
 import { generateId } from '../shared/object-id';
-import { serializeComment, serializeTrack } from '../shared/serializers';
+import {
+  serializeComment,
+  serializeTrack,
+  TRACK_RELATIONS,
+} from '../shared/serializers';
+
+// Повторное прослушивание того же трека тем же пользователем раньше этого срока не засчитывается
+const LISTEN_DEDUP_SECONDS = 30;
+
+export interface TrackInput {
+  name?: string;
+  text?: string;
+  artistIds?: string[];
+}
 
 @Injectable()
 export class TrackService {
   constructor(
     @InjectRepository(Track) private trackRepository: Repository<Track>,
     @InjectRepository(Comment) private commentRepository: Repository<Comment>,
+    @InjectDataSource() private dataSource: DataSource,
     private fileService: FileService,
+    private artistsService: ArtistsService,
   ) {}
 
-  async create(dto: CreateTrackDTO, picture, audio) {
+  async create(input: TrackInput, picture, audio, user: User) {
+    const artistIds = await this.artistsService.assertExist(
+      input.artistIds ?? [],
+    );
     const audioPath = this.fileService.createFile(FileType.AUDIO, audio);
     const picturePath = this.fileService.createFile(FileType.IMAGE, picture);
-    const track = await this.trackRepository.save(
-      this.trackRepository.create({
-        id: generateId(),
-        name: dto.name,
-        artist: dto.artist,
-        text: dto.text,
+    const id = generateId();
+    await this.dataSource.transaction(async (manager) => {
+      await manager.insert(Track, {
+        id,
+        name: input.name ?? '',
+        text: input.text ?? '',
         listens: 0,
         audio: audioPath,
         picture: picturePath,
-      }),
-    );
-    return serializeTrack(track);
+        createdBy: user.id,
+      });
+      await this.artistsService.setTrackArtists(id, artistIds, manager);
+    });
+    return this.getOne(id);
+  }
+
+  async update(id: string, input: TrackInput, picture?) {
+    await this.findOrFail(id);
+    await this.dataSource.transaction(async (manager) => {
+      const patch: Partial<Track> = {};
+      if (input.name !== undefined) patch.name = input.name;
+      if (input.text !== undefined) patch.text = input.text;
+      if (picture)
+        patch.picture = this.fileService.createFile(FileType.IMAGE, picture);
+      if (Object.keys(patch).length) await manager.update(Track, { id }, patch);
+      if (input.artistIds) {
+        const artistIds = await this.artistsService.assertExist(
+          input.artistIds,
+        );
+        await this.artistsService.setTrackArtists(id, artistIds, manager);
+      }
+    });
+    return this.getOne(id);
+  }
+
+  private async findOrFail(id: string) {
+    const track = await this.trackRepository.findOneBy({ id });
+    if (!track) throw new NotFoundException(`Track with id ${id} not found`);
+    return track;
   }
 
   async getAll(count?: number, offset?: number) {
     const tracks = await this.trackRepository.find({
-      relations: { comments: true },
+      relations: TRACK_RELATIONS,
       order: { createdAt: 'ASC', id: 'ASC' },
       skip: offset ? Number(offset) : undefined,
       take: count && count > 0 ? Number(count) : undefined,
@@ -47,7 +92,7 @@ export class TrackService {
   async getOne(id: string) {
     const track = await this.trackRepository.findOne({
       where: { id },
-      relations: { comments: true },
+      relations: TRACK_RELATIONS,
     });
     if (!track) {
       throw new NotFoundException(`Track with id ${id} not found`);
@@ -63,34 +108,46 @@ export class TrackService {
     return id;
   }
 
-  async addComment(dto: CreateCommentDTO) {
-    const exists = await this.trackRepository.existsBy({ id: dto.trackId });
-    if (!exists) {
-      throw new NotFoundException(`Track with id ${dto.trackId} not found`);
-    }
+  async addComment(trackId: string, text: string, user: User) {
+    await this.findOrFail(trackId);
     const comment = await this.commentRepository.save(
       this.commentRepository.create({
         id: generateId(),
-        username: dto.username,
-        text: dto.text,
-        trackId: dto.trackId,
+        username: user.displayName,
+        text,
+        trackId,
+        userId: user.id,
       }),
     );
+    comment.user = user;
     return serializeComment(comment);
   }
 
-  async listen(id: string) {
-    const result = await this.trackRepository.increment({ id }, 'listens', 1);
-    if (!result.affected) {
-      throw new NotFoundException(`Track with id ${id} not found`);
-    }
+  async listen(id: string, user: User) {
+    await this.findOrFail(id);
+    const recent = await this.dataSource.query(
+      `SELECT 1 FROM listens WHERE user_id = $1 AND track_id = $2
+       AND listened_at > now() - make_interval(secs => $3) LIMIT 1`,
+      [user.id, id, LISTEN_DEDUP_SECONDS],
+    );
+    if (recent.length) return;
+    await this.dataSource.transaction(async (manager) => {
+      await manager.query(
+        `INSERT INTO listens (track_id, user_id) VALUES ($1, $2)`,
+        [id, user.id],
+      );
+      await manager.increment(Track, { id }, 'listens', 1);
+    });
   }
 
   async search(query: string) {
     const escaped = (query ?? '').replace(/[\\%_]/g, '\\$&');
     const tracks = await this.trackRepository.find({
-      where: { name: ILike(`%${escaped}%`) },
-      relations: { comments: true },
+      where: [
+        { name: ILike(`%${escaped}%`) },
+        { artist: ILike(`%${escaped}%`) },
+      ],
+      relations: TRACK_RELATIONS,
       order: { createdAt: 'ASC', id: 'ASC' },
     });
     return tracks.map((track) => serializeTrack(track));

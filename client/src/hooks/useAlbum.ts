@@ -3,12 +3,9 @@
 import {useEffect, useState} from 'react';
 import {api} from '@/src/shared/api';
 import {IAlbum} from '@/src/types/album';
+import {IComment} from '@/src/types/track';
 
-type CommentType = {
-  username: string;
-  text: string;
-  _id?: string;
-};
+type CommentType = IComment;
 
 type AlbumType = IAlbum & {
   comments?: CommentType[];
@@ -42,10 +39,10 @@ export default function useAlbum(id: string | undefined) {
     fetchAlbum();
   }, [id]);
 
-  const addComment = async (values: { username: string; text: string }) => {
+  const addComment = async (values: { text: string }) => {
     try {
       const response = await api.post(`/albums/comment`, {
-        ...values,
+        text: values.text,
         albumId: album?._id,
       });
 
@@ -63,11 +60,23 @@ export default function useAlbum(id: string | undefined) {
     }
   };
 
+  const deleteComment = async (commentId: string) => {
+    await api.delete(`/comments/${commentId}`);
+    setComments(prev => prev.filter(comment => comment._id !== commentId));
+    if (album) {
+      setAlbum({
+        ...album,
+        comments: (album.comments || []).filter((comment: CommentType) => comment._id !== commentId),
+      } as typeof album);
+    }
+  };
+
   return {
     album,
     loading,
     comments,
     addComment,
+    deleteComment,
     setAlbum,
   };
 }
